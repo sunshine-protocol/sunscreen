@@ -1,0 +1,16 @@
+[package]
+name = "keystore-ffi"
+version = "0.1.0"
+authors = ["David Craven <david@craven.ch>"]
+edition = "2018"
+
+[lib]
+name = "keystore"
+crate-type = ["cdylib", "staticlib"]
+
+[dependencies]
+ffi_helpers = "0.1.0"
+keystore = { path = "../keystore" }
+
+[build-dependencies]
+cbindgen = "0.14.0"
