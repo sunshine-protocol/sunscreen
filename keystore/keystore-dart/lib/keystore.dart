@@ -107,6 +107,7 @@ class Keystore {
         Pointer<Utf8> message = allocate(count: length);
         error_message_utf8(message, length);
         final error = Utf8.fromUtf8(message);
+        print(error);
         throw error;
     }
 }

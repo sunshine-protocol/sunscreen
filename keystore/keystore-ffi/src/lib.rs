@@ -1,4 +1,5 @@
 use ffi_helpers::null_pointer_check;
+use image::{DynamicImage, ImageOutputFormat};
 use keystore::{Keystore, PairExt, Status};
 use std::ffi::{CStr, CString};
 use std::os::raw;
@@ -183,12 +184,14 @@ pub unsafe extern "C" fn keystore_account(keystore: *mut raw::c_void) -> *mut ra
     let key = error!(keystore.get_key(Some(0)), std::ptr::null_mut());
     let name = error!(CString::new("/"), std::ptr::null_mut());
     let ss58 = error!(CString::new(key.ss58()), std::ptr::null_mut());
-    let identicon = error!(key.identicon(), std::ptr::null_mut())
-        .into_raw()
-        .into_boxed_slice();
-    let qrcode = error!(key.qrcode(), std::ptr::null_mut())
-        .into_raw()
-        .into_boxed_slice();
+    let identicon_rgba = DynamicImage::ImageRgba8(error!(key.identicon(), std::ptr::null_mut()));
+    let mut identicon = Vec::new();
+    error!(identicon_rgba.write_to(&mut identicon, ImageOutputFormat::PNG), std::ptr::null_mut());
+    let identicon = identicon.into_boxed_slice();
+    let qrcode_rgba = DynamicImage::ImageRgba8(error!(key.qrcode(), std::ptr::null_mut()));
+    let mut qrcode = Vec::new();
+    error!(qrcode_rgba.write_to(&mut qrcode, ImageOutputFormat::PNG), std::ptr::null_mut());
+    let qrcode = qrcode.into_boxed_slice();
     let account = Box::new(Account {
         name: name.into_raw(),
         ss58: ss58.into_raw(),

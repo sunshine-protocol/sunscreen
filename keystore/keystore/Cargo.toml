@@ -8,7 +8,7 @@ edition = "2018"
 blockies = "0.3.0"
 dirs = "2.0.2"
 failure = "0.1.6"
-image = { version = "0.22.4", default-features = false, features = ["png_codec"] }
+image = { version = "0.22.4", default-features = false }
 log = "0.4.8"
 pixelate = "0.1.0"
 qrcode = "0.11.2"

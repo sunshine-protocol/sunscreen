@@ -10,6 +10,7 @@ crate-type = ["cdylib", "staticlib"]
 
 [dependencies]
 ffi_helpers = "0.1.0"
+image = { version = "0.22.4", default-features = false, features = ["png_codec"] }
 keystore = { path = "../keystore" }
 
 [build-dependencies]
