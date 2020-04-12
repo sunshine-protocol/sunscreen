@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 
 class Styles {
   static TextStyle title = TextStyle(
-    fontSize: 44,
+    fontSize: 36,
     fontWeight: FontWeight.bold,
   );
 
   static TextStyle message = TextStyle(
-    fontSize: 36,
+    fontSize: 24,
   );
 
   static TextStyle button = TextStyle(

@@ -60,7 +60,6 @@ class _CreateAccountFormState extends State<CreateAccountForm> {
                   },
                   child: Text(widget.importButton),
                 ),
-                SizedBox.fromSize(size: Size(8, 1)),
                 RaisedButton(
                   onPressed: () {
                     BlocProvider.of<AccountBloc>(context)

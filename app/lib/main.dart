@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:keystore/keystore.dart';
 import 'package:meta/meta.dart';
+import 'package:path_provider/path_provider.dart';
 import 'blocs/blocs.dart';
 import 'keys.dart';
 import 'localization.dart';
@@ -68,21 +69,35 @@ class BlocSetup extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider<NavigatorBloc>(
       create: (context) => NavigatorBloc(navigatorKey: Keys.navigatorKey),
-      child: RepositoryProvider<Keystore>(
-        create: (context) => Keystore.fromKeyfile('keyfile'),
-        child: Builder(
-          builder: (context) {
-            final keystore = RepositoryProvider.of<Keystore>(context);
-            final navigator = BlocProvider.of<NavigatorBloc>(context);
-            return BlocProvider<AccountBloc>(
-              create: (context) => AccountBloc(
-                keystore: keystore,
-                navigator: navigator,
-              )..add(Start()),
-              child: child,
+      child: FutureBuilder(
+        future: getApplicationDocumentsDirectory(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return RepositoryProvider<Keystore>(
+              create: (context) {
+                final path = snapshot.data.path;
+                return Keystore.fromKeyfile('$path/keyfile');
+              },
+              child: Builder(
+                builder: (context) {
+                  final keystore = RepositoryProvider.of<Keystore>(context);
+                  final navigator = BlocProvider.of<NavigatorBloc>(context);
+                  return BlocProvider<AccountBloc>(
+                    create: (context) => AccountBloc(
+                      keystore: keystore,
+                      navigator: navigator,
+                    )..add(Start()),
+                    child: child,
+                  );
+                },
+              ),
             );
-          },
-        ),
+          } else {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+        },
       ),
     );
   }

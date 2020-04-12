@@ -13,7 +13,9 @@ class FluidScaffold extends StatelessWidget {
       appBar: this.appBar,
       body: FluidLayout(
         child: Fluid(
-          child: this.body,
+          child: SafeArea(
+            child: this.body,
+          ),
         ),
       ),
     );

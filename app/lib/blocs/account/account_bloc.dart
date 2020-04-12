@@ -21,6 +21,7 @@ class AccountBloc extends Bloc<AccountEvent, AccountState> {
   Stream<AccountState> mapEventToState(
     AccountEvent event,
   ) async* {
+    print(event);
     if (event is Start) {
       final status = keystore.status();
       switch (status) {
