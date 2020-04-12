@@ -7,42 +7,46 @@ class WelcomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context);
-    return  Scaffold(
+    return FluidScaffold(
       appBar: AppBar(
         title: Text(localizations.welcomeTitle),
       ),
-      body: Container(
-        padding: Styles.containerPadding,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Logo(),
-            SizedBox.fromSize(size: Size(1, 30)),
-            Text(
-              localizations.welcomeTitle,
-              style: Styles.title,
-              textAlign: TextAlign.center,
-            ),
-            SizedBox.fromSize(size: Size(1, 20)),
-            Text(
-              localizations.welcomeMessage,
-              style: Styles.message,
-              textAlign: TextAlign.center,
-            ),
-            Spacer(),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                RaisedButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/create_password');
-                  },
-                  child: Text(localizations.welcomeContinueButton),
+      body: TwoRowsOrColumn(
+        left: [
+          Logo(),
+        ],
+        right: [
+          PageWidget(
+            content: [
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 8.0),
+                child: FittedBox(
+                  fit: BoxFit.contain,
+                  child: Text(
+                    localizations.welcomeTitle,
+                    style: Styles.title,
+                    textAlign: TextAlign.center,
+                  ),
                 ),
-              ],
-            ),
-          ],
-        ),
+              ),
+              Flexible(
+                child: Text(
+                  localizations.welcomeMessage,
+                  style: Styles.message,
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ],
+            footer: [
+              RaisedButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, '/create_password');
+                },
+                child: Text(localizations.welcomeContinueButton),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
