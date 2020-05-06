@@ -2,14 +2,17 @@ use bip39::{Language, Mnemonic, MnemonicType};
 use blockies::Ethereum;
 use image::{ImageFormat, Rgba, RgbaImage};
 use qrcode::QrCode;
-use rand::rngs::OsRng;
-use rand::RngCore;
+use rand::{rngs::OsRng, RngCore};
 use serde::{Deserialize, Serialize};
-use sp_core::crypto::{Pair as _, Public, Ss58Codec};
-use sp_core::sr25519::Pair;
-use std::fs::File;
-use std::io::Cursor;
-use std::path::{Path, PathBuf};
+use sp_core::{
+    crypto::{Pair as _, Public, Ss58Codec},
+    sr25519::Pair,
+};
+use std::{
+    fs::File,
+    io::Cursor,
+    path::{Path, PathBuf},
+};
 use strobe_rs::{SecParam, Strobe};
 
 #[derive(Debug)]
@@ -49,45 +52,31 @@ impl std::fmt::Display for Error {
 impl std::error::Error for Error {}
 
 impl From<std::io::Error> for Error {
-    fn from(error: std::io::Error) -> Self {
-        Self::Io(error)
-    }
+    fn from(error: std::io::Error) -> Self { Self::Io(error) }
 }
 
 impl From<serde_json::Error> for Error {
-    fn from(error: serde_json::Error) -> Self {
-        Self::Json(error)
-    }
+    fn from(error: serde_json::Error) -> Self { Self::Json(error) }
 }
 
 impl From<strobe_rs::AuthError> for Error {
-    fn from(error: strobe_rs::AuthError) -> Self {
-        Self::Auth(error)
-    }
+    fn from(error: strobe_rs::AuthError) -> Self { Self::Auth(error) }
 }
 
 impl From<failure::Error> for Error {
-    fn from(error: failure::Error) -> Self {
-        Self::Fail(error)
-    }
+    fn from(error: failure::Error) -> Self { Self::Fail(error) }
 }
 
 impl From<pixelate::Error> for Error {
-    fn from(error: pixelate::Error) -> Self {
-        Self::Blocky(error)
-    }
+    fn from(error: pixelate::Error) -> Self { Self::Blocky(error) }
 }
 
 impl From<qrcode::types::QrError> for Error {
-    fn from(error: qrcode::types::QrError) -> Self {
-        Self::Qr(error)
-    }
+    fn from(error: qrcode::types::QrError) -> Self { Self::Qr(error) }
 }
 
 impl From<image::ImageError> for Error {
-    fn from(error: image::ImageError) -> Self {
-        Self::Img(error)
-    }
+    fn from(error: image::ImageError) -> Self { Self::Img(error) }
 }
 
 fn keyfile_path() -> Result<PathBuf, Error> {
@@ -117,8 +106,7 @@ impl KeyFile {
         let file = File::create(path)?;
         #[cfg(unix)]
         {
-            use std::fs::Permissions;
-            use std::os::unix::fs::PermissionsExt;
+            use std::{fs::Permissions, os::unix::fs::PermissionsExt};
             file.set_permissions(Permissions::from_mode(0o600))?;
         }
         Ok(serde_json::to_writer(file, self)?)
@@ -171,9 +159,7 @@ impl KeyFile {
         Ok(entropy)
     }
 
-    pub fn paper_backup(&self) -> bool {
-        self.paper_backup
-    }
+    pub fn paper_backup(&self) -> bool { self.paper_backup }
 
     pub fn set_paper_backup(&mut self, paper_backup: bool) {
         self.paper_backup = paper_backup;
@@ -193,9 +179,7 @@ pub struct Keystore {
 }
 
 impl Default for Keystore {
-    fn default() -> Self {
-        Self::new(keyfile_path().unwrap())
-    }
+    fn default() -> Self { Self::new(keyfile_path().unwrap()) }
 }
 
 impl Keystore {
@@ -264,7 +248,11 @@ impl Keystore {
         Ok(())
     }
 
-    pub fn import(&mut self, phrase: &str, password: &str) -> Result<(), Error> {
+    pub fn import(
+        &mut self,
+        phrase: &str,
+        password: &str,
+    ) -> Result<(), Error> {
         let mnemonic = Mnemonic::from_phrase(phrase, Language::English)?;
         self.create_key_file(&mnemonic, password, true)?;
         self.add_key(mnemonic.entropy(), password)?;
@@ -280,9 +268,7 @@ impl Keystore {
         Ok(())
     }
 
-    pub fn lock(&mut self) {
-        self.keys.clear();
-    }
+    pub fn lock(&mut self) { self.keys.clear(); }
 
     pub fn get_key(&self, key: Option<usize>) -> Result<&Pair, Error> {
         let index = key.unwrap_or_default();
@@ -327,9 +313,7 @@ pub trait PairExt {
 }
 
 impl PairExt for Pair {
-    fn ss58(&self) -> String {
-        self.public().to_ss58check()
-    }
+    fn ss58(&self) -> String { self.public().to_ss58check() }
 
     fn identicon(&self) -> Result<RgbaImage, Error> {
         let blockies = Ethereum::default();

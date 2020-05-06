@@ -1,9 +1,11 @@
 use ffi_helpers::null_pointer_check;
 use image::{DynamicImage, ImageOutputFormat};
 use keystore::{Keystore, PairExt, Status};
-use std::ffi::{CStr, CString};
-use std::os::raw;
-use std::path::Path;
+use std::{
+    ffi::{CStr, CString},
+    os::raw,
+    path::Path,
+};
 
 macro_rules! error {
     ($result:expr) => {
@@ -15,7 +17,7 @@ macro_rules! error {
             Err(e) => {
                 ffi_helpers::update_last_error(e);
                 return $error;
-            }
+            },
         }
     };
 }
@@ -35,7 +37,10 @@ pub unsafe extern "C" fn last_error_length() -> i32 {
 }
 
 #[no_mangle]
-pub unsafe extern "C" fn error_message_utf8(buf: *mut raw::c_char, length: i32) -> i32 {
+pub unsafe extern "C" fn error_message_utf8(
+    buf: *mut raw::c_char,
+    length: i32,
+) -> i32 {
     ffi_helpers::error_handling::error_message_utf8(buf, length)
 }
 
@@ -47,7 +52,9 @@ pub unsafe extern "C" fn keystore_new() -> *mut raw::c_void {
 }
 
 #[no_mangle]
-pub unsafe extern "C" fn keystore_from_keyfile(path: *const raw::c_char) -> *mut raw::c_void {
+pub unsafe extern "C" fn keystore_from_keyfile(
+    path: *const raw::c_char,
+) -> *mut raw::c_void {
     let path = cstr!(path, std::ptr::null_mut());
     let path = Path::new(path).to_path_buf();
     let keystore = Keystore::new(path);
@@ -129,7 +136,9 @@ pub const KEYSTORE_PAPER_BACKUP: i32 = 1;
 pub const KEYSTORE_NO_PAPER_BACKUP: i32 = 2;
 
 #[no_mangle]
-pub unsafe extern "C" fn keystore_paper_backup(keystore: *mut raw::c_void) -> i32 {
+pub unsafe extern "C" fn keystore_paper_backup(
+    keystore: *mut raw::c_void,
+) -> i32 {
     null_pointer_check!(keystore);
     let keystore = &mut *(keystore as *mut Keystore);
     let result = keystore.paper_backup();
@@ -140,7 +149,9 @@ pub unsafe extern "C" fn keystore_paper_backup(keystore: *mut raw::c_void) -> i3
 }
 
 #[no_mangle]
-pub unsafe extern "C" fn keystore_set_paper_backup(keystore: *mut raw::c_void) -> i32 {
+pub unsafe extern "C" fn keystore_set_paper_backup(
+    keystore: *mut raw::c_void,
+) -> i32 {
     null_pointer_check!(keystore);
     let keystore = &mut *(keystore as *mut Keystore);
     let result = keystore.set_paper_backup();
@@ -178,20 +189,24 @@ struct Account {
 }
 
 #[no_mangle]
-pub unsafe extern "C" fn keystore_account(keystore: *mut raw::c_void) -> *mut raw::c_void {
+pub unsafe extern "C" fn keystore_account(
+    keystore: *mut raw::c_void,
+) -> *mut raw::c_void {
     null_pointer_check!(keystore, std::ptr::null_mut());
     let keystore = &mut *(keystore as *mut Keystore);
     let key = error!(keystore.get_key(Some(0)), std::ptr::null_mut());
     let name = error!(CString::new("/"), std::ptr::null_mut());
     let ss58 = error!(CString::new(key.ss58()), std::ptr::null_mut());
-    let identicon_rgba = DynamicImage::ImageRgba8(error!(key.identicon(), std::ptr::null_mut()));
+    let identicon_rgba =
+        DynamicImage::ImageRgba8(error!(key.identicon(), std::ptr::null_mut()));
     let mut identicon = Vec::new();
     error!(
         identicon_rgba.write_to(&mut identicon, ImageOutputFormat::PNG),
         std::ptr::null_mut()
     );
     let identicon = identicon.into_boxed_slice();
-    let qrcode_rgba = DynamicImage::ImageRgba8(error!(key.qrcode(), std::ptr::null_mut()));
+    let qrcode_rgba =
+        DynamicImage::ImageRgba8(error!(key.qrcode(), std::ptr::null_mut()));
     let mut qrcode = Vec::new();
     error!(
         qrcode_rgba.write_to(&mut qrcode, ImageOutputFormat::PNG),
