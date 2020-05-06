@@ -1,10 +1,27 @@
+import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
+import 'package:sunshine/screens/generate_account/generate_account_screen.dart';
+import 'package:sunshine/sunshine.dart';
 
 void main() {
-  runApp(App());
+  runApp(MyApp());
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 }
 
-class App extends StatelessWidget {
+class MyApp extends StatelessWidget {
   @override
-  Widget build(BuildContext context) => const MaterialApp();
+  Widget build(BuildContext context) => MaterialApp(
+        title: 'Sunshine',
+        debugShowCheckedModeBanner: false,
+        showPerformanceOverlay: false,
+        theme: ThemeData(
+          scaffoldBackgroundColor: AppColors.mainBackground,
+        ),
+        initialRoute: Routes.home,
+        // TODO:(@shekohex): replace this by onGenerateRoutes
+        routes: {
+          Routes.home: (_) => HomeScreen(),
+          Routes.generateAccount: (_) => GenerateAccountScreen(),
+        },
+      );
 }
