@@ -5,12 +5,9 @@ environment:
   sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
-  bloc: ^3.0.0
-  fluid_layout: ^0.1.0
   cupertino_icons: ^0.1.2
   flutter:
     sdk: flutter
-  flutter_bloc: ^3.1.0
   flutter_svg: ^0.17.4
   keystore:
     path: packages/keystore_ffi
@@ -25,10 +22,3 @@ flutter:
   uses-material-design: true
   assets:
     - assets/
-  fonts:
-    - family: Roboto
-      fonts:
-        - asset: assets/fonts/Roboto-Regular.ttf
-    - family: MaterialIcons
-      fonts:
-        - asset: assets/fonts/MaterialIcons-Regular.ttf
