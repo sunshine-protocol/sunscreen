@@ -1,2 +1,2 @@
 [workspace]
-members = [ "keystore/keystore", "keystore/keystore-ffi" ]
+members = [ "native/*" ]
