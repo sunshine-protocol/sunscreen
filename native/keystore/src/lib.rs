@@ -118,13 +118,14 @@ impl KeyFile {
         // absorb nonce
         let mut nonce = [0u8; 24];
         OsRng.fill_bytes(&mut nonce);
-        s.ad(&mut nonce, false);
+        s.ad(&nonce, false);
 
         // absorb password
         s.ad(password.as_bytes(), false);
 
         // encrypt entropy
         let mut entropy = entropy.to_owned();
+
         s.send_enc(&mut entropy, false);
 
         // integrity check
@@ -192,7 +193,7 @@ impl Keystore {
     }
 
     pub fn status(&self) -> Status {
-        if self.keys.len() > 0 {
+        if !self.keys.is_empty() {
             return Status::Unlocked;
         }
         if self.path.exists() {
@@ -203,7 +204,7 @@ impl Keystore {
     }
 
     fn add_key(&mut self, entropy: &[u8], password: &str) -> Result<(), Error> {
-        if self.keys.len() > 0 {
+        if !self.keys.is_empty() {
             return Err(Error::KeyLoaded);
         }
 
@@ -260,7 +261,7 @@ impl Keystore {
     }
 
     pub fn unlock(&mut self, password: &str) -> Result<(), Error> {
-        if self.keys.len() > 0 {
+        if !self.keys.is_empty() {
             return Ok(());
         }
         let entropy = self.read_key_file(password)?;

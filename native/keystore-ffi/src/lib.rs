@@ -1,3 +1,5 @@
+#![allow(clippy::missing_safety_doc)]
+
 use ffi_helpers::null_pointer_check;
 use image::{DynamicImage, ImageOutputFormat};
 use keystore::{Keystore, PairExt, Status};
@@ -142,9 +144,10 @@ pub unsafe extern "C" fn keystore_paper_backup(
     null_pointer_check!(keystore);
     let keystore = &mut *(keystore as *mut Keystore);
     let result = keystore.paper_backup();
-    match error!(result) {
-        true => KEYSTORE_PAPER_BACKUP,
-        false => KEYSTORE_NO_PAPER_BACKUP,
+    if error!(result) {
+        KEYSTORE_PAPER_BACKUP
+    } else {
+        KEYSTORE_NO_PAPER_BACKUP
     }
 }
 
