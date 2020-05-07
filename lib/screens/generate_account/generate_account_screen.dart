@@ -11,6 +11,7 @@ class GenerateAccountScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomPadding: false,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -28,7 +29,7 @@ class GenerateAccountScreen extends StatelessWidget {
       body: Stack(
         children: [
           SingleChildScrollView(
-            child: _buildForm(),
+            child: _buildForm(context),
           ),
           Padding(
             padding: EdgeInsets.symmetric(vertical: 42.h.toDouble()),
@@ -51,8 +52,7 @@ class GenerateAccountScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildForm() {
-    final context = _formKey.currentContext;
+  Widget _buildForm(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
