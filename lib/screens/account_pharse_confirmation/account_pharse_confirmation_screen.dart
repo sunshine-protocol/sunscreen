@@ -55,6 +55,7 @@ class AccountPharseConfirmationScreen extends StatelessWidget {
                 text: 'Confirm and Finish',
                 onPressed: () {
                   FocusScope.of(context).unfocus();
+                  Navigator.of(context).popAndPushNamed(Routes.main);
                 },
               ),
             ),

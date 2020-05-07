@@ -20,6 +20,7 @@ class MyApp extends StatelessWidget {
         // TODO:(@shekohex): replace this by onGenerateRoutes
         routes: {
           Routes.home: (_) => HomeScreen(),
+          Routes.main: (_) => MainScreen(),
           Routes.recoverAccount: (_) => RecoverAccountScreen(),
           Routes.generateAccount: (_) => GenerateAccountScreen(),
           Routes.accountPharse: (_) => AccountPharseScreen(),

@@ -55,6 +55,7 @@ class RecoverAccountScreen extends StatelessWidget {
                 text: 'Recover My Account',
                 onPressed: () {
                   FocusScope.of(context).unfocus();
+                  Navigator.of(context).popAndPushNamed(Routes.main);
                 },
               ),
             ),

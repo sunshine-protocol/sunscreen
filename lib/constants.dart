@@ -6,6 +6,8 @@ class Routes {
   static const accountPharse = '/account/phrase';
   static const accountPharseConfirmation = '/account/phrase/confirmation';
   static const recoverAccount = '/account/recover';
+
+  static const main = '/main';
 }
 
 class AppColors {
