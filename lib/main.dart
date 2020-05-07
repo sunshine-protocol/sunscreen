@@ -1,6 +1,5 @@
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
-import 'package:sunshine/screens/generate_account/generate_account_screen.dart';
 import 'package:sunshine/sunshine.dart';
 
 void main() {
@@ -21,7 +20,11 @@ class MyApp extends StatelessWidget {
         // TODO:(@shekohex): replace this by onGenerateRoutes
         routes: {
           Routes.home: (_) => HomeScreen(),
+          Routes.recoverAccount: (_) => RecoverAccountScreen(),
           Routes.generateAccount: (_) => GenerateAccountScreen(),
+          Routes.accountPharse: (_) => AccountPharseScreen(),
+          Routes.accountPharseConfirmation: (_) =>
+              AccountPharseConfirmationScreen(),
         },
       );
 }

@@ -26,18 +26,25 @@ class Button extends StatefulWidget {
 class _ButtonState extends State<Button> {
   @override
   Widget build(BuildContext context) {
+    const successBorderColor = Color.fromARGB(39, 2, 123, 101);
+    const normalBorderColor = Color.fromARGB(39, 56, 73, 228);
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 15.w.toDouble()),
       child: RaisedButton(
         padding: const EdgeInsets.all(0),
         onPressed: widget.enabled ? widget.onPressed : null,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10.w.toDouble()),
+          borderRadius: BorderRadius.circular(
+            widget.variant == ButtonVariant.thin
+                ? 8.w.toDouble()
+                : 10.w.toDouble(),
+          ),
           side: BorderSide(
-              color: widget.variant == ButtonVariant.success
-                  ? Colors.greenAccent.withOpacity(0.5)
-                  : AppColors.primary.withOpacity(0.5),
-              width: 3),
+            color: widget.variant == ButtonVariant.success
+                ? successBorderColor
+                : normalBorderColor,
+            width: 3,
+          ),
         ),
         disabledColor: AppColors.disabled,
         child: Ink(
@@ -48,8 +55,8 @@ class _ButtonState extends State<Button> {
             borderRadius: BorderRadius.circular(10.w.toDouble()),
             gradient: LinearGradient(
               colors: widget.variant == ButtonVariant.success
-                  ? const [Color(0xFF29C5A9), Color(0xFF35CB95)]
-                  : const [Color(0xFF69A5FF), Color(0xFF8995FF)],
+                  ? [const Color(0xFF40D0A5), AppColors.success]
+                  : const [Color(0xFF68A4FF), Color(0xFF8995FF)],
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
             ),

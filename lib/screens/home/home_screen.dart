@@ -22,16 +22,6 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Stack(
         alignment: AlignmentDirectional.bottomCenter,
         children: [
-          Positioned(
-            bottom: 38.h.toDouble(),
-            child: Text(
-              'v0.1.0',
-              style: TextStyle(
-                fontSize: 15.ssp.toDouble(),
-                color: Colors.black.withOpacity(0.5),
-              ),
-            ),
-          ),
           Column(
             children: [
               const Spacer(flex: 3),
@@ -64,11 +54,26 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Button(
                   text: 'Restore from key-phrase',
                   variant: ButtonVariant.success,
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.of(context).pushNamed(Routes.recoverAccount);
+                  },
                 ),
               ),
             ],
-          )
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 42.h.toDouble()),
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: Text(
+                'v0.1.0',
+                style: TextStyle(
+                  fontSize: 15.ssp.toDouble(),
+                  color: Colors.black.withOpacity(0.5),
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );
