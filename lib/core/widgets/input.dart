@@ -13,6 +13,7 @@ class Input extends StatefulWidget {
     this.readOnly = false,
     this.focusNode,
     this.maxLength,
+    this.minLines,
     this.prefixText,
     this.textInputAction = TextInputAction.unspecified,
     this.textInputType = TextInputType.text,
@@ -36,6 +37,7 @@ class Input extends StatefulWidget {
   final bool enableSuggestions;
   final bool obscureText;
   final int maxLength;
+  final int minLines;
   final TextEditingController controller;
   final String errorText;
   final FocusNode focusNode;
@@ -67,6 +69,7 @@ class _InputState extends State<Input> {
           autocorrect: widget.autocorrect,
           enableSuggestions: widget.enableSuggestions,
           maxLength: widget.maxLength,
+          minLines: widget.minLines,
           enableInteractiveSelection: true,
           keyboardType: widget.textInputType,
           textInputAction: widget.textInputAction,

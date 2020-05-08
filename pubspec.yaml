@@ -13,6 +13,7 @@ dependencies:
     path: packages/keystore_ffi
   path_provider: ^1.6.5
   flutter_screenutil: ^1.1.0
+  provider: ^4.1.0
 
 dev_dependencies:
   flutter_test:

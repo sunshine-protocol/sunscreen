@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:sunshine/core/core.dart';
 import 'package:sunshine/sunshine.dart';
+import 'generate_account_view_model.dart';
 
+// ignore: must_be_immutable
 class GenerateAccountScreen extends StatelessWidget {
-  final _formKey = GlobalKey<FormState>();
-  final _firstNameNode = FocusNode();
-  final _lastNameNode = FocusNode();
-  final _passwordNode = FocusNode();
-  final _confirmPasswordNode = FocusNode();
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomPadding: false,
-      appBar: AppBar(
+    return BaseWidget<GenerateAccountViewModel>(
+      model: GenerateAccountViewModel(
+        accountService: Provider.of(context),
+      ),
+      child: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         centerTitle: false,
@@ -26,88 +26,36 @@ class GenerateAccountScreen extends StatelessWidget {
           ),
         ),
       ),
-      body: Stack(
-        children: [
-          SingleChildScrollView(
-            child: _buildForm(context),
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(vertical: 42.h.toDouble()),
-            child: Align(
-              alignment: Alignment.bottomCenter,
-              child: Button(
-                text: 'Proceed to backup phrase',
-                onPressed: () {
-                  final form = _formKey.currentState;
-                  if (form.validate()) {
-                    form.save();
-                    Navigator.of(context).pushNamed(Routes.accountPharse);
-                  }
-                },
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildForm(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        SizedBox(height: 13.h.toDouble()),
-        Text(
-          'Account details',
-          style: TextStyle(fontSize: 36.ssp.toDouble()),
-        ),
-        SizedBox(height: 42.h.toDouble()),
-        Form(
-          key: _formKey,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      builder: (context, model, child) {
+        return Scaffold(
+          resizeToAvoidBottomPadding: false,
+          // ignore: avoid_as
+          appBar: child as PreferredSizeWidget,
+          body: Stack(
             children: [
-              Input(
-                hintText: 'First Name',
-                onEditingComplete: () {
-                  FocusScope.of(context).requestFocus(_lastNameNode);
-                },
-                focusNode: _firstNameNode,
-                textInputAction: TextInputAction.next,
-              ),
-              SizedBox(height: 16.h.toDouble()),
-              Input(
-                hintText: 'Last Name',
-                focusNode: _lastNameNode,
-                onEditingComplete: () {
-                  FocusScope.of(context).requestFocus(_passwordNode);
-                },
-                textInputAction: TextInputAction.next,
-              ),
-              SizedBox(height: 16.h.toDouble()),
-              Input(
-                hintText: 'Password',
-                focusNode: _passwordNode,
-                textInputAction: TextInputAction.next,
-                onEditingComplete: () {
-                  FocusScope.of(context).requestFocus(_confirmPasswordNode);
-                },
-                obscureText: true,
-              ),
-              SizedBox(height: 16.h.toDouble()),
-              Input(
-                hintText: 'Confirm Password',
-                focusNode: _confirmPasswordNode,
-                textInputAction: TextInputAction.done,
-                onEditingComplete: () {
-                  FocusScope.of(context).unfocus();
-                },
-                obscureText: true,
+              AccountDetailsForm(),
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 42.h.toDouble()),
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: model.isBusy
+                      ? const CircularProgressIndicator()
+                      : Button(
+                          text: 'Proceed to backup phrase',
+                          onPressed: () {
+                            model.generate(context.read());
+                            Navigator.of(context).popAndPushNamed(
+                              Routes.accountPharse,
+                              arguments: model.accountBackup,
+                            );
+                          },
+                        ),
+                ),
               ),
             ],
           ),
-        ),
-      ],
+        );
+      },
     );
   }
 }

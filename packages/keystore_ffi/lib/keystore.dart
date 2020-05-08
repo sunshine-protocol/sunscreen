@@ -5,61 +5,60 @@ import 'package:meta/meta.dart';
 import './generated.dart';
 
 enum Status {
-  Uninitialized,
-  Locked,
-  Unlocked,
+  uninitialized,
+  locked,
+  unlocked,
 }
 
 class Keystore {
-  Pointer _ptr;
-
   Keystore() {
-    this._ptr = keystore_new();
+    _ptr = keystore_new();
   }
 
   Keystore.fromKeyfile(String path) {
-    this._ptr = keystore_from_keyfile(Utf8.toUtf8(path));
+    _ptr = keystore_from_keyfile(Utf8.toUtf8(path));
   }
 
+  Pointer _ptr;
+
   Status status() {
-    switch (keystore_status(this._ptr)) {
+    switch (keystore_status(_ptr)) {
       case 1:
-        return Status.Uninitialized;
+        return Status.uninitialized;
       case 2:
-        return Status.Locked;
+        return Status.locked;
       case 3:
-        return Status.Unlocked;
+        return Status.unlocked;
       default:
         _throwError();
     }
   }
 
   void generate(String password) {
-    if (keystore_generate(this._ptr, Utf8.toUtf8(password)) != 1) {
+    if (keystore_generate(_ptr, Utf8.toUtf8(password)) != 1) {
       _throwError();
     }
   }
 
   void import(String phrase, String password) {
-    if (keystore_import(
-            this._ptr, Utf8.toUtf8(phrase), Utf8.toUtf8(password)) !=
+    if (keystore_import(_ptr, Utf8.toUtf8(phrase), Utf8.toUtf8(password)) !=
         1) {
       _throwError();
     }
   }
 
   void unlock(String password) {
-    if (keystore_unlock(this._ptr, Utf8.toUtf8(password)) != 1) {
+    if (keystore_unlock(_ptr, Utf8.toUtf8(password)) != 1) {
       _throwError();
     }
   }
 
   void lock() {
-    keystore_lock(this._ptr);
+    keystore_lock(_ptr);
   }
 
   bool paperBackup() {
-    switch (keystore_paper_backup(this._ptr)) {
+    switch (keystore_paper_backup(_ptr)) {
       case 1:
         return true;
       case 2:
@@ -70,13 +69,13 @@ class Keystore {
   }
 
   void setPaperBackup() {
-    if (keystore_set_paper_backup(this._ptr) != 1) {
+    if (keystore_set_paper_backup(_ptr) != 1) {
       _throwError();
     }
   }
 
   String phrase(String password) {
-    final ptr = keystore_phrase(this._ptr, Utf8.toUtf8(password));
+    final ptr = keystore_phrase(_ptr, Utf8.toUtf8(password));
     if (ptr == null) {
       _throwError();
     }
@@ -86,7 +85,7 @@ class Keystore {
   }
 
   Account account() {
-    final ptr = keystore_account(this._ptr);
+    final ptr = keystore_account(_ptr);
     if (ptr == null) {
       _throwError();
     }
@@ -101,12 +100,12 @@ class Keystore {
   }
 
   void dispose() {
-    keystore_destroy(this._ptr);
+    keystore_destroy(_ptr);
   }
 
   void _throwError() {
     final length = last_error_length();
-    Pointer<Utf8> message = allocate(count: length);
+    final Pointer<Utf8> message = allocate(count: length);
     error_message_utf8(message, length);
     final error = Utf8.fromUtf8(message);
     print(error);
@@ -115,15 +114,15 @@ class Keystore {
 }
 
 class Account {
-  final String name;
-  final String ss58;
-  final Uint8List identicon;
-  final Uint8List qrcode;
-
   Account({
     @required this.name,
     @required this.ss58,
     @required this.identicon,
     @required this.qrcode,
   });
+
+  final String name;
+  final String ss58;
+  final Uint8List identicon;
+  final Uint8List qrcode;
 }

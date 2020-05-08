@@ -11,6 +11,7 @@ class _MainScreenState extends State<MainScreen>
   final _myTabs = ['Browse', 'Applications', 'Grants', 'Foundations'];
   String _currentTitle;
   TabController _tabController;
+
   @override
   void initState() {
     super.initState();
@@ -49,9 +50,17 @@ class _MainScreenState extends State<MainScreen>
         titleSpacing: 18.w.toDouble(),
         actions: [
           GestureDetector(
-            onTap: () {},
+            onTap: () {
+              showModalBottomSheet(
+                context: context,
+                enableDrag: true,
+                backgroundColor: Colors.transparent,
+                isScrollControlled: true,
+                builder: (context) => AccountDetailsSheet(),
+              );
+            },
             child: CircleAvatar(
-              radius: 20.w.toDouble(),
+              radius: 18.w.toDouble(),
               backgroundColor: Colors.black,
               child: Icon(
                 Icons.person,
@@ -113,7 +122,7 @@ class _MainScreenState extends State<MainScreen>
             unselectedLabelColor: Colors.black54,
             indicatorSize: TabBarIndicatorSize.label,
             indicatorColor: AppColors.primary,
-            labelStyle: TextStyle(fontSize: 11.ssp.toDouble()),
+            labelStyle: TextStyle(fontSize: 10.ssp.toDouble()),
             tabs: [
               Tab(
                 text: _myTabs[0],

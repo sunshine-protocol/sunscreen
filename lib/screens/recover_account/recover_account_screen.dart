@@ -5,6 +5,7 @@ class RecoverAccountScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -39,10 +40,14 @@ class RecoverAccountScreen extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 10.h.toDouble()),
-              const Input(
+              Input(
                 hintText: 'walrus thought faculty portion'
                     'music ginger slush awful give mechanic',
                 maxLines: 3,
+                onEditingComplete: () {
+                  FocusScope.of(context).unfocus();
+                },
+                textInputAction: TextInputAction.done,
               ),
               SizedBox(height: 32.h.toDouble()),
             ],
@@ -54,8 +59,11 @@ class RecoverAccountScreen extends StatelessWidget {
               child: Button(
                 text: 'Recover My Account',
                 onPressed: () {
-                  FocusScope.of(context).unfocus();
-                  Navigator.of(context).popAndPushNamed(Routes.main);
+                  // TODO(shekohex): impl recover account
+                  Navigator.of(context).pushNamedAndRemoveUntil(
+                    Routes.main,
+                    (_) => false,
+                  );
                 },
               ),
             ),

@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:sunshine/models/models.dart';
 import 'package:sunshine/sunshine.dart';
 
 class AccountPharseScreen extends StatelessWidget {
+  AccountPharseScreen({Key key, this.accountBackup}) : super(key: key);
+  final AccountBackup accountBackup;
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -40,9 +47,8 @@ class AccountPharseScreen extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 10.h.toDouble()),
-              const Input(
-                hintText: 'walrus thought faculty portion'
-                    'music ginger slush awful give mechanic',
+              Input(
+                hintText: accountBackup.phrase,
                 maxLines: 3,
                 readOnly: true,
               ),
@@ -50,7 +56,17 @@ class AccountPharseScreen extends StatelessWidget {
               Button(
                 text: 'Copy',
                 variant: ButtonVariant.thin,
-                onPressed: () {},
+                onPressed: () async {
+                  await Clipboard.setData(
+                    ClipboardData(
+                      text: accountBackup.phrase,
+                    ),
+                  );
+                  const snackBar = SnackBar(
+                    content: Text('Copied to clipboard!'),
+                  );
+                  _scaffoldKey.currentState.showSnackBar(snackBar);
+                },
               )
             ],
           ),
@@ -61,8 +77,10 @@ class AccountPharseScreen extends StatelessWidget {
               child: Button(
                 text: 'Next Step',
                 onPressed: () {
-                  Navigator.of(context)
-                      .pushNamed(Routes.accountPharseConfirmation);
+                  Navigator.of(context).popAndPushNamed(
+                    Routes.accountPharseConfirmation,
+                    arguments: accountBackup,
+                  );
                 },
               ),
             ),
