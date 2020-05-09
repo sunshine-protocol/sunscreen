@@ -2,18 +2,17 @@ import 'package:meta/meta.dart';
 import 'package:sunshine/core/core.dart';
 import 'package:sunshine/services/services.dart';
 
-class HomeViewModel extends BaseModel {
-  HomeViewModel({
+class UnlockAccountViewModel extends BaseModel {
+  UnlockAccountViewModel({
     @required this.accountService,
   });
   final AccountService accountService;
 
-  bool hasAccount = false;
-  bool isUnlocked = false;
-  void checkIfHasAccount() {
+  bool unlocked = false;
+
+  void unlock(String password) {
     busy();
-    hasAccount = accountService.isInitialized();
-    isUnlocked = accountService.isUnlocked();
+    unlocked = accountService.unlock(password);
     idle();
   }
 }

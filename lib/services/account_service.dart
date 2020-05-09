@@ -36,6 +36,10 @@ class AccountService {
     return state() == AccountState.unlocked;
   }
 
+  bool isInitialized() {
+    return state() != AccountState.noAccount;
+  }
+
   AccountBackup generate(AccountDetails details) {
     try {
       _keystoreService.generate(details.password);
@@ -52,7 +56,8 @@ class AccountService {
         account: acc,
         phrase: phrase,
       );
-    } on Exception catch (_) {
+      // ignore: avoid_catches_without_on_clauses
+    } catch (_) {
       // TODO(shekohex): handle this error when there is already an account!
       return null;
     }
@@ -61,26 +66,39 @@ class AccountService {
   bool confirmBackup(AccountBackup backup, String phrase) {
     if (backup.phrase.compareTo(phrase) == 0) {
       _keystoreService.setPaperBackup();
+      loadAccount();
       return true;
     } else {
       return false;
     }
   }
 
-  Account restore(String phrase, AccountDetails details) {
+  bool restore(String phrase, AccountDetails details) {
     try {
       _keystoreService.import(phrase, details.password);
+      loadAccount();
+      return true;
+      // ignore: avoid_catches_without_on_clauses
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
+  void loadAccount() {
+    try {
       final account = _keystoreService.account();
+      final name = account.name.split(' ');
       final acc = Account(
         address: account.ss58,
-        firstName: details.firstName,
-        lastName: details.lastName,
+        firstName: name[0] ?? 'Unknwon',
+        lastName: name[1] ?? 'Unknown',
+        state: state(),
       );
       _accountController.add(acc);
-      return acc;
-    } on Exception catch (e) {
+      // ignore: avoid_catches_without_on_clauses
+    } catch (e) {
       print(e);
-      return null;
     }
   }
 
@@ -92,8 +110,8 @@ class AccountService {
     try {
       _keystoreService.unlock(password);
       return true;
-    } on Exception catch (e) {
-      print(e);
+      // ignore: avoid_catches_without_on_clauses
+    } catch (e) {
       return false;
     }
   }

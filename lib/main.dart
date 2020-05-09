@@ -4,16 +4,18 @@ import 'package:provider/provider.dart';
 import 'package:sunshine/setup.dart';
 import 'package:sunshine/sunshine.dart';
 
-void main() {
+Future main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await configure();
   runApp(MyApp());
-  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+  await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 }
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      providers: buildProviders(),
+      providers: providers,
       child: MaterialApp(
         title: 'Sunshine',
         debugShowCheckedModeBanner: false,
@@ -50,6 +52,10 @@ class MyApp extends StatelessWidget {
             // ignore: argument_type_not_assignable
             accountBackup: settings.arguments,
           ),
+        );
+      case Routes.unloackAccount:
+        return MaterialPageRoute(
+          builder: (_) => UnlockAccountScreen(),
         );
       default:
         return MaterialPageRoute(

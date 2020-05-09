@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sunshine/sunshine.dart';
 
-enum ButtonVariant { normal, thin, success }
+enum ButtonVariant { normal, thin, success, successThin }
 
 class Button extends StatefulWidget {
   const Button({
@@ -28,6 +28,10 @@ class _ButtonState extends State<Button> {
   Widget build(BuildContext context) {
     const successBorderColor = Color.fromARGB(39, 2, 123, 101);
     const normalBorderColor = Color.fromARGB(39, 56, 73, 228);
+    final isSuccess = widget.variant == ButtonVariant.success ||
+        widget.variant == ButtonVariant.successThin;
+    final isThin = widget.variant == ButtonVariant.thin ||
+        widget.variant == ButtonVariant.successThin;
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 15.w.toDouble()),
       child: RaisedButton(
@@ -35,26 +39,20 @@ class _ButtonState extends State<Button> {
         onPressed: widget.enabled ? widget.onPressed : null,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(
-            widget.variant == ButtonVariant.thin
-                ? 8.w.toDouble()
-                : 10.w.toDouble(),
+            isThin ? 8.w.toDouble() : 10.w.toDouble(),
           ),
           side: BorderSide(
-            color: widget.variant == ButtonVariant.success
-                ? successBorderColor
-                : normalBorderColor,
+            color: isSuccess ? successBorderColor : normalBorderColor,
             width: 3,
           ),
         ),
         disabledColor: AppColors.disabled,
         child: Ink(
-          height: widget.variant == ButtonVariant.thin
-              ? 39.h.toDouble()
-              : 59.h.toDouble(),
+          height: isThin ? 39.h.toDouble() : 59.h.toDouble(),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10.w.toDouble()),
             gradient: LinearGradient(
-              colors: widget.variant == ButtonVariant.success
+              colors: isSuccess
                   ? [const Color(0xFF40D0A5), AppColors.success]
                   : const [Color(0xFF68A4FF), Color(0xFF8995FF)],
               begin: Alignment.topCenter,

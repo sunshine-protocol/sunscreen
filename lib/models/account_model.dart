@@ -10,11 +10,13 @@ class Account {
     this.firstName,
     this.lastName,
     this.address,
+    this.state,
   });
   String get name => '$firstName $lastName';
   final String firstName;
   final String lastName;
   final String address;
+  final AccountState state;
 }
 
 class AccountBackup {

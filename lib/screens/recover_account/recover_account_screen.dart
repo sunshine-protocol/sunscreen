@@ -49,7 +49,29 @@ class RecoverAccountScreen extends StatelessWidget {
                 },
                 textInputAction: TextInputAction.done,
               ),
-              SizedBox(height: 32.h.toDouble()),
+              SizedBox(height: 10.h.toDouble()),
+              Padding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: 17.w.toDouble(),
+                  vertical: 16.h.toDouble(),
+                ),
+                child: Text(
+                  'also, to keep your account safe, enter a new password.',
+                  style: TextStyle(
+                    fontSize: 16.ssp.toDouble(),
+                    fontWeight: FontWeight.w500,
+                  ),
+                  textAlign: TextAlign.start,
+                ),
+              ),
+              Input(
+                hintText: 'Password',
+                obscureText: true,
+                onEditingComplete: () {
+                  FocusScope.of(context).unfocus();
+                },
+                textInputAction: TextInputAction.done,
+              ),
             ],
           ),
           Padding(
@@ -59,7 +81,6 @@ class RecoverAccountScreen extends StatelessWidget {
               child: Button(
                 text: 'Recover My Account',
                 onPressed: () {
-                  // TODO(shekohex): impl recover account
                   Navigator.of(context).pushNamedAndRemoveUntil(
                     Routes.main,
                     (_) => false,

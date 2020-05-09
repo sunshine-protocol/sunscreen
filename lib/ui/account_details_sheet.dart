@@ -83,6 +83,17 @@ class AccountDetailsSheet extends StatelessWidget {
                     // TODO(shekohex): make use of public key qr code from keystore!
                   },
                 ),
+                SizedBox(height: 10.h.toDouble()),
+                Button(
+                  text: 'Lock Account',
+                  variant: ButtonVariant.successThin,
+                  onPressed: () {
+                    // TODO(shekohex): Lock the account here!
+                    // TODO(shekohex): maybe we could show a confirmation dialog?
+                    Navigator.of(context)
+                        .pushNamedAndRemoveUntil(Routes.home, (_) => false);
+                  },
+                ),
               ],
             ),
           )
