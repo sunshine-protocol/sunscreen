@@ -44,6 +44,7 @@ List<SingleChildWidget> _dependentServices = [
 
 List<SingleChildWidget> _uiConsumableProviders = [
   StreamProvider<Account>(
+    initialData: const Account(),
     create: (context) => Provider.of<AccountService>(
       context,
       listen: false,

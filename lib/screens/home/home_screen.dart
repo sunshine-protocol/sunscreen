@@ -17,6 +17,7 @@ class _HomeScreenState extends State<HomeScreen> {
     final accountService = context.read<AccountService>();
     // if the account is unlocked, then go to the main
     if (accountService.isUnlocked()) {
+      accountService.loadAccount();
       Navigator.of(context)
           .pushNamedAndRemoveUntil(Routes.main, (route) => false);
     }

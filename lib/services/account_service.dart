@@ -73,9 +73,9 @@ class AccountService {
     }
   }
 
-  bool restore(String phrase, AccountDetails details) {
+  bool restore(AccountDetails details) {
     try {
-      _keystoreService.import(phrase, details.password);
+      _keystoreService.import(details.phrase, details.password);
       loadAccount();
       return true;
       // ignore: avoid_catches_without_on_clauses
@@ -85,20 +85,22 @@ class AccountService {
     }
   }
 
-  void loadAccount() {
+  Account loadAccount() {
     try {
       final account = _keystoreService.account();
-      final name = account.name.split(' ');
+      // TODO(shekohex): get account name from here
       final acc = Account(
         address: account.ss58,
-        firstName: name[0] ?? 'Unknwon',
-        lastName: name[1] ?? 'Unknown',
+        firstName: 'John',
+        lastName: 'Wick',
         state: state(),
       );
       _accountController.add(acc);
+      return acc;
       // ignore: avoid_catches_without_on_clauses
     } catch (e) {
       print(e);
+      return null;
     }
   }
 

@@ -33,20 +33,24 @@ class AccountDetails {
     this.firstName,
     this.lastName,
     this.password,
+    this.phrase,
   });
   final String firstName;
   final String lastName;
   final String password;
+  final String phrase;
 
   AccountDetails copyWith({
     String firstName,
     String lastName,
     String password,
+    String phrase,
   }) {
     return AccountDetails(
       firstName: firstName ?? this.firstName,
       lastName: lastName ?? this.lastName,
       password: password ?? this.lastName,
+      phrase: phrase ?? this.phrase,
     );
   }
 }

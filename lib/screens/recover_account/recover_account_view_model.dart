@@ -10,13 +10,28 @@ class RecoverAccountViewModel extends BaseModel {
   final AccountService accountService;
 
   bool recovered = false;
-
-  void unlock(String phrase, String password) {
+  String password;
+  String phrase;
+  void recover() {
     busy();
     recovered = accountService.restore(
-      phrase,
-      AccountDetails(password: password),
+      AccountDetails(
+        password: password,
+        phrase: phrase,
+      ),
     );
+    idle();
+  }
+
+  void setPassword(String v) {
+    busy();
+    password = v;
+    idle();
+  }
+
+  void setPharse(String v) {
+    busy();
+    phrase = v;
     idle();
   }
 }

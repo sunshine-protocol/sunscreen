@@ -89,7 +89,7 @@ class AccountDetailsForm extends StatelessWidget {
                     if (v.isEmpty) {
                       return 'Password cannot be empty!';
                     } else if (v.length < 8) {
-                      return 'password must be 8 characters long';
+                      return 'password must be at least 8 characters long';
                     } else {
                       return null;
                     }
