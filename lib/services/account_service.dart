@@ -2,16 +2,19 @@ import 'dart:async';
 
 import 'package:injectable/injectable.dart';
 import 'package:keystore/keystore.dart' show Status;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sunshine/models/models.dart';
 import 'package:sunshine/services/services.dart';
 import 'package:meta/meta.dart';
+import 'package:sunshine/sunshine.dart';
 
 @lazySingleton
 class AccountService {
-  AccountService({@required KeystoreService keystoreService})
+  AccountService({@required KeystoreService keystoreService, this.preferences})
       : _keystoreService = keystoreService;
 
   final KeystoreService _keystoreService;
+  final SharedPreferences preferences;
   final _accountController = StreamController<Account>();
 
   Stream<Account> get account => _accountController.stream;
@@ -53,6 +56,9 @@ class AccountService {
         lastName: details.lastName,
         address: account.ss58,
       );
+      preferences
+        ..setString(SharedPrefKeys.firstName, details.firstName)
+        ..setString(SharedPrefKeys.lastName, details.lastName);
       _accountController.add(acc);
       return AccountBackup(
         account: acc,
@@ -93,8 +99,8 @@ class AccountService {
       // TODO(shekohex): get account name from here
       final acc = Account(
         address: account.ss58,
-        firstName: 'John',
-        lastName: 'Wick',
+        firstName: preferences.getString(SharedPrefKeys.firstName),
+        lastName: preferences.getString(SharedPrefKeys.lastName),
         state: state(),
       );
       _accountController.add(acc);

@@ -4,14 +4,12 @@ import 'package:sunshine/models/models.dart';
 import 'package:sunshine/sunshine.dart';
 
 class AccountPharseScreen extends StatelessWidget {
-  AccountPharseScreen({Key key, this.accountBackup}) : super(key: key);
+  const AccountPharseScreen({Key key, this.accountBackup}) : super(key: key);
   final AccountBackup accountBackup;
-  final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: _scaffoldKey,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -48,26 +46,12 @@ class AccountPharseScreen extends StatelessWidget {
               ),
               SizedBox(height: 10.h.toDouble()),
               Input(
-                hintText: accountBackup.phrase,
+                hintText: accountBackup?.phrase,
                 maxLines: 3,
                 readOnly: true,
               ),
               SizedBox(height: 32.h.toDouble()),
-              Button(
-                text: 'Copy',
-                variant: ButtonVariant.thin,
-                onPressed: () async {
-                  await Clipboard.setData(
-                    ClipboardData(
-                      text: accountBackup.phrase,
-                    ),
-                  );
-                  const snackBar = SnackBar(
-                    content: Text('Copied to clipboard!'),
-                  );
-                  _scaffoldKey.currentState.showSnackBar(snackBar);
-                },
-              )
+              CopyPhraseToClipboard(accountBackup: accountBackup)
             ],
           ),
           Padding(
@@ -87,6 +71,34 @@ class AccountPharseScreen extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class CopyPhraseToClipboard extends StatelessWidget {
+  const CopyPhraseToClipboard({
+    @required this.accountBackup,
+    Key key,
+  }) : super(key: key);
+
+  final AccountBackup accountBackup;
+
+  @override
+  Widget build(BuildContext context) {
+    return Button(
+      text: 'Copy',
+      variant: ButtonVariant.thin,
+      onPressed: () async {
+        await Clipboard.setData(
+          ClipboardData(
+            text: accountBackup.phrase,
+          ),
+        );
+        const snackBar = SnackBar(
+          content: Text('Copied to clipboard!'),
+        );
+        Scaffold.of(context).showSnackBar(snackBar);
+      },
     );
   }
 }

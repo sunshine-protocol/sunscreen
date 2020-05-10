@@ -21,18 +21,7 @@ class _HomeScreenState extends State<HomeScreen> {
     FocusScope.of(context).unfocus();
     return BaseWidget<HomeViewModel>(
       onModelReady: (model) => model.checkIfHasAccount(),
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 38.w.toDouble()),
-        child: Text(
-          'Welcome to the Sunshine Foundation app.',
-          style: TextStyle(
-            fontSize: 22.ssp.toDouble(),
-            fontWeight: FontWeight.w500,
-          ),
-          textAlign: TextAlign.center,
-        ),
-      ),
-      builder: (context, model, child) => Scaffold(
+      builder: (context, model, _) => Scaffold(
         backgroundColor: Colors.white,
         body: Stack(
           alignment: AlignmentDirectional.bottomCenter,
@@ -43,7 +32,12 @@ class _HomeScreenState extends State<HomeScreen> {
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  child,
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 38.w.toDouble()),
+                    child: WelcomeText(
+                      model: model,
+                    ),
+                  ),
                   SizedBox(height: 46.h.toDouble()),
                   if (model.hasAccount)
                     ..._showUnlockButton(context, model)
@@ -99,5 +93,23 @@ class _HomeScreenState extends State<HomeScreen> {
         },
       ),
     ];
+  }
+}
+
+class WelcomeText extends StatelessWidget {
+  const WelcomeText({Key key, this.model}) : super(key: key);
+  final HomeViewModel model;
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      model.hasAccount
+          ? 'Get back to the app !'
+          : 'Welcome to the Sunshine Foundation app.',
+      style: TextStyle(
+        fontSize: 22.ssp.toDouble(),
+        fontWeight: FontWeight.w500,
+      ),
+      textAlign: TextAlign.center,
+    );
   }
 }

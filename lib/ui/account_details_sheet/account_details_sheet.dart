@@ -6,6 +6,8 @@ import 'package:sunshine/sunshine.dart';
 import 'account_details_sheet_view_model.dart';
 
 class AccountDetailsSheet extends StatelessWidget {
+  final _firstNameController = TextEditingController();
+  final _lastNameController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return BaseWidget<AccountDetailsSheetViewModel>(
@@ -53,17 +55,30 @@ class AccountDetailsSheet extends StatelessWidget {
                     ),
                     SizedBox(height: 22.h.toDouble()),
                     Input(
-                      hintText: model.account?.firstName ?? 'First Name',
+                      hintText: 'First Name',
+                      controller: _firstNameController
+                        ..text = model.account?.firstName,
                     ),
                     SizedBox(height: 14.h.toDouble()),
                     Input(
-                      hintText: model.account?.lastName ?? 'Last Name',
+                      hintText: 'Last Name',
+                      controller: _lastNameController
+                        ..text = model.account?.lastName,
                     ),
                     SizedBox(height: 22.h.toDouble()),
                     Button(
                       text: 'Save',
                       variant: ButtonVariant.thin,
-                      onPressed: () {},
+                      onPressed: () {
+                        final firstName = _firstNameController.value.text;
+                        final lastName = _lastNameController.value.text;
+                        debugPrint(firstName);
+                        debugPrint(lastName);
+                        model
+                          ..setFirstName(firstName)
+                          ..setLastName(lastName);
+                        Navigator.of(context).pop();
+                      },
                     ),
                     SizedBox(height: 32.h.toDouble()),
                     Row(
@@ -77,7 +92,7 @@ class AccountDetailsSheet extends StatelessWidget {
                         ),
                         Padding(
                           padding: const EdgeInsets.only(right: 8),
-                          child: CopyToClipboard(
+                          child: CopyAddressToClipboard(
                             text: model.account?.address ?? '',
                           ),
                         ),
@@ -102,8 +117,8 @@ class AccountDetailsSheet extends StatelessWidget {
   }
 }
 
-class CopyToClipboard extends StatefulWidget {
-  const CopyToClipboard({
+class CopyAddressToClipboard extends StatefulWidget {
+  const CopyAddressToClipboard({
     Key key,
     this.text,
   }) : super(key: key);
@@ -111,10 +126,10 @@ class CopyToClipboard extends StatefulWidget {
   final String text;
 
   @override
-  _CopyToClipboardState createState() => _CopyToClipboardState();
+  _CopyAddressToClipboardState createState() => _CopyAddressToClipboardState();
 }
 
-class _CopyToClipboardState extends State<CopyToClipboard> {
+class _CopyAddressToClipboardState extends State<CopyAddressToClipboard> {
   bool _copied = false;
   @override
   Widget build(BuildContext context) {

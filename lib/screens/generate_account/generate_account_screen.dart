@@ -45,17 +45,24 @@ class _GenerateAccountScreenState extends State<GenerateAccountScreen> {
                   alignment: Alignment.bottomCenter,
                   child: model.isBusy
                       ? const CircularProgressIndicator()
-                      : Button(
-                          text: 'Proceed to backup pharse',
-                          onPressed: () {
+                      : GenerateAccount(
+                          onPressed: (context) {
                             final form = _formKey.currentState..save();
                             if (form.validate()) {
                               form.save();
                               model.generate();
-                              Navigator.of(context).popAndPushNamed(
-                                Routes.accountPharse,
-                                arguments: model.accountBackup,
-                              );
+                              if (model.generated) {
+                                Navigator.of(context).popAndPushNamed(
+                                  Routes.accountPharse,
+                                  arguments: model.accountBackup,
+                                );
+                              } else {
+                                const snackBar = SnackBar(
+                                  content: Text('Account Generation Faild!'),
+                                  backgroundColor: Colors.redAccent,
+                                );
+                                Scaffold.of(context).showSnackBar(snackBar);
+                              }
                             } else {
                               setState(() {
                                 _autoValidate = true;
@@ -70,5 +77,16 @@ class _GenerateAccountScreenState extends State<GenerateAccountScreen> {
         );
       },
     );
+  }
+}
+
+class GenerateAccount extends StatelessWidget {
+  const GenerateAccount({Key key, this.onPressed}) : super(key: key);
+
+  final Function(BuildContext) onPressed;
+  @override
+  Widget build(BuildContext context) {
+    return Button(
+        text: 'Proceed to backup pharse', onPressed: () => onPressed(context));
   }
 }

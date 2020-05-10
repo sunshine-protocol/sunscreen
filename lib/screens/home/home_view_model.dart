@@ -9,7 +9,6 @@ class HomeViewModel extends BaseModel {
     @required this.accountService,
   });
   final AccountService accountService;
-
   bool hasAccount = false;
   bool isUnlocked = false;
   void checkIfHasAccount() {

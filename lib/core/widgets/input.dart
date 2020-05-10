@@ -19,6 +19,7 @@ class Input extends StatefulWidget {
     this.textInputType = TextInputType.text,
     this.controller,
     this.errorText,
+    this.initialValue,
     this.inputFormatters,
     this.onChanged,
     this.onEditingComplete,
@@ -40,6 +41,7 @@ class Input extends StatefulWidget {
   final int minLines;
   final TextEditingController controller;
   final String errorText;
+  final String initialValue;
   final FocusNode focusNode;
   final List<TextInputFormatter> inputFormatters;
   final void Function(String) onChanged;
@@ -55,6 +57,7 @@ class _InputState extends State<Input> {
   Widget build(BuildContext context) => Padding(
         padding: EdgeInsets.symmetric(horizontal: 18.w.toDouble()),
         child: TextFormField(
+          initialValue: widget.initialValue,
           onChanged: widget.onChanged,
           onEditingComplete: widget.onEditingComplete,
           onFieldSubmitted: widget.onFieldSubmitted,

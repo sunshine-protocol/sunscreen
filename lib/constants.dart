@@ -18,3 +18,8 @@ class AppColors {
   static const secondry = Color(0xFF7C6CE4);
   static const disabled = Color(0xFFDCE0E7);
 }
+
+class SharedPrefKeys {
+  static const firstName = 'account:firstName';
+  static const lastName = 'account:lastName';
+}

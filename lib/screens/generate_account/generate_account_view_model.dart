@@ -14,9 +14,11 @@ class GenerateAccountViewModel extends BaseModel {
   final AccountService _accountService;
   final AccountDetailsService _accountDetailsService;
   AccountBackup accountBackup;
+  bool generated = false;
   void generate() {
     busy();
     accountBackup = _accountService.generate(_accountDetailsService.value);
+    generated = accountBackup != null;
     idle();
   }
 }
