@@ -12,12 +12,11 @@ class RecoverAccountScreen extends StatefulWidget {
 
 class _RecoverAccountScreenState extends State<RecoverAccountScreen> {
   final _formKey = GlobalKey<FormState>();
-  final _scaffoldKey = GlobalKey<ScaffoldState>();
   final _passwrodNode = FocusNode();
+  bool _autovalidate = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: _scaffoldKey,
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -34,11 +33,11 @@ class _RecoverAccountScreenState extends State<RecoverAccountScreen> {
         ),
       ),
       body: BaseWidget<RecoverAccountViewModel>(
-        model: RecoverAccountViewModel(accountService: context.watch()),
         builder: (context, model, _) => Stack(
           children: [
             Form(
               key: _formKey,
+              autovalidate: _autovalidate,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
@@ -65,7 +64,7 @@ class _RecoverAccountScreenState extends State<RecoverAccountScreen> {
                     onEditingComplete: () {
                       FocusScope.of(context).requestFocus(_passwrodNode);
                     },
-                    onFieldSubmitted: (v) {
+                    onSaved: (v) {
                       model.setPharse(v);
                     },
                     validator: (v) {
@@ -108,7 +107,7 @@ class _RecoverAccountScreenState extends State<RecoverAccountScreen> {
                         return null;
                       }
                     },
-                    onFieldSubmitted: (v) {
+                    onSaved: (v) {
                       model.setPassword(v);
                     },
                     textInputAction: TextInputAction.done,
@@ -120,32 +119,49 @@ class _RecoverAccountScreenState extends State<RecoverAccountScreen> {
               padding: EdgeInsets.symmetric(vertical: 42.h.toDouble()),
               child: Align(
                 alignment: Alignment.bottomCenter,
-                child: Button(
-                  text: 'Recover My Account',
-                  onPressed: () {
-                    final form = _formKey.currentState..save();
-                    if (form.validate()) {
-                      model.recover();
-                      if (model.recovered) {
-                        Navigator.of(context).pushNamedAndRemoveUntil(
-                          Routes.main,
-                          (_) => false,
-                        );
-                      } else {
-                        const snackBar = SnackBar(
-                          content: Text('Recover Failed!'),
-                          backgroundColor: Colors.redAccent,
-                        );
-                        _scaffoldKey.currentState.showSnackBar(snackBar);
-                      }
+                child: RecoverAccountButton(onPressed: (context) {
+                  final form = _formKey.currentState..save();
+                  if (form.validate()) {
+                    model.recover();
+                    if (model.recovered) {
+                      Navigator.of(context).pushNamedAndRemoveUntil(
+                        Routes.main,
+                        (_) => false,
+                      );
+                    } else {
+                      const snackBar = SnackBar(
+                        content: Text('Recover Failed!'),
+                        backgroundColor: Colors.redAccent,
+                      );
+                      Scaffold.of(context).showSnackBar(snackBar);
                     }
-                  },
-                ),
+                  } else {
+                    setState(() {
+                      _autovalidate = true;
+                    });
+                  }
+                }),
               ),
             ),
           ],
         ),
       ),
+    );
+  }
+}
+
+class RecoverAccountButton extends StatelessWidget {
+  const RecoverAccountButton({
+    Key key,
+    this.onPressed,
+  }) : super(key: key);
+
+  final Function(BuildContext) onPressed;
+  @override
+  Widget build(BuildContext context) {
+    return Button(
+      text: 'Recover My Account',
+      onPressed: () => onPressed(context),
     );
   }
 }

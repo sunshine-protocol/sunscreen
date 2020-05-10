@@ -1,10 +1,12 @@
 import 'dart:async';
 
+import 'package:injectable/injectable.dart';
 import 'package:keystore/keystore.dart' show Status;
 import 'package:sunshine/models/models.dart';
 import 'package:sunshine/services/services.dart';
 import 'package:meta/meta.dart';
 
+@lazySingleton
 class AccountService {
   AccountService({@required KeystoreService keystoreService})
       : _keystoreService = keystoreService;

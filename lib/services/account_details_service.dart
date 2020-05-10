@@ -1,13 +1,7 @@
-import 'dart:async';
-
+import 'package:injectable/injectable.dart';
 import 'package:sunshine/models/models.dart';
 
+@lazySingleton
 class AccountDetailsService {
-  final _accountDetailsController = StreamController<AccountDetails>();
-
-  Stream<AccountDetails> get accountDetails => _accountDetailsController.stream;
-
-  void update(AccountDetails details) {
-    _accountDetailsController.add(details);
-  }
+  AccountDetails value = const AccountDetails();
 }

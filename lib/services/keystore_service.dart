@@ -1,6 +1,10 @@
-import 'package:keystore/keystore.dart' as keystore;
+import 'package:injectable/injectable.dart';
+import 'package:keystore/keystore.dart';
+import 'package:sunshine/services/services.dart';
 
-// A hack to make a type alias
-mixin ToAlias {}
-
-class KeystoreService = keystore.Keystore with ToAlias;
+@lazySingleton
+class KeystoreService extends Keystore {
+  KeystoreService({PathProviderService pathProviderService})
+      : super.fromKeyfile(
+            '${pathProviderService.applicationDocumentsDirectory.path}/keyfile');
+}

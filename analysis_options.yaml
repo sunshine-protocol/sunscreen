@@ -135,4 +135,5 @@ analyzer:
     implicit-dynamic: true
   exclude:
     - lib/**/*.g.dart
+    - lib/setup.iconfig.dart
     - packages/**/lib/generated.dart

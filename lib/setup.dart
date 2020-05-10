@@ -6,55 +6,12 @@ import 'package:sunshine/services/services.dart';
 import 'package:sunshine/models/models.dart';
 import 'package:sunshine/setup.iconfig.dart';
 
-final _getIt = GetIt.instance;
-
 @injectableInit
-Future configure() async => await $initGetIt(_getIt);
-
-@registerModule
-abstract class RegisterModule {
-  @preResolve
-  Future<PathProviderService> get pathProvider => PathProviderService.create();
-}
+Future configure() async => await $initGetIt(GetIt.I);
 
 List<SingleChildWidget> providers = [
-  ..._independentServices,
-  ..._dependentServices,
-  ..._uiConsumableProviders
-];
-
-List<SingleChildWidget> _independentServices = [
-  Provider(
-    create: (_) => AccountDetailsService(),
-  ),
-];
-
-List<SingleChildWidget> _dependentServices = [
-  Provider<KeystoreService>(
-    create: (context) {
-      final pp = _getIt.get<PathProviderService>();
-      final path = pp.applicationDocumentsDirectory.path;
-      return KeystoreService.fromKeyfile('$path/keystorefile');
-    },
-  ),
-  ProxyProvider<KeystoreService, AccountService>(
-    update: (context, ks, _) => AccountService(keystoreService: ks),
-  )
-];
-
-List<SingleChildWidget> _uiConsumableProviders = [
-  StreamProvider<Account>(
+  StreamProvider(
     initialData: const Account(),
-    create: (context) => Provider.of<AccountService>(
-      context,
-      listen: false,
-    ).account,
-  ),
-  StreamProvider<AccountDetails>(
-    initialData: const AccountDetails(),
-    create: (context) => Provider.of<AccountDetailsService>(
-      context,
-      listen: false,
-    ).accountDetails,
+    create: (_) => GetIt.I<AccountService>().account,
   ),
 ];

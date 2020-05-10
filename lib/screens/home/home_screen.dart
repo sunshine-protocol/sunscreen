@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:sunshine/core/core.dart';
-import 'package:sunshine/services/account_service.dart';
 import 'package:sunshine/sunshine.dart';
 import 'home_view_model.dart';
 
@@ -11,18 +9,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  @override
-  void initState() {
-    super.initState();
-    final accountService = context.read<AccountService>();
-    // if the account is unlocked, then go to the main
-    if (accountService.isUnlocked()) {
-      accountService.loadAccount();
-      Navigator.of(context)
-          .pushNamedAndRemoveUntil(Routes.main, (route) => false);
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     ScreenUtil.init(
@@ -34,7 +20,6 @@ class _HomeScreenState extends State<HomeScreen> {
     // Dismis the keyboard
     FocusScope.of(context).unfocus();
     return BaseWidget<HomeViewModel>(
-      model: HomeViewModel(accountService: context.watch()),
       onModelReady: (model) => model.checkIfHasAccount(),
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 38.w.toDouble()),

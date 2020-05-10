@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:sunshine/core/core.dart';
 import 'package:sunshine/sunshine.dart';
 import 'generate_account_view_model.dart';
 
-// ignore: must_be_immutable
-class GenerateAccountScreen extends StatelessWidget {
+class GenerateAccountScreen extends StatefulWidget {
+  @override
+  _GenerateAccountScreenState createState() => _GenerateAccountScreenState();
+}
+
+class _GenerateAccountScreenState extends State<GenerateAccountScreen> {
+  final _formKey = GlobalKey<FormState>();
+  bool _autoValidate = false;
   @override
   Widget build(BuildContext context) {
     return BaseWidget<GenerateAccountViewModel>(
-      model: GenerateAccountViewModel(
-        accountService: Provider.of(context),
-      ),
       child: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -33,7 +35,10 @@ class GenerateAccountScreen extends StatelessWidget {
           appBar: child as PreferredSizeWidget,
           body: Stack(
             children: [
-              AccountDetailsForm(),
+              AccountDetailsForm(
+                formKey: _formKey,
+                autoValidate: _autoValidate,
+              ),
               Padding(
                 padding: EdgeInsets.symmetric(vertical: 42.h.toDouble()),
                 child: Align(
@@ -41,13 +46,21 @@ class GenerateAccountScreen extends StatelessWidget {
                   child: model.isBusy
                       ? const CircularProgressIndicator()
                       : Button(
-                          text: 'Proceed to backup phrase',
+                          text: 'Proceed to backup pharse',
                           onPressed: () {
-                            model.generate(context.read());
-                            Navigator.of(context).popAndPushNamed(
-                              Routes.accountPharse,
-                              arguments: model.accountBackup,
-                            );
+                            final form = _formKey.currentState..save();
+                            if (form.validate()) {
+                              form.save();
+                              model.generate();
+                              Navigator.of(context).popAndPushNamed(
+                                Routes.accountPharse,
+                                arguments: model.accountBackup,
+                              );
+                            } else {
+                              setState(() {
+                                _autoValidate = true;
+                              });
+                            }
                           },
                         ),
                 ),

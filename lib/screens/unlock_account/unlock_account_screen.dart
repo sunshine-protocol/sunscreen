@@ -86,7 +86,6 @@ class _UnlockAccountScreenState extends State<UnlockAccountScreen> {
             child: Align(
               alignment: Alignment.bottomCenter,
               child: BaseWidget<UnlockAccountViewModel>(
-                model: UnlockAccountViewModel(accountService: context.watch()),
                 builder: (context, model, _) => model.isBusy
                     ? const CircularProgressIndicator()
                     : Button(

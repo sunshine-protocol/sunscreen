@@ -1,17 +1,22 @@
+import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';
 import 'package:sunshine/core/core.dart';
 import 'package:sunshine/models/account_model.dart';
 import 'package:sunshine/services/services.dart';
 
+@injectable
 class GenerateAccountViewModel extends BaseModel {
   GenerateAccountViewModel({
-    @required this.accountService,
-  });
-  final AccountService accountService;
+    @required AccountService accountService,
+    @required AccountDetailsService accountDetailsService,
+  })  : _accountService = accountService,
+        _accountDetailsService = accountDetailsService;
+  final AccountService _accountService;
+  final AccountDetailsService _accountDetailsService;
   AccountBackup accountBackup;
-  void generate(AccountDetails details) {
+  void generate() {
     busy();
-    accountBackup = accountService.generate(details);
+    accountBackup = _accountService.generate(_accountDetailsService.value);
     idle();
   }
 }

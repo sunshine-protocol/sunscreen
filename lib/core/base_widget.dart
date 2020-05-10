@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
 
 class BaseWidget<T extends ChangeNotifier> extends StatefulWidget {
   const BaseWidget({
     @required this.builder,
-    @required this.model,
     Key key,
     this.child,
     this.onModelReady,
   }) : super(key: key);
 
   final Widget Function(BuildContext context, T model, Widget child) builder;
-  final T model;
   final Widget child;
   final Function(T) onModelReady;
 
@@ -20,11 +19,10 @@ class BaseWidget<T extends ChangeNotifier> extends StatefulWidget {
 }
 
 class _BaseWidgetState<T extends ChangeNotifier> extends State<BaseWidget<T>> {
-  T model;
+  final T model = GetIt.I<T>();
 
   @override
   void initState() {
-    model = widget.model;
     if (widget.onModelReady != null) {
       widget.onModelReady(model);
     }
@@ -34,7 +32,7 @@ class _BaseWidgetState<T extends ChangeNotifier> extends State<BaseWidget<T>> {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<T>(
-      create: (context) => model,
+      create: (_) => model,
       child: Consumer<T>(
         builder: widget.builder,
         child: widget.child,

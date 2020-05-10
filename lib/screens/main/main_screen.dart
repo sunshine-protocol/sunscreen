@@ -48,28 +48,7 @@ class _MainScreenState extends State<MainScreen>
         ),
         primary: true,
         titleSpacing: 18.w.toDouble(),
-        actions: [
-          GestureDetector(
-            onTap: () {
-              showModalBottomSheet(
-                context: context,
-                enableDrag: true,
-                backgroundColor: Colors.transparent,
-                isScrollControlled: true,
-                builder: (context) => AccountDetailsSheet(),
-              );
-            },
-            child: CircleAvatar(
-              radius: 18.w.toDouble(),
-              backgroundColor: Colors.black,
-              child: Icon(
-                Icons.person,
-                color: Colors.white,
-              ),
-            ),
-          ),
-          SizedBox(width: 22.w.toDouble())
-        ],
+        actions: [const AccountAvatar(), SizedBox(width: 22.w.toDouble())],
       ),
       body: TabBarView(
         controller: _tabController,
@@ -142,6 +121,36 @@ class _MainScreenState extends State<MainScreen>
               ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class AccountAvatar extends StatelessWidget {
+  const AccountAvatar({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        showModalBottomSheet(
+          context: context,
+          useRootNavigator: true,
+          enableDrag: true,
+          backgroundColor: Colors.transparent,
+          isScrollControlled: true,
+          builder: (context) => AccountDetailsSheet(),
+        );
+      },
+      child: CircleAvatar(
+        radius: 18.w.toDouble(),
+        backgroundColor: Colors.black,
+        child: Icon(
+          Icons.person,
+          color: Colors.white,
         ),
       ),
     );

@@ -25,9 +25,6 @@ class _AccountPharseConfirmationScreenState
   @override
   Widget build(BuildContext context) {
     return BaseWidget<AccountPharseConfirmationViewModel>(
-      model: AccountPharseConfirmationViewModel(
-        accountService: Provider.of(context),
-      ),
       child: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,

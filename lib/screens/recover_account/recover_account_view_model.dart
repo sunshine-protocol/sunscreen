@@ -1,8 +1,10 @@
+import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';
 import 'package:sunshine/core/core.dart';
 import 'package:sunshine/models/account_model.dart';
 import 'package:sunshine/services/services.dart';
 
+@injectable
 class RecoverAccountViewModel extends BaseModel {
   RecoverAccountViewModel({
     @required this.accountService,
