@@ -102,7 +102,7 @@ class _AccountPharseConfirmationScreenState
                         );
                       } else {
                         setState(() {
-                          _errorText = 'please enter the correct pharse!';
+                          _errorText = 'please enter the correct phrase!';
                         });
                       }
                     },
