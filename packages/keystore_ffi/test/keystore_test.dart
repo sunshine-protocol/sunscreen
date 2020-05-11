@@ -22,25 +22,25 @@ void main() {
     test('generates a key', () {
       cleanup(keyfile);
       final keystore = Keystore.fromKeyfile(keyfile);
-      expect(keystore.status(), equals(Status.Uninitialized));
+      expect(keystore.status(), equals(Status.uninitialized));
       keystore.generate('password');
-      expect(keystore.status(), equals(Status.Unlocked));
+      expect(keystore.status(), equals(Status.unlocked));
       keystore.lock();
-      expect(keystore.status(), equals(Status.Locked));
+      expect(keystore.status(), equals(Status.locked));
       keystore.unlock('password');
-      expect(keystore.status(), equals(Status.Unlocked));
+      expect(keystore.status(), equals(Status.unlocked));
       keystore.dispose();
     });
     test('imports a key', () {
       cleanup(keyfile);
       final keystore = Keystore.fromKeyfile(keyfile);
-      expect(keystore.status(), equals(Status.Uninitialized));
+      expect(keystore.status(), equals(Status.uninitialized));
       keystore.import(phrase, 'password');
-      expect(keystore.status(), equals(Status.Unlocked));
+      expect(keystore.status(), equals(Status.unlocked));
       keystore.lock();
-      expect(keystore.status(), equals(Status.Locked));
+      expect(keystore.status(), equals(Status.locked));
       keystore.unlock('password');
-      expect(keystore.status(), equals(Status.Unlocked));
+      expect(keystore.status(), equals(Status.unlocked));
       final phrase2 = keystore.phrase('password');
       expect(phrase, equals(phrase2));
       keystore.dispose();

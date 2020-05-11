@@ -1,106 +1,70 @@
+import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:keystore/keystore.dart';
-import 'package:meta/meta.dart';
-import 'package:path_provider/path_provider.dart';
-import 'blocs/blocs.dart';
-import 'keys.dart';
-import 'localization.dart';
-import 'screens/screens.dart';
-import 'styles.dart';
+import 'package:provider/provider.dart';
+import 'package:sunshine/setup.dart';
+import 'package:sunshine/sunshine.dart';
 
-void main() {
-  runApp(App());
+Future main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await configure();
+  runApp(MyApp());
+  await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 }
 
-class App extends StatelessWidget {
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BlocSetup(
+    return MultiProvider(
+      providers: providers,
       child: MaterialApp(
-        title: AppLocalizations().appTitle,
-        theme: Styles.theme,
-        localizationsDelegates: [
-          AppLocalizationsDelegate(),
-        ],
-        navigatorKey: Keys.navigatorKey,
-        onGenerateRoute: (routeSettings) {
-          print(routeSettings);
-          switch (routeSettings.name) {
-            case '/splash':
-              return MaterialPageRoute(builder: (context) => SplashPage());
-            case '/welcome':
-              return MaterialPageRoute(builder: (context) => WelcomePage());
-            case '/create_password':
-              return MaterialPageRoute(
-                  builder: (context) => CreatePasswordPage());
-            case '/account_image':
-              return MaterialPageRoute(
-                  builder: (context) => AccountImagePage());
-            case '/terms_of_use':
-              return MaterialPageRoute(builder: (context) => TermsOfUsePage());
-            case '/secret_backup':
-              return MaterialPageRoute(
-                  builder: (context) => SecretBackupPage());
-            case '/secret_confirm':
-              return MaterialPageRoute(
-                  builder: (context) => SecretConfirmPage());
-            case '/restore_account':
-              return MaterialPageRoute(
-                  builder: (context) => RestoreAccountPage());
-            case '/login':
-              return MaterialPageRoute(builder: (context) => LoginPage());
-            case '/account_details':
-              return MaterialPageRoute(
-                  builder: (context) => AccountDetailsPage());
-            default:
-              return MaterialPageRoute(builder: (context) => SplashPage());
-          }
-        },
+        title: 'Sunshine',
+        debugShowCheckedModeBanner: false,
+        showPerformanceOverlay: false,
+        theme: ThemeData(
+          scaffoldBackgroundColor: AppColors.mainBackground,
+        ),
+        initialRoute: Routes.home,
+        onGenerateRoute: _generateRoute,
       ),
     );
   }
-}
 
-class BlocSetup extends StatelessWidget {
-  final Widget child;
-
-  BlocSetup({@required this.child});
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocProvider<NavigatorBloc>(
-      create: (context) => NavigatorBloc(navigatorKey: Keys.navigatorKey),
-      child: FutureBuilder(
-        future: getApplicationDocumentsDirectory(),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            return RepositoryProvider<Keystore>(
-              create: (context) {
-                final path = snapshot.data.path;
-                return Keystore.fromKeyfile('$path/keyfile');
-              },
-              child: Builder(
-                builder: (context) {
-                  final keystore = RepositoryProvider.of<Keystore>(context);
-                  final navigator = BlocProvider.of<NavigatorBloc>(context);
-                  return BlocProvider<AccountBloc>(
-                    create: (context) => AccountBloc(
-                      keystore: keystore,
-                      navigator: navigator,
-                    )..add(Start()),
-                    child: child,
-                  );
-                },
-              ),
-            );
-          } else {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-        },
-      ),
-    );
+  Route _generateRoute(RouteSettings settings) {
+    switch (settings.name) {
+      case Routes.home:
+        return MaterialPageRoute(builder: (_) => HomeScreen());
+      case Routes.main:
+        return MaterialPageRoute(builder: (_) => MainScreen());
+      case Routes.recoverAccount:
+        return MaterialPageRoute(builder: (_) => RecoverAccountScreen());
+      case Routes.generateAccount:
+        return MaterialPageRoute(builder: (_) => GenerateAccountScreen());
+      case Routes.accountPharse:
+        return MaterialPageRoute(
+          builder: (_) => AccountPharseScreen(
+            // ignore: argument_type_not_assignable
+            accountBackup: settings.arguments,
+          ),
+        );
+      case Routes.accountPharseConfirmation:
+        return MaterialPageRoute(
+          builder: (_) => AccountPharseConfirmationScreen(
+            // ignore: argument_type_not_assignable
+            accountBackup: settings.arguments,
+          ),
+        );
+      case Routes.unloackAccount:
+        return MaterialPageRoute(
+          builder: (_) => UnlockAccountScreen(),
+        );
+      default:
+        return MaterialPageRoute(
+          builder: (_) => Scaffold(
+            body: Center(
+              child: Text('No route defined for ${settings.name}'),
+            ),
+          ),
+        );
+    }
   }
 }

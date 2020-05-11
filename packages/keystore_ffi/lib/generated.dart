@@ -14,12 +14,14 @@ ffi.DynamicLibrary load({String basePath = ''}) {
   } else if (Platform.isWindows) {
     return ffi.DynamicLibrary.open('${basePath}libkeystore_ffi.dll');
   } else {
-    throw NotSupportedPlatform('${Platform.operatingSystem} is not supported!');
+    throw NotSupportedPlatform();
   }
 }
 
-class NotSupportedPlatform implements Exception {
-  NotSupportedPlatform(String s);
+class NotSupportedPlatform extends Error implements Exception {
+  NotSupportedPlatform() {
+    throw Error();
+  }
 }
 
 ffi.DynamicLibrary dynamicLibrary() {

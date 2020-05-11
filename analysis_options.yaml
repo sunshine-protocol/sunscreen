@@ -83,7 +83,7 @@ linter:
     - prefer_constructors_over_static_methods
     - prefer_contains
     - prefer_equal_for_default_values
-    - prefer_expression_function_bodies
+    # - prefer_expression_function_bodies
     - prefer_final_fields
     - prefer_final_locals
     - prefer_foreach
@@ -135,3 +135,5 @@ analyzer:
     implicit-dynamic: true
   exclude:
     - lib/**/*.g.dart
+    - lib/setup.iconfig.dart
+    - packages/**/lib/generated.dart

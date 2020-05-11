@@ -1,10 +1,7 @@
-export 'account_details/account_details.dart';
-export 'account_image/account_image.dart';
-export 'create_password/create_password.dart';
-export 'login/login.dart';
-export 'restore_account/restore_account.dart';
-export 'secret_backup/secret_backup.dart';
-export 'secret_confirm/secret_confirm.dart';
-export 'splash/splash.dart';
-export 'terms_of_use/terms_of_use.dart';
-export 'welcome/welcome.dart';
+export 'account_pharse_confirmation/account_pharse_confirmation_screen.dart';
+export 'account_phrase/account_pharse_screen.dart';
+export 'generate_account/generate_account_screen.dart';
+export 'home/home_screen.dart';
+export 'main/main_screen.dart';
+export 'recover_account/recover_account_screen.dart';
+export 'unlock_account/unlock_account_screen.dart';
