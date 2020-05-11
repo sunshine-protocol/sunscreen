@@ -33,7 +33,7 @@ class _AccountPharseConfirmationScreenState
           color: Colors.black,
         ),
         title: Text(
-          'Account Pharse',
+          'Account Phrase',
           style: TextStyle(
             color: Colors.black,
           ),
