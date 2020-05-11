@@ -87,6 +87,6 @@ class GenerateAccount extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Button(
-        text: 'Proceed to backup pharse', onPressed: () => onPressed(context));
+        text: 'Proceed to backup phrase', onPressed: () => onPressed(context));
   }
 }
