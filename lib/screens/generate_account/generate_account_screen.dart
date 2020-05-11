@@ -58,7 +58,7 @@ class _GenerateAccountScreenState extends State<GenerateAccountScreen> {
                                 );
                               } else {
                                 const snackBar = SnackBar(
-                                  content: Text('Account Generation Faild!'),
+                                  content: Text('Account Generation Failed!'),
                                   backgroundColor: Colors.redAccent,
                                 );
                                 Scaffold.of(context).showSnackBar(snackBar);
