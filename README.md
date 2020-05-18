@@ -22,9 +22,10 @@ You probably won't have a connected device and that's OK, you can pick your emul
 
 4. [Open the Android emulator](https://developer.android.com/studio/run/emulator).
 
-5. Run the following command in the root of the cloned repository.
+5. Run the following commands in the root of the cloned repository.
 ```
 $ cargo make
+$ flutter run
 ```
 
 ### iOS
