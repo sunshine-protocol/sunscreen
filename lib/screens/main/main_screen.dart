@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:sunshine/sunshine.dart';
 
@@ -67,7 +69,9 @@ class _MainScreenState extends State<MainScreen>
       bottomNavigationBar: Container(
         color: const Color(0xFFD7DAE1),
         child: Padding(
-          padding: EdgeInsets.only(bottom: ScreenUtil.bottomBarHeight - 8.h),
+          padding: EdgeInsets.only(
+            bottom: math.max(1, ScreenUtil.bottomBarHeight - 8.h),
+          ),
           child: TabBar(
             controller: _tabController,
             labelColor: Colors.black,
