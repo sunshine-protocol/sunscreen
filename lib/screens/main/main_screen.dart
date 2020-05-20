@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:sunshine/sunshine.dart';
 
+import 'tabs/applications/applications_tab.dart';
+import 'tabs/browse/browse_tab.dart';
+import 'tabs/foundations/foundations_tab.dart';
+import 'tabs/grants/grants_tab.dart';
+
 class MainScreen extends StatefulWidget {
   @override
   _MainScreenState createState() => _MainScreenState();
@@ -53,42 +58,10 @@ class _MainScreenState extends State<MainScreen>
       body: TabBarView(
         controller: _tabController,
         children: [
-          Center(
-            child: Text(
-              _myTabs[0],
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 22.ssp.toDouble(),
-              ),
-            ),
-          ),
-          Center(
-            child: Text(
-              _myTabs[1],
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 22.ssp.toDouble(),
-              ),
-            ),
-          ),
-          Center(
-            child: Text(
-              _myTabs[2],
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 22.ssp.toDouble(),
-              ),
-            ),
-          ),
-          Center(
-            child: Text(
-              _myTabs[3],
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 22.ssp.toDouble(),
-              ),
-            ),
-          ),
+          BrowseTab(),
+          ApplicationsTab(),
+          GrantsTab(),
+          FoundationsTab(),
         ],
       ),
       bottomNavigationBar: Container(
