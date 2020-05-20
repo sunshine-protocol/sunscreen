@@ -1,5 +1,12 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:sunshine/sunshine.dart';
+
+import 'tabs/applications/applications_tab.dart';
+import 'tabs/browse/browse_tab.dart';
+import 'tabs/foundations/foundations_tab.dart';
+import 'tabs/grants/grants_tab.dart';
 
 class MainScreen extends StatefulWidget {
   @override
@@ -53,48 +60,18 @@ class _MainScreenState extends State<MainScreen>
       body: TabBarView(
         controller: _tabController,
         children: [
-          Center(
-            child: Text(
-              _myTabs[0],
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 22.ssp.toDouble(),
-              ),
-            ),
-          ),
-          Center(
-            child: Text(
-              _myTabs[1],
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 22.ssp.toDouble(),
-              ),
-            ),
-          ),
-          Center(
-            child: Text(
-              _myTabs[2],
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 22.ssp.toDouble(),
-              ),
-            ),
-          ),
-          Center(
-            child: Text(
-              _myTabs[3],
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 22.ssp.toDouble(),
-              ),
-            ),
-          ),
+          BrowseTab(),
+          ApplicationsTab(),
+          GrantsTab(),
+          FoundationsTab(),
         ],
       ),
       bottomNavigationBar: Container(
         color: const Color(0xFFD7DAE1),
         child: Padding(
-          padding: EdgeInsets.only(bottom: ScreenUtil.bottomBarHeight - 8.h),
+          padding: EdgeInsets.only(
+            bottom: math.max(1, ScreenUtil.bottomBarHeight - 8.h),
+          ),
           child: TabBar(
             controller: _tabController,
             labelColor: Colors.black,
