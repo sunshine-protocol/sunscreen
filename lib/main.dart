@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           scaffoldBackgroundColor: AppColors.mainBackground,
         ),
-        initialRoute: Routes.home,
+        initialRoute: Routes.main,
         onGenerateRoute: _generateRoute,
       ),
     );
@@ -56,6 +56,14 @@ class MyApp extends StatelessWidget {
       case Routes.unloackAccount:
         return MaterialPageRoute(
           builder: (_) => UnlockAccountScreen(),
+        );
+      case Routes.bountyInfo:
+        return MaterialPageRoute(
+          builder: (_) => BountyInfoView(),
+        );
+      case Routes.foundationInfo:
+        return MaterialPageRoute(
+          builder: (_) => FoundationInfoView(),
         );
       default:
         return MaterialPageRoute(

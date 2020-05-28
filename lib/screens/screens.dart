@@ -3,5 +3,8 @@ export 'account_phrase/account_pharse_screen.dart';
 export 'generate_account/generate_account_screen.dart';
 export 'home/home_screen.dart';
 export 'main/main_screen.dart';
+// Sub View
+export 'main/tabs/browse/views/bounty_info_view.dart';
+export 'main/tabs/browse/views/foundation_info_view.dart';
 export 'recover_account/recover_account_screen.dart';
 export 'unlock_account/unlock_account_screen.dart';

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:sunshine/sunshine.dart';
 
+import 'package:sunshine/screens/main/widgets/widgets.dart';
+
 class BrowseTab extends StatefulWidget {
   @override
   _BrowseTabState createState() => _BrowseTabState();
@@ -78,11 +80,11 @@ class _BrowseTabState extends State<BrowseTab> {
           hintText: 'Search',
         ),
         SizedBox(height: 22.h.toDouble()),
-        if (_viewBounties)
+        if (_viewFoundations)
           Expanded(
             child: ListView.separated(
               itemCount: 4,
-              itemBuilder: (context, index) => BountyCard(
+              itemBuilder: (context, index) => FoundationCard(
                 tittle: 'Web3 Foundation',
                 ammount: '20,000',
                 bounties: index + 1,
@@ -90,24 +92,27 @@ class _BrowseTabState extends State<BrowseTab> {
                     'Our mission is to nurture cutting-edge applications for decentralized web software protocols.'
                     ' Our passion is delivering Web 3.0, a decentralized and fair internet where users control their'
                     ' own data, identity and destiny. The Polkadot network is our first project.',
+                onPressView: () {
+                  Navigator.of(context).pushNamed(Routes.foundationInfo);
+                },
               ),
               separatorBuilder: (context, index) => const SizedBox(height: 16),
             ),
           )
-        else if (_viewFoundations)
+        else if (_viewBounties)
           Expanded(
             child: ListView.separated(
               itemCount: 2,
               itemBuilder: (context, index) => BountyCard(
                 tittle: 'Open Grants Program',
-                ammount: '20,000',
-                bounties: index + 1,
+                ammountPerTeam: '2,000',
+                totalAmmount: '10,000',
                 description:
                     'This program offers funding for smaller technical grants of up to \$30k.'
                     ' These applications are tracked transparently on GitHub and disbursed '
                     'in cryptocurrencies',
                 onPressView: () {
-                  // TODO(@shekohex): Open View Foundation Info.
+                  Navigator.of(context).pushNamed(Routes.bountyInfo);
                 },
               ),
               separatorBuilder: (context, index) => const SizedBox(height: 16),
@@ -119,8 +124,8 @@ class _BrowseTabState extends State<BrowseTab> {
 }
 
 // TODO(@shekohex): move this to the ui widgets.
-class BountyCard extends StatelessWidget {
-  const BountyCard({
+class FoundationCard extends StatelessWidget {
+  const FoundationCard({
     Key key,
     this.tittle,
     this.bounties,
@@ -162,31 +167,85 @@ class BountyCard extends StatelessWidget {
                 ),
               ),
             ),
-            Container(
-              height: 32.h.toDouble(),
-              color: AppColors.disabled,
+            InformationLine(
+              leadingText: '$bounties bounties',
+              secondaryText: '☼ $ammount',
+            ),
+            Padding(
+              padding: EdgeInsets.all(
+                10.w.toDouble(),
+              ),
+              child: Text(
+                description,
+                style: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  color: Colors.black54,
+                  fontSize: 12.ssp.toDouble(),
+                ),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 24.h.toDouble()),
+              child: Button(
+                text: 'View',
+                variant: ButtonVariant.thin,
+                onPressed: onPressView ?? () {},
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// TODO(@shekohex): move this to the ui widgets.
+class BountyCard extends StatelessWidget {
+  const BountyCard({
+    Key key,
+    this.tittle,
+    this.totalAmmount,
+    this.ammountPerTeam,
+    this.description,
+    this.onPressView,
+  }) : super(key: key);
+
+  final String tittle;
+  final String totalAmmount;
+  final String ammountPerTeam;
+  final String description;
+  final void Function() onPressView;
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      elevation: 2,
+      color: Colors.white,
+      margin: EdgeInsets.symmetric(horizontal: 8.w.toDouble()),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(14.w.toDouble()),
+      ),
+      child: Container(
+        width: ScreenUtil.screenWidth,
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
               padding: EdgeInsets.symmetric(
                 horizontal: 16.h.toDouble(),
+                vertical: 20.w.toDouble(),
               ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    '$bounties bounties',
-                    style: TextStyle(
-                      fontSize: 16.ssp.toDouble(),
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  Text(
-                    '☼ $ammount',
-                    style: TextStyle(
-                      fontSize: 16.ssp.toDouble(),
-                      fontWeight: FontWeight.w600,
-                    ),
-                  )
-                ],
+              child: Text(
+                tittle,
+                style: TextStyle(
+                  fontSize: 18.ssp.toDouble(),
+                  fontWeight: FontWeight.bold,
+                ),
               ),
+            ),
+            InformationLine(
+              leadingText: '☼ $totalAmmount',
+              secondaryText: '☼ $ammountPerTeam / team',
             ),
             Padding(
               padding: EdgeInsets.all(

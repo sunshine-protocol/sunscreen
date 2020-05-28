@@ -9,6 +9,9 @@ class Routes {
   static const unloackAccount = '/account/unlock';
 
   static const main = '/main';
+
+  static const bountyInfo = '/main/tabs/browse/bounty';
+  static const foundationInfo = '/main/tabs/browse/foundation';
 }
 
 class AppColors {

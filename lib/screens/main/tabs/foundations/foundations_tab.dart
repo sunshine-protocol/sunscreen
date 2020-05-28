@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:sunshine/sunshine.dart';
 
+import 'package:sunshine/screens/main/widgets/widgets.dart';
+
 class FoundationsTab extends StatefulWidget {
   @override
   _FoundationsTabState createState() => _FoundationsTabState();
@@ -75,31 +77,9 @@ class FoundationCard extends StatelessWidget {
                 ),
               ),
             ),
-            Container(
-              height: 32.h.toDouble(),
-              color: AppColors.disabled,
-              padding: EdgeInsets.symmetric(
-                horizontal: 16.h.toDouble(),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    '$members member(s)',
-                    style: TextStyle(
-                      fontSize: 16.ssp.toDouble(),
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  Text(
-                    '☼ $ammount',
-                    style: TextStyle(
-                      fontSize: 16.ssp.toDouble(),
-                      fontWeight: FontWeight.w600,
-                    ),
-                  )
-                ],
-              ),
+            InformationLine(
+              leadingText: '$members member(s)',
+              secondaryText: '☼ $ammount',
             ),
             Padding(
               padding: EdgeInsets.symmetric(vertical: 18.h.toDouble()),
