@@ -1,5 +1,3 @@
-include: package:pedantic/analysis_options.yaml
-
 linter:
   rules:
     - always_declare_return_types
@@ -9,7 +7,7 @@ linter:
     - annotate_overrides
     - avoid_as
     - avoid_bool_literals_in_conditional_expressions
-    - avoid_catches_without_on_clauses
+    # - avoid_catches_without_on_clauses
     - avoid_catching_errors
     - avoid_classes_with_only_static_members
     - avoid_double_and_int_checks
@@ -136,4 +134,5 @@ analyzer:
   exclude:
     - lib/**/*.g.dart
     - lib/setup.iconfig.dart
-    - packages/**/lib/generated.dart
+    - lib/router/router.gr.dart
+    - packages/**/lib/ffi.dart

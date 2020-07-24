@@ -1,0 +1,25 @@
+# See https://github.com/eqrion/cbindgen/blob/master/docs.md#cbindgentoml
+# for detailed documentation of every option here.
+
+language = "C"
+no_includes = false
+after_includes = ""
+braces = "SameLine"
+line_length = 100
+tab_width = 2
+documentation_style = "auto"
+style = "both"
+
+[export]
+item_types = ["structs", "functions", "constants"]
+renaming_overrides_prefixing = false
+
+[const]
+allow_static_const = false
+allow_constexpr = false
+
+[parse.expand]
+crates = ["keystore-ffi"]
+all_features = false
+default_features = true
+features = []
