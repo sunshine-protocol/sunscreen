@@ -110,114 +110,81 @@ dependencies = [
     "post-android"
 ]
 
-[tasks.android-aarch64]
+[tasks.android-build]
 private = true
-condition = { env_true = ["DEV"] }
+condition = { env_true = ["DEV"], env_set = ["ANDROID_TARGET"] }
 command = "cargo"
 args = [
   "ndk", 
   "--platform", 
   "${ANDROID_PLATFORM_VERSION}", 
   "--target", 
-  "aarch64-linux-android", 
+  "${ANDROID_TARGET}", 
   "build",
-  ]
+]
+
+[tasks.android-build-release]
+private = true
+condition = { env_true = ["RELEASE"], env_set = ["ANDROID_TARGET"] }
+command = "cargo"
+args = [
+  "ndk", 
+  "--platform", 
+  "${ANDROID_PLATFORM_VERSION}", 
+  "--target", 
+  "${ANDROID_TARGET}", 
+  "build",
+  "--release"
+]
+
+[tasks.android-aarch64]
+private = true
+condition = { env_true = ["DEV"] }
+env = { ANDROID_TARGET = "aarch64-linux-android" }
+run_task = "android-build"
 
 [tasks.android-armv7]
 private = true
 condition = { env_true = ["DEV"] }
-command = "cargo"
-args = [
-  "ndk", 
-  "--platform", 
-  "${ANDROID_PLATFORM_VERSION}", 
-  "--target", 
-  "armv7-linux-androideabi", 
-  "build",
-  ]
+env = { ANDROID_TARGET = "armv7-linux-androideabi" }
+run_task = "android-build"
 
 [tasks.android-i686]
 private = true
 condition = { env_true = ["DEV"] }
-command = "cargo"
-args = [
-  "ndk", 
-  "--platform", 
-  "${ANDROID_PLATFORM_VERSION}", 
-  "--target", 
-  "i686-linux-android", 
-  "build"
-  ]
+env = { ANDROID_TARGET = "i686-linux-android" }
+run_task = "android-build"
 
 [tasks.android-x86_64]
 private = true
 condition = { env_true = ["DEV"] }
-command = "cargo"
-args = [
-  "ndk", 
-  "--platform", 
-  "${ANDROID_PLATFORM_VERSION}", 
-  "--target", 
-  "x86_64-linux-android", 
-  "build"
-  ]
+env = { ANDROID_TARGET = "x86_64-linux-android" }
+run_task = "android-build"
 
 [tasks.android-aarch64-release]
 private = true
 condition = { env_true = ["RELEASE"] }
-command = "cargo"
-args = [
-  "ndk", 
-  "--platform", 
-  "${ANDROID_PLATFORM_VERSION}", 
-  "--target", 
-  "aarch64-linux-android", 
-  "build",
-  "--release"
-  ]
+env = { ANDROID_TARGET = "aarch64-linux-android" }
+run_task = "android-build-release"
 
 [tasks.android-armv7-release]
 private = true
 condition = { env_true = ["RELEASE"] }
-command = "cargo"
-args = [
-  "ndk", 
-  "--platform", 
-  "${ANDROID_PLATFORM_VERSION}", 
-  "--target", 
-  "armv7-linux-androideabi", 
-  "build",
-  "--release"
-  ]
+env = { ANDROID_TARGET = "armv7-linux-androideabi" }
+run_task = "android-build-release"
 
 [tasks.android-i686-release]
 private = true
 condition = { env_true = ["RELEASE"] }
-command = "cargo"
-args = [
-  "ndk", 
-  "--platform", 
-  "${ANDROID_PLATFORM_VERSION}", 
-  "--target", 
-  "i686-linux-android", 
-  "build",
-  "--release"
-  ]
+env = { ANDROID_TARGET = "i686-linux-android" }
+run_task = "android-build-release"
 
   
 [tasks.android-x86_64-release]
 private = true
 condition = { env_true = ["RELEASE"] }
-command = "cargo"
-args = [
-  "ndk", 
-  "--platform", 
-  "${ANDROID_PLATFORM_VERSION}", 
-  "--target", 
-  "x86_64-linux-android", 
-  "build",
-  "--release"
-  ]
+env = { ANDROID_TARGET = "x86_64-linux-android" }
+run_task = "android-build-release"
 
 [tasks.pre-android]
 private = true
@@ -229,46 +196,37 @@ script = [
     "mkdir ${CARGO_MAKE_WORKSPACE_WORKING_DIRECTORY}/packages/${CARGO_MAKE_CRATE_FS_NAME}/android/src/main/jniLibs/x86_64",
 ]
 
-[tasks.post-android-aarch64]
+[tasks.copy-lib]
 private = true
+condition = { env_set = ["ANDROID_TARGET", "JNI_LIB_DIR"] }
 script_runner = "@duckscript"
 script = [
     """
-    cp ${CARGO_MAKE_WORKSPACE_WORKING_DIRECTORY}/target/aarch64-linux-android/${LIB_OUT_DIR}/lib${CARGO_MAKE_CRATE_FS_NAME}.so \
-    ${CARGO_MAKE_WORKSPACE_WORKING_DIRECTORY}/packages/${CARGO_MAKE_CRATE_FS_NAME}/android/src/main/jniLibs/arm64-v8a/lib${CARGO_MAKE_CRATE_FS_NAME}.so
+    cp ${CARGO_MAKE_WORKSPACE_WORKING_DIRECTORY}/target/${ANDROID_TARGET}/${LIB_OUT_DIR}/lib${CARGO_MAKE_CRATE_FS_NAME}.so \
+    ${CARGO_MAKE_WORKSPACE_WORKING_DIRECTORY}/packages/${CARGO_MAKE_CRATE_FS_NAME}/android/src/main/jniLibs/${JNI_LIB_DIR}/lib${CARGO_MAKE_CRATE_FS_NAME}.so
     """,
 ]
+
+[tasks.post-android-aarch64]
+private = true
+env = { ANDROID_TARGET = "aarch64-linux-android", JNI_LIB_DIR = "arm64-v8a" }
+run_task = "copy-lib"
 
 [tasks.post-android-armv7]
 private = true
-script_runner = "@duckscript"
-script = [
-  """
-  cp ${CARGO_MAKE_WORKSPACE_WORKING_DIRECTORY}/target/armv7-linux-androideabi/${LIB_OUT_DIR}/lib${CARGO_MAKE_CRATE_FS_NAME}.so \
-  ${CARGO_MAKE_WORKSPACE_WORKING_DIRECTORY}/packages/${CARGO_MAKE_CRATE_FS_NAME}/android/src/main/jniLibs/armeabi-v7a/lib${CARGO_MAKE_CRATE_FS_NAME}.so
-  """,
-]
+env = { ANDROID_TARGET = "armv7-linux-androideabi", JNI_LIB_DIR = "armeabi-v7a" }
+run_task = "copy-lib"
 
 [tasks.post-android-i686]
 private = true
-script_runner = "@duckscript"
-script = [
-    """
-    cp ${CARGO_MAKE_WORKSPACE_WORKING_DIRECTORY}/target/i686-linux-android/${LIB_OUT_DIR}/lib${CARGO_MAKE_CRATE_FS_NAME}.so \
-    ${CARGO_MAKE_WORKSPACE_WORKING_DIRECTORY}/packages/${CARGO_MAKE_CRATE_FS_NAME}/android/src/main/jniLibs/x86/lib${CARGO_MAKE_CRATE_FS_NAME}.so
-    """,
-]
+env = { ANDROID_TARGET = "i686-linux-android", JNI_LIB_DIR = "x86" }
+run_task = "copy-lib"
 
 
 [tasks.post-android-x86_64]
 private = true
-script_runner = "@duckscript"
-script = [
-    """
-    cp ${CARGO_MAKE_WORKSPACE_WORKING_DIRECTORY}/target/x86_64-linux-android/${LIB_OUT_DIR}/lib${CARGO_MAKE_CRATE_FS_NAME}.so \
-    ${CARGO_MAKE_WORKSPACE_WORKING_DIRECTORY}/packages/${CARGO_MAKE_CRATE_FS_NAME}/android/src/main/jniLibs/x86_64/lib${CARGO_MAKE_CRATE_FS_NAME}.so
-    """,
-]
+env = { ANDROID_TARGET = "x86_64-linux-android", JNI_LIB_DIR = "x86_64" }
+run_task = "copy-lib"
 
 [tasks.post-android]
 dependencies = ["restore-crate-type"]
@@ -333,7 +291,6 @@ script = [
     assert ${result}
     """,
 ]
-
 
 [tasks.restore-crate-type]
 private = true
