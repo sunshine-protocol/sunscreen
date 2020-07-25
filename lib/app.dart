@@ -8,7 +8,6 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Sunshine Bounty',
       debugShowCheckedModeBanner: false,
-      showPerformanceOverlay: false,
       theme: ThemeData(
         scaffoldBackgroundColor: Colors.white,
       ),

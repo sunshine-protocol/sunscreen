@@ -1,8 +1,9 @@
-import 'package:flutter/cupertino.dart';
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:sunshine/sunshine.dart';
 
-enum ButtonVariant { normal, thin, success, successThin }
+enum ButtonVariant { primary, secondry, success, danger }
 
 class Button extends StatefulWidget {
   const Button({
@@ -10,74 +11,93 @@ class Button extends StatefulWidget {
     this.text = 'Button',
     this.enabled = true,
     this.textColor = Colors.white,
-    this.backgroundColor = AppColors.primary,
-    this.variant = ButtonVariant.normal,
+    this.variant = ButtonVariant.primary,
   });
   @override
   _ButtonState createState() => _ButtonState();
   final String text;
-  final void Function() onPressed;
+  final FutureOr<void> Function() onPressed;
   final Color textColor;
-  final Color backgroundColor;
   final bool enabled;
   final ButtonVariant variant;
 }
 
 class _ButtonState extends State<Button> {
+  bool _isLoading = false;
+
   @override
   Widget build(BuildContext context) {
-    const successBorderColor = Color.fromARGB(39, 2, 123, 101);
-    const normalBorderColor = Color.fromARGB(39, 56, 73, 228);
-    final isSuccess = widget.variant == ButtonVariant.success ||
-        widget.variant == ButtonVariant.successThin;
-    final isThin = widget.variant == ButtonVariant.thin ||
-        widget.variant == ButtonVariant.successThin;
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 15.w.toDouble()),
+      padding: EdgeInsets.symmetric(horizontal: 20.w.toDouble()),
       child: RaisedButton(
         padding: const EdgeInsets.all(0),
-        onPressed: widget.enabled ? widget.onPressed : null,
+        onPressed: widget.enabled && !_isLoading ? _onPressed : null,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(
-            isThin ? 8.w.toDouble() : 10.w.toDouble(),
-          ),
-          side: BorderSide(
-            color: isSuccess ? successBorderColor : normalBorderColor,
-            width: 3,
+            18.w.toDouble(),
           ),
         ),
         disabledColor: AppColors.disabled,
-        child: Ink(
-          height: isThin ? 39.h.toDouble() : 59.h.toDouble(),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10.w.toDouble()),
-            gradient: LinearGradient(
-              colors: isSuccess
-                  ? [const Color(0xFF40D0A5), AppColors.success]
-                  : const [Color(0xFF68A4FF), Color(0xFF8995FF)],
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-            ),
-          ),
+        color: _variantToColor(widget.variant),
+        child: Container(
+          height: 55.h.toDouble(),
           child: Center(
-            child: Text(
-              widget.text,
-              textAlign: TextAlign.justify,
-              overflow: TextOverflow.visible,
-              maxLines: 1,
-              softWrap: false,
-              textWidthBasis: TextWidthBasis.parent,
-              style: TextStyle(
-                color: widget.onPressed == null || !widget.enabled
-                    ? Colors.black
-                    : widget.textColor,
-                fontSize: 16.ssp.toDouble(),
-                fontWeight: FontWeight.w600,
+            child: AnimatedCrossFade(
+              alignment: Alignment.center,
+              duration: const Duration(milliseconds: 200),
+              firstCurve: Curves.ease,
+              crossFadeState: _isLoading
+                  ? CrossFadeState.showSecond
+                  : CrossFadeState.showFirst,
+              firstChild: FittedBox(
+                fit: BoxFit.fitWidth,
+                child: Text(
+                  widget.text,
+                  textAlign: TextAlign.justify,
+                  overflow: TextOverflow.visible,
+                  maxLines: 1,
+                  softWrap: false,
+                  textWidthBasis: TextWidthBasis.parent,
+                  style: TextStyle(
+                    color: widget.textColor,
+                    fontSize: 18.ssp.toDouble(),
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
+              secondChild: const SunshineLoading(
+                width: 36,
+                height: 36,
               ),
             ),
           ),
         ),
       ),
     );
+  }
+
+  Color _variantToColor(ButtonVariant variant) {
+    switch (variant) {
+      case ButtonVariant.primary:
+        return AppColors.primary;
+      case ButtonVariant.secondry:
+        return AppColors.secondry;
+      case ButtonVariant.success:
+        return AppColors.success;
+      case ButtonVariant.danger:
+        return AppColors.danger;
+      default:
+        return AppColors.disabled;
+    }
+  }
+
+  Future<void> _onPressed() async {
+    setState(() {
+      _isLoading = true;
+    });
+    await widget.onPressed();
+    setState(() {
+      _isLoading = false;
+    });
   }
 }
