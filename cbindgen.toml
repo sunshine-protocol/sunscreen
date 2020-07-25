@@ -19,7 +19,7 @@ allow_static_const = false
 allow_constexpr = false
 
 [parse.expand]
-crates = ["keystore-ffi"]
+crates = ["sunshine"]
 all_features = false
 default_features = true
 features = []

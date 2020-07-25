@@ -1,11 +1,23 @@
+import 'device_model.dart';
+import 'identity/service.dart';
+
+enum AccountState {
+  unknown,
+  noAccount,
+  locked,
+  unlocked,
+}
+
 class Account {
   const Account({
-    this.firstName,
-    this.lastName,
-    this.address,
+    this.uid,
+    this.state,
+    this.devices,
+    this.identities,
   });
-  String get name => '$firstName $lastName';
-  final String firstName;
-  final String lastName;
-  final String address;
+  final String uid;
+  final AccountState state;
+  final List<Device> devices;
+  final List<SocialIdentityService> identities;
+  Device get currentDevice => devices.firstWhere((d) => d.isCurrentDevice);
 }

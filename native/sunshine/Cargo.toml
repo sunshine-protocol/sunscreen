@@ -1,0 +1,10 @@
+[package]
+name = "sunshine"
+version = "0.1.0"
+authors = ["Shady Khalifa <shekohex@gmail>"]
+edition = "2018"
+
+[lib]
+crate-type = ["rlib"]
+
+[dependencies]

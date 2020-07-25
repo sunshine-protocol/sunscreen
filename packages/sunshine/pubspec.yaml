@@ -1,0 +1,29 @@
+name: sunshine_ffi
+description: Sunshine FFI binding
+version: 0.0.1
+author:
+homepage:
+
+environment:
+  sdk: ">=2.7.0 <3.0.0"
+  flutter: ">=1.10.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  ffi:
+  isolate:
+  frusty_logger:
+    git: https://github.com/sunshine-protocol/frusty-logger.git
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  plugin:
+    platforms:
+      android:
+        package: foundation.sunshine.sunshine
+        pluginClass: SunshinePlugin
+      ios:
+        pluginClass: SunshinePlugin

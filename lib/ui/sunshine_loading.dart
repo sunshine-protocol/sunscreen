@@ -38,8 +38,8 @@ class _SunshineLoadingState extends State<SunshineLoading>
 
   @override
   void dispose() {
-    super.dispose();
     _controller.dispose();
+    super.dispose();
   }
 
   @override

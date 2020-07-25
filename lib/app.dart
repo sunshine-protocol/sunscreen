@@ -13,7 +13,6 @@ class MyApp extends StatelessWidget {
       ),
       builder: ExtendedNavigator(
         router: Router(),
-        guards: [HasAccountGuard()],
         onUnknownRoute: _onUnknownRoute,
       ),
     );

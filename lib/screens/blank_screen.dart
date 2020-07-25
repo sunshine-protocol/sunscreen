@@ -15,15 +15,9 @@ class _BlankScreenState extends State<BlankScreen> {
       height: 812,
       allowFontScaling: true,
     );
-    return Scaffold(
+    return const Scaffold(
       body: Center(
-        child: Button(
-          text: 'Generate Account',
-          variant: ButtonVariant.success,
-          onPressed: () async {
-            await Future.delayed(const Duration(seconds: 2));
-          },
-        ),
+        child: SunshineLogo(),
       ),
     );
   }
