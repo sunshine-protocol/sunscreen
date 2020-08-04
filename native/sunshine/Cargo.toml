@@ -5,6 +5,18 @@ authors = ["Shady Khalifa <shekohex@gmail>"]
 edition = "2018"
 
 [lib]
+# this value will change depending on the target os
+# for iOS it would be `staticlib`
+# for android it would be `c-dylib`
 crate-type = ["rlib"]
 
 [dependencies]
+identity-ffi = { git = "https://github.com/sunshine-protocol/sunshine-identity", package = "sunshine-identity-ffi", features = ["faucet"] }
+bounty-ffi = { git = "https://github.com/sunshine-protocol/sunshine-bounty", package = "sunshine-bounty-ffi" }
+frusty-logger = { git =  "https://github.com/sunshine-protocol/frusty-logger" }
+client = { git = "https://github.com/sunshine-protocol/sunshine", package = "sunshine-client" }
+log = "^0.4"
+
+[features]
+default = ["faucet"]
+faucet = []
