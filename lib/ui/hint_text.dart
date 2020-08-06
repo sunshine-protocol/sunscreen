@@ -25,7 +25,7 @@ class HintText extends StatelessWidget {
       style: TextStyle(
         fontSize: 16.ssp.toDouble(),
         fontWeight: FontWeight.w500,
-        color: Colors.black54,
+        color: const Color(0xFFC8C8C8),
       ),
       textAlign: _textAlign,
       overflow: _overflow,

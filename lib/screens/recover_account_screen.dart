@@ -57,8 +57,11 @@ class _RecoverAccountStepOneScreenState
                 return;
               }
               FocusScope.of(context).requestFocus(FocusNode());
-              ExtendedNavigator.root.pushRecoverAccountStepTwoScreen(
-                paperKey: _paperKeyController.text,
+              ExtendedNavigator.root.popAndPush(
+                Routes.recoverAccountStepTwoScreen,
+                arguments: RecoverAccountStepTwoScreenArguments(
+                  paperKey: _paperKeyController.text,
+                ),
               );
             },
           ),
@@ -177,19 +180,17 @@ class _RecoverAccountStepTwoScreenState
       Future.delayed(
         const Duration(milliseconds: 100),
         () {
-          ExtendedNavigator.root
-            ..popPages(1)
-            ..pushRecoverAccountDoneScreen();
+          ExtendedNavigator.root.popAndPush(Routes.recoverAccountDoneScreen);
         },
       );
     } catch (_) {
       ExtendedNavigator.root.pop();
-      final snackbar = SnackBar(
-        content: const Text(
+      const snackbar = SnackBar(
+        content: Text(
           "Couldn't restore your account, check the paperkey again",
         ),
         backgroundColor: AppColors.danger,
-        duration: const Duration(seconds: 5),
+        duration: Duration(seconds: 5),
       );
       Scaffold.of(context).showSnackBar(snackbar);
     }
@@ -220,22 +221,6 @@ class RecoverAccountDoneScreen extends StatelessWidget {
             ),
           ),
           SizedBox(height: 30.h.toDouble()),
-          const HeaderText('That\'s your device id in your account'),
-          SizedBox(height: 30.h.toDouble()),
-          FutureBuilder<Account>(
-            initialData: const Account(devices: [
-              Device(
-                id: '...',
-                currentDevice: true,
-              )
-            ]),
-            future: f,
-            builder: (context, snapshot) => Input(
-              hintText: snapshot.data.currentDevice.id,
-              readOnly: true,
-            ),
-          ),
-          SizedBox(height: 30.h.toDouble()),
           const Center(
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 20),
@@ -254,10 +239,7 @@ class RecoverAccountDoneScreen extends StatelessWidget {
             text: 'Finish',
             variant: ButtonVariant.primary,
             onPressed: () {
-              ExtendedNavigator.root
-                ..pop()
-                ..pop()
-                ..pushMainScreen();
+              ExtendedNavigator.root.popAndPush(Routes.mainScreen);
             },
           ),
           SizedBox(height: 15.h.toDouble())

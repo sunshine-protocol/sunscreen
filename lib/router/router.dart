@@ -6,9 +6,9 @@ export 'router.gr.dart';
 @AdaptiveAutoRouter(
   routes: [
     AdaptiveRoute(page: BlankScreen),
+    AdaptiveRoute(page: SplashScreen, initial: true),
     AdaptiveRoute(
       page: IntroScreen,
-      initial: true,
       maintainState: false,
     ),
     AdaptiveRoute(page: GenerateAccountStepOneScreen),
@@ -28,17 +28,7 @@ export 'router.gr.dart';
       page: AccountScreen,
       maintainState: false,
     ),
-    AdaptiveRoute(page: DevicesScreen),
-    AdaptiveRoute(page: PaperKeyScreen),
-    AdaptiveRoute(page: RevokeDeviceScreen),
-    AdaptiveRoute(page: RevokeDeviceDoneScreen),
-    AdaptiveRoute(page: IdentitiesScreen),
-    AdaptiveRoute(page: ProveIdentityScreen),
-    AdaptiveRoute(page: ProveIdentityInstractionsScreen),
-    AdaptiveRoute(page: ProveIdentityDone),
-    AdaptiveRoute(page: RevokeIdentityScreen),
-    AdaptiveRoute(page: RevokeIdentityDoneScreen),
   ],
-  generateNavigationHelperExtension: true,
+  generateNavigationHelperExtension: false,
 )
 class $Router {}

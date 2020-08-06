@@ -1,4 +1,4 @@
-use client::Client;
+use bounty_client::Client;
 use frusty_logger::{Config, FilterBuilder};
 use log::Level;
 
@@ -11,8 +11,7 @@ frusty_logger::include_ffi!(
   )
 );
 
-identity_ffi::impl_ffi!(client: Client);
-bounty_ffi::impl_ffi!();
+bounty_ffi::impl_ffi!(client: Client);
 
 /// a hack to make iOS link to this lib
 #[inline(never)]

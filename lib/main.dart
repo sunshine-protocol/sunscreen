@@ -1,6 +1,7 @@
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:sunshine/app.dart';
+import 'package:sunshine/constants.dart';
 import 'package:sunshine/setup.dart';
 import 'package:injectable/injectable.dart';
 import 'package:intl/intl.dart';
@@ -12,12 +13,12 @@ Future main() async {
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
-      statusBarColor: Colors.white,
-      statusBarIconBrightness: Brightness.dark,
-      statusBarBrightness: Brightness.dark,
-      systemNavigationBarColor: Colors.white,
+      statusBarColor: AppColors.mainBackground,
+      statusBarIconBrightness: Brightness.light,
+      statusBarBrightness: Brightness.light,
+      systemNavigationBarColor: AppColors.mainBackground,
       systemNavigationBarDividerColor: Colors.white,
-      systemNavigationBarIconBrightness: Brightness.dark,
+      systemNavigationBarIconBrightness: Brightness.light,
     ),
   );
 }

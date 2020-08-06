@@ -66,9 +66,12 @@ class _WalletTransferScreenState extends State<WalletTransferScreen> {
               }
               // hide keyboard
               FocusScope.of(context).requestFocus(FocusNode());
-              ExtendedNavigator.root.pushWalletTransferConfirmationScreen(
-                amount: widget.amount,
-                id: _idController.text,
+              ExtendedNavigator.root.popAndPush(
+                Routes.walletTransferConfirmationScreen,
+                arguments: WalletTransferConfirmationScreenArguments(
+                  amount: widget.amount,
+                  id: _idController.text,
+                ),
               );
             },
           ),
@@ -147,22 +150,23 @@ class _WalletTransferConfirmationScreenState
       await Future.delayed(
         const Duration(milliseconds: 100),
         () {
-          ExtendedNavigator.root
-            ..popPages(2)
-            ..pushWalletTransferDoneScreen(
+          ExtendedNavigator.root.popAndPush(
+            Routes.walletTransferDoneScreen,
+            arguments: WalletTransferDoneScreenArguments(
               id: widget.id,
               amount: widget.amount,
-            );
+            ),
+          );
         },
       );
     } catch (_) {
       ExtendedNavigator.root.pop();
-      final snackbar = SnackBar(
-        content: const Text(
+      const snackbar = SnackBar(
+        content: Text(
           "Couldn't complete the transaction, check the UID or username again.",
         ),
         backgroundColor: AppColors.danger,
-        duration: const Duration(seconds: 5),
+        duration: Duration(seconds: 5),
       );
       Scaffold.of(context).showSnackBar(snackbar);
     }

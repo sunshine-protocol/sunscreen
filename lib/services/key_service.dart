@@ -17,20 +17,23 @@ class KeyService {
     return _clientService.unlock(password);
   }
 
+  Future<bool> hasKey() {
+    return _clientService.hasKey();
+  }
+
   Future<Account> generate(String password) async {
     final deviceId = await _clientService.setKey(password);
     print('device ID: $deviceId');
     final amount = await _clientService.mint();
     print('Account minted with: $amount');
     final uid = await _clientService.uid();
-    final device = Device(id: deviceId, currentDevice: true);
-    return Account(devices: [device], uid: uid, identities: []);
+    return Account(uid: uid);
   }
 
   Future<Account> restore(String password, String paperKey) async {
     final uid = await _clientService.setKey(password, paperKey: paperKey);
-    final deviceId = await _clientService.deviceId();
-    final device = Device(id: deviceId, currentDevice: true);
-    return Account(devices: [device], uid: uid, identities: []);
+    return Account(
+      uid: uid,
+    );
   }
 }

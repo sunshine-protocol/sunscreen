@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:sunshine/models/models.dart';
 import 'package:sunshine/sunshine.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -39,28 +38,11 @@ class AccountScreen extends StatelessWidget {
               );
             },
           ),
-          ListCell(
-            title: 'Device ID',
-            trailing: SizedBox(
-              width: 120.w.toDouble(),
-              child: FutureBuilder<Device>(
-                initialData: const Device(
-                  id: '...',
-                  currentDevice: true,
-                ),
-                future: _accountService.currentDevice(),
-                builder: (context, snapshot) => HintText(
-                  snapshot.data?.id ?? 'N/A',
-                ),
-              ),
-            ),
-            onLongPress: () async {
-              await Clipboard.setData(
-                ClipboardData(
-                  text: (await _accountService.currentDevice()).id,
-                ),
-              );
-            },
+          const Divider(
+            thickness: 2,
+            indent: 15,
+            endIndent: 15,
+            color: AppColors.disabled,
           ),
           ListCell(
             title: 'Balance',
@@ -91,46 +73,47 @@ class AccountScreen extends StatelessWidget {
               );
             },
           ),
-          SizedBox(height: 20.w.toDouble()),
-          const HeaderText('Profile'),
-          SizedBox(height: 10.w.toDouble()),
-          ListCell(
-            title: 'Devices',
-            trailing: Icon(Icons.chevron_right, size: 40),
-            onTap: () {
-              ExtendedNavigator.root.pushDevicesScreen();
-            },
-          ),
-          ListCell(
-            title: 'Identities',
-            trailing: Icon(Icons.chevron_right, size: 40),
-            onTap: () {
-              ExtendedNavigator.root.pushIdentitiesScreen();
-            },
+          const Divider(
+            thickness: 2,
+            indent: 15,
+            endIndent: 15,
+            color: AppColors.disabled,
           ),
           SizedBox(height: 20.w.toDouble()),
           const HeaderText('Legal'),
           SizedBox(height: 10.w.toDouble()),
           ListCell(
             title: 'About',
-            trailing: Icon(Icons.share, size: 30),
+            trailing: const Icon(
+              Icons.share,
+              size: 22,
+              color: Colors.white,
+            ),
             onTap: () {
               showAboutDialog(
-                  context: context,
-                  applicationVersion: 'v0.1.0',
-                  applicationIcon: const SunshineLogo(),
-                  useRootNavigator: true,
-                  applicationLegalese: 'Powered by Substrate',
-                  children: [
-                    const SizedBox(height: 10),
-                    FlatButton(
-                      child: const Text('Website'),
-                      onPressed: () {
-                        launch('https://sunshine.foundation/');
-                      },
-                    )
-                  ]);
+                context: context,
+                applicationName: 'Sunshine',
+                applicationVersion: 'v0.1.0',
+                applicationIcon: const SunshineLogo(),
+                useRootNavigator: true,
+                applicationLegalese: 'Powered by Substrate',
+                children: [
+                  const SizedBox(height: 10),
+                  FlatButton(
+                    child: const Text('Website'),
+                    onPressed: () {
+                      launch('https://sunshine.foundation/');
+                    },
+                  ),
+                ],
+              );
             },
+          ),
+          const Divider(
+            thickness: 2,
+            indent: 15,
+            endIndent: 15,
+            color: AppColors.disabled,
           ),
         ],
       ),

@@ -1,2 +1,7 @@
 [workspace]
 members = ["native/*"]
+
+[patch.crates-io]
+keybase-keystore = { git = "https://github.com/sunshine-protocol/sunshine-identity" }
+substrate-keybase-keystore = { git = "https://github.com/sunshine-protocol/sunshine-identity" }
+sunshine-core = { git = "https://github.com/sunshine-protocol/sunshine-identity" }

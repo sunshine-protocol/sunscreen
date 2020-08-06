@@ -96,5 +96,8 @@ class _ButtonState extends State<Button> {
       _isLoading = true;
     });
     await widget.onPressed();
+    setState(() {
+      _isLoading = false;
+    });
   }
 }

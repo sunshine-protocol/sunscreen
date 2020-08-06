@@ -7,13 +7,9 @@ class IntroScreen extends StatefulWidget {
 }
 
 class _IntroScreenState extends State<IntroScreen> {
-  DeviceService _deviceService;
-  ClientService _clientService;
   @override
   void initState() {
     super.initState();
-    _deviceService = GetIt.I.get<DeviceService>();
-    _clientService = GetIt.I.get<ClientService>();
   }
 
   @override
@@ -41,60 +37,16 @@ class _IntroScreenState extends State<IntroScreen> {
             style: TextStyle(
               fontWeight: FontWeight.w500,
               fontSize: 26.ssp.toDouble(),
+              color: Colors.white,
             ),
           ),
           SizedBox(height: 145.h.toDouble()),
-          FutureBuilder(
-            future: _clientService.ready,
-            builder: _clientIsReady,
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _clientIsReady(BuildContext context, AsyncSnapshot snapshot) {
-    if (snapshot.hasData) {
-      return FutureBuilder<bool>(
-        future: _deviceService.hasDeviceKey(),
-        builder: _hasDeviceKey,
-      );
-    } else if (snapshot.hasError) {
-      return Center(
-        child: HintText(
-          'error while starting up client: ${snapshot.error}',
-          maxLines: 4,
-          textAlign: TextAlign.center,
-        ),
-      );
-    } else {
-      return Column(
-        children: const [
-          CircularProgressIndicator(),
-          SizedBox(height: 20),
-          HintText('Starting up client ...'),
-        ],
-      );
-    }
-  }
-
-  Widget _hasDeviceKey(BuildContext context, AsyncSnapshot<bool> snapshot) {
-    if (snapshot.hasData && snapshot.data) {
-      Future.microtask(
-        () => ExtendedNavigator.root
-          ..pop()
-          ..pushMainScreen(),
-      );
-      return Container();
-    } else {
-      return Column(
-        children: [
           Button(
             variant: ButtonVariant.success,
             text: 'Generate Account',
             onPressed: () {
               // step one: Device name, we skip that for now.
-              ExtendedNavigator.root.pushGenerateAccountStepTwoScreen();
+              ExtendedNavigator.root.push(Routes.generateAccountStepTwoScreen);
             },
           ),
           SizedBox(height: 20.h.toDouble()),
@@ -102,11 +54,11 @@ class _IntroScreenState extends State<IntroScreen> {
             variant: ButtonVariant.primary,
             text: 'Restore my account',
             onPressed: () {
-              ExtendedNavigator.root.pushRecoverAccountStepOneScreen();
+              ExtendedNavigator.root.push(Routes.recoverAccountStepTwoScreen);
             },
           ),
         ],
-      );
-    }
+      ),
+    );
   }
 }

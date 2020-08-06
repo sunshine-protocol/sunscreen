@@ -10,54 +10,68 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: _MainScreenAppBar(),
-      body: Column(
-        mainAxisSize: MainAxisSize.max,
-        children: const [],
-      ),
-    );
-  }
-}
-
-class _MainScreenAppBar extends PreferredSize {
-  @override
-  Size get preferredSize => Size.fromHeight(kToolbarHeight * 2);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      alignment: Alignment.center,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          const _LogoIcon(),
-          GestureDetector(
-            child: const _ProfileIcon(),
-            onTap: () {
-              ExtendedNavigator.root.pushAccountScreen();
-            },
-          )
+      appBar: MyAppBar(
+        title: 'Bounties',
+        leading: IconButton(
+          icon: const Icon(
+            Icons.person,
+            color: Colors.white,
+          ),
+          onPressed: () {},
+        ),
+        actions: [
+          IconButton(
+            icon: const Icon(
+              Icons.add,
+              color: Colors.white,
+            ),
+            onPressed: () {},
+          ),
         ],
       ),
+      body: ListView.separated(
+        itemBuilder: _buildItem,
+        separatorBuilder: (context, _) => const Divider(
+          color: AppColors.disabled,
+          thickness: 0.2,
+        ),
+        itemCount: 20,
+      ),
+    );
+  }
+
+  Widget _buildItem(BuildContext context, int index) {
+    return const BountyItem(
+      repoName: 'sunshine-bounty',
+      repoOwner: 'sunshine-protocol',
+      issueNumber: '137',
+      amount: '1K',
     );
   }
 }
 
-class _LogoIcon extends StatelessWidget {
-  const _LogoIcon({
+class _AddIcon extends StatelessWidget {
+  const _AddIcon({
     Key key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(
-        horizontal: 20.w.toDouble(),
-        vertical: 35.h.toDouble(),
+    return Container(
+      decoration: BoxDecoration(
+        border: const Border.fromBorderSide(
+          BorderSide(
+            color: Colors.white,
+          ),
+        ),
+        borderRadius: BorderRadius.circular(
+          32.w.toDouble(),
+        ),
       ),
-      child: const SunshineLogo(
-        height: 42,
-        width: 42,
+      child: const Icon(
+        Icons.add,
+        size: 32,
+        color: Colors.white,
       ),
     );
   }
@@ -70,27 +84,18 @@ class _ProfileIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(
-        horizontal: 20.w.toDouble(),
-        vertical: 35.h.toDouble(),
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(
+          16.w.toDouble(),
+        ),
       ),
-      child: Container(
-        decoration: BoxDecoration(
-          border: Border.fromBorderSide(
-            BorderSide(
-              color: Colors.black,
-            ),
-          ),
-          borderRadius: BorderRadius.circular(
-            42.w.toDouble(),
-          ),
-        ),
-        child: Icon(
+      child: IconButton(
+        icon: const Icon(
           Icons.person,
-          size: 42,
-          color: Colors.black,
+          color: Colors.white,
         ),
+        onPressed: () {},
       ),
     );
   }

@@ -1,3 +1,4 @@
+export 'bounty_item.dart';
 export 'button.dart';
 export 'header_text.dart';
 export 'hint_text.dart';

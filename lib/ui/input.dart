@@ -79,16 +79,17 @@ class _InputState extends State<Input> {
         style: TextStyle(
           fontSize: 18.ssp.toDouble(),
           fontWeight: FontWeight.w600,
+          color: Colors.white,
         ),
         textAlign: TextAlign.start,
         decoration: InputDecoration(
           errorText: widget.errorText,
-          fillColor: const Color(0xFFEEEEEE),
+          fillColor: const Color(0xFF616161),
           alignLabelWithHint: true,
           hintStyle: TextStyle(
             fontSize: 18.ssp.toDouble(),
             fontWeight: FontWeight.w500,
-            color: Colors.black38,
+            color: const Color(0xFFF5F5F5).withOpacity(0.6),
           ),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(15.w.toDouble()),

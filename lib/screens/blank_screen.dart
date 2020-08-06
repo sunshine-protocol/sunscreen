@@ -17,7 +17,12 @@ class _BlankScreenState extends State<BlankScreen> {
     );
     return const Scaffold(
       body: Center(
-        child: SunshineLogo(),
+        child: BountyItem(
+          repoName: 'sunshine-bounty',
+          repoOwner: 'sunshine-protocol',
+          issueNumber: '137',
+          amount: '1K',
+        ),
       ),
     );
   }

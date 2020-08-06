@@ -38,7 +38,6 @@ class ListCell extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const Divider(thickness: 2, indent: 15, endIndent: 15),
         ListTile(
           leading: leading,
           title: Text(
@@ -46,6 +45,7 @@ class ListCell extends StatelessWidget {
             style: TextStyle(
               fontSize: 17.ssp.toDouble(),
               fontWeight: FontWeight.bold,
+              color: Colors.white,
             ),
             overflow: TextOverflow.ellipsis,
             maxLines: 1,
@@ -57,7 +57,6 @@ class ListCell extends StatelessWidget {
           onTap: onTap,
           onLongPress: onLongPress,
         ),
-        const Divider(thickness: 2, indent: 15, endIndent: 15),
       ],
     );
   }
