@@ -45,58 +45,7 @@ class _MainScreenState extends State<MainScreen> {
       repoName: 'sunshine-bounty',
       repoOwner: 'sunshine-protocol',
       issueNumber: '137',
-      amount: '1K',
-    );
-  }
-}
-
-class _AddIcon extends StatelessWidget {
-  const _AddIcon({
-    Key key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        border: const Border.fromBorderSide(
-          BorderSide(
-            color: Colors.white,
-          ),
-        ),
-        borderRadius: BorderRadius.circular(
-          32.w.toDouble(),
-        ),
-      ),
-      child: const Icon(
-        Icons.add,
-        size: 32,
-        color: Colors.white,
-      ),
-    );
-  }
-}
-
-class _ProfileIcon extends StatelessWidget {
-  const _ProfileIcon({
-    Key key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(
-          16.w.toDouble(),
-        ),
-      ),
-      child: IconButton(
-        icon: const Icon(
-          Icons.person,
-          color: Colors.white,
-        ),
-        onPressed: () {},
-      ),
+      total: '1K',
     );
   }
 }

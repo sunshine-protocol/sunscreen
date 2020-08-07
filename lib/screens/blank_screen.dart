@@ -21,7 +21,7 @@ class _BlankScreenState extends State<BlankScreen> {
           repoName: 'sunshine-bounty',
           repoOwner: 'sunshine-protocol',
           issueNumber: '137',
-          amount: '1K',
+          total: '1K',
         ),
       ),
     );

@@ -15,6 +15,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.0"
+  cbor:
+    dependency: "direct main"
+    description:
+      name: cbor
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.2.0"
   characters:
     dependency: transitive
     description:
@@ -43,6 +50,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.14.13"
+  convert:
+    dependency: transitive
+    description:
+      name: convert
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.1.1"
   fake_async:
     dependency: transitive
     description:

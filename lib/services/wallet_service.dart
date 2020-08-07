@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 
 import 'client/client_service.dart';

@@ -17,8 +17,11 @@ dependencies:
   intl: ^0.16.1
   auto_route: ^0.6.0
   url_launcher: ^5.5.0
+  http: ^0.12.2
   sunshine_ffi:
     path: ./packages/sunshine
+  timeago:
+    path: ./packages/timeago
 
 dev_dependencies:
   flutter_test:
