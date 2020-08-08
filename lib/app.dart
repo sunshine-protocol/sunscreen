@@ -10,6 +10,7 @@ class MyApp extends StatelessWidget {
       title: 'Sunshine Bounty',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
+        accentColor: AppColors.primary,
         scaffoldBackgroundColor: AppColors.mainBackground,
       ),
       builder: ExtendedNavigator(

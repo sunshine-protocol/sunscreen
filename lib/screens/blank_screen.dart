@@ -16,14 +16,7 @@ class _BlankScreenState extends State<BlankScreen> {
       allowFontScaling: true,
     );
     return const Scaffold(
-      body: Center(
-        child: BountyItem(
-          repoName: 'sunshine-bounty',
-          repoOwner: 'sunshine-protocol',
-          issueNumber: '137',
-          total: '1K',
-        ),
-      ),
+      body: Center(child: SizedBox()),
     );
   }
 }

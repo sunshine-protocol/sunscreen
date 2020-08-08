@@ -6,9 +6,9 @@ import 'client_service.dart';
 @dev
 @LazySingleton(as: ClientService)
 class DevClientService implements ClientService {
-  String _uid;
-  String _balance;
-  String _password;
+  String _uid = '1';
+  String _balance = '1000000';
+  String _password = '12345678';
 
   @override
   Future<bool> hasKey() async {
@@ -98,12 +98,16 @@ class DevClientService implements ClientService {
   Future<List<BountySubmissionInformation>> listBountySubmissions(
     int bountyId,
   ) async {
-    return _mockedSubmissions.where((e) => e.bountyId == bountyId).toList();
+    await Future.delayed(const Duration(milliseconds: 1200));
+    return _mockedSubmissions.where((e) => e.bountyId == bountyId).toList()
+      ..sort((a, b) => a.id.compareTo(b.id));
   }
 
   @override
   Future<List<BountyInformation>> listOpenBounties(int min) async {
-    return _mockedBounties.where((e) => e.total >= min).toList();
+    await Future.delayed(const Duration(milliseconds: 1200));
+    return _mockedBounties.where((e) => e.total >= min).toList()
+      ..sort((a, b) => a.id.compareTo(b.id));
   }
 
   @override
@@ -151,5 +155,38 @@ class DevClientService implements ClientService {
   }
 }
 
-final List<BountyInformation> _mockedBounties = [];
+final List<BountyInformation> _mockedBounties = [
+  BountyInformation(
+    id: 1,
+    depositer: '1',
+    total: 5595,
+    repoOwner: 'bluzelle',
+    repoName: 'swarm-of-duty',
+    issueNumber: 2,
+  ),
+  BountyInformation(
+    id: 2,
+    depositer: '1',
+    total: 22288,
+    repoOwner: 'aragonone',
+    repoName: 'hack-for-freedom',
+    issueNumber: 7,
+  ),
+  BountyInformation(
+    id: 3,
+    depositer: '1',
+    total: 100000,
+    repoOwner: 'ArweaveTeam',
+    repoName: 'Bounties',
+    issueNumber: 29,
+  ),
+  BountyInformation(
+    id: 4,
+    depositer: '1',
+    total: 15000,
+    repoOwner: 'ArweaveTeam',
+    repoName: 'Bounties',
+    issueNumber: 30,
+  ),
+];
 final List<BountySubmissionInformation> _mockedSubmissions = [];

@@ -8,3 +8,4 @@ export 'router/router.gr.dart';
 export 'screens/screens.dart';
 export 'services/services.dart';
 export 'ui/ui.dart';
+export 'utils/utils.dart';

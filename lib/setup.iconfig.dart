@@ -14,12 +14,13 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sunshine/services/client/sunshine_client_service.dart';
 import 'package:sunshine/services/wallet_service.dart';
 import 'package:sunshine/services/account_service.dart';
+import 'package:sunshine/services/bounty_service.dart';
 import 'package:sunshine/services/client/prod_client_service.dart';
 import 'package:get_it/get_it.dart';
 
 Future<void> $initGetIt(GetIt g, {String environment}) async {
   final registerModule = _$RegisterModule();
-  g.registerFactory<GithubService>(() => GithubService());
+  g.registerLazySingleton<GithubService>(() => GithubService());
   g.registerLazySingleton<KeyService>(
       () => KeyService(clientService: g<ClientService>()));
   final pathProviderService = await registerModule.pathProvider;
@@ -32,6 +33,8 @@ Future<void> $initGetIt(GetIt g, {String environment}) async {
       () => WalletService(clientService: g<ClientService>()));
   g.registerLazySingleton<AccountService>(
       () => AccountService(clientService: g<ClientService>()));
+  g.registerFactory<BountyService>(() => BountyService(
+      clientService: g<ClientService>(), githubService: g<GithubService>()));
 
   //Register dev Dependencies --------
   if (environment == 'dev') {
