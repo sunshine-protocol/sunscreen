@@ -19,7 +19,7 @@ export 'router.gr.dart';
     AdaptiveRoute(page: RecoverAccountDoneScreen),
     AdaptiveRoute(
       page: MainScreen,
-      maintainState: false,
+      maintainState: true,
     ),
     AdaptiveRoute(page: WalletTransferScreen),
     AdaptiveRoute(page: WalletTransferConfirmationScreen),
@@ -28,6 +28,7 @@ export 'router.gr.dart';
       page: AccountScreen,
       maintainState: false,
     ),
+    AdaptiveRoute(page: BountyScreen),
   ],
   generateNavigationHelperExtension: false,
 )

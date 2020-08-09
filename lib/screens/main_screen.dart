@@ -3,6 +3,7 @@ import 'package:shimmer/shimmer.dart';
 import 'package:sunshine/models/models.dart';
 import 'package:sunshine/sunshine.dart';
 import 'package:sunshine_ffi/dto.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class MainScreen extends StatefulWidget {
   @override
@@ -94,7 +95,23 @@ class _MainScreenState extends State<MainScreen> {
     }
     if (snapshot.hasData) {
       return ListView.separated(
-        itemBuilder: (_, i) => BountyItem(bounty: snapshot.data[i]),
+        itemBuilder: (_, i) {
+          final bounty = snapshot.data[i];
+          return GestureDetector(
+            child: BountyItem(
+              bounty: bounty,
+            ),
+            onLongPress: () => launch(bounty.issue.htmlUrl),
+            onTap: () {
+              ExtendedNavigator.root.push(
+                Routes.bountyScreen,
+                arguments: BountyScreenArguments(
+                  bounty: bounty,
+                ),
+              );
+            },
+          );
+        },
         separatorBuilder: (context, _) => const Divider(
           color: AppColors.disabled,
           thickness: 0.2,

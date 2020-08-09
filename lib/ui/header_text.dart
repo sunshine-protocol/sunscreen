@@ -20,6 +20,7 @@ class HeaderText extends StatelessWidget {
           fontWeight: FontWeight.w500,
         ),
         textAlign: TextAlign.start,
+        overflow: TextOverflow.ellipsis,
       ),
     );
   }

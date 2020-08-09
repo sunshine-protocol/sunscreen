@@ -8,6 +8,7 @@
 
 import 'package:auto_route/auto_route.dart';
 
+import '../models/models.dart';
 import '../sunshine.dart';
 
 class Routes {
@@ -31,6 +32,7 @@ class Routes {
       '/wallet-transfer-confirmation-screen';
   static const String walletTransferDoneScreen = '/wallet-transfer-done-screen';
   static const String accountScreen = '/account-screen';
+  static const String bountyScreen = '/bounty-screen';
   static const all = <String>{
     blankScreen,
     splashScreen,
@@ -46,6 +48,7 @@ class Routes {
     walletTransferConfirmationScreen,
     walletTransferDoneScreen,
     accountScreen,
+    bountyScreen,
   };
 }
 
@@ -72,6 +75,7 @@ class Router extends RouterBase {
         page: WalletTransferConfirmationScreen),
     RouteDef(Routes.walletTransferDoneScreen, page: WalletTransferDoneScreen),
     RouteDef(Routes.accountScreen, page: AccountScreen),
+    RouteDef(Routes.bountyScreen, page: BountyScreen),
   ];
   @override
   Map<Type, AutoRouteFactory> get pagesMap => _pagesMap;
@@ -137,7 +141,7 @@ class Router extends RouterBase {
       return buildAdaptivePageRoute<dynamic>(
         builder: (context) => MainScreen(),
         settings: data,
-        maintainState: false,
+        maintainState: true,
       );
     },
     WalletTransferScreen: (data) {
@@ -176,6 +180,15 @@ class Router extends RouterBase {
         maintainState: false,
       );
     },
+    BountyScreen: (data) {
+      final args = data.getArgs<BountyScreenArguments>(
+        orElse: () => BountyScreenArguments(),
+      );
+      return buildAdaptivePageRoute<dynamic>(
+        builder: (context) => BountyScreen(bounty: args.bounty),
+        settings: data,
+      );
+    },
   };
 }
 
@@ -208,4 +221,10 @@ class WalletTransferDoneScreenArguments {
   final String id;
   final String amount;
   WalletTransferDoneScreenArguments({@required this.id, @required this.amount});
+}
+
+/// BountyScreen arguments holder class
+class BountyScreenArguments {
+  final Bounty bounty;
+  BountyScreenArguments({this.bounty});
 }
