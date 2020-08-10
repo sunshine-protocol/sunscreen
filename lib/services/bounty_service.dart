@@ -43,6 +43,9 @@ class BountyService {
         info.repoName,
         info.issueNumber,
       );
+      if (issue == null) {
+        continue;
+      }
       result.add(Bounty(info: info, issue: issue));
     }
     return result;

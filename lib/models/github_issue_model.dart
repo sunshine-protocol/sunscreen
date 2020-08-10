@@ -19,17 +19,19 @@ class GithubIssue {
         json.decode(str) as Map<String, dynamic>,
       );
 
-  factory GithubIssue.fromJson(Map<String, dynamic> json) => GithubIssue(
-        htmlUrl: json['html_url'] as String,
-        number: json['number'] as int,
-        title: json['title'] as String,
-        user: User.fromJson(json['user'] as Map<String, dynamic>),
-        state: json['state'] as String,
-        comments: json['comments'] as int,
-        createdAt: DateTime.parse(json['created_at'] as String),
-        updatedAt: DateTime.parse(json['updated_at'] as String),
-        body: json['body'] as String,
-      );
+  factory GithubIssue.fromJson(Map<String, dynamic> json) {
+    return GithubIssue(
+      htmlUrl: json['html_url'] as String,
+      number: json['number'] as int,
+      title: json['title'] as String,
+      user: User.fromJson(json['user'] as Map<String, dynamic>),
+      state: json['state'] as String,
+      comments: json['comments'] as int,
+      createdAt: DateTime.parse(json['created_at'] as String),
+      updatedAt: DateTime.parse(json['updated_at'] as String),
+      body: json['body'] as String,
+    );
+  }
   final String htmlUrl;
   final int number;
   final String title;
@@ -64,12 +66,14 @@ class User {
         json.decode(str) as Map<String, dynamic>,
       );
 
-  factory User.fromJson(Map<String, dynamic> json) => User(
-        login: json['login'] as String,
-        id: json['id'] as int,
-        avatarUrl: json['avatar_url'] as String,
-        gravatarId: json['gravatar_id'] as String,
-      );
+  factory User.fromJson(Map<String, dynamic> json) {
+    return User(
+      login: json['login'] as String,
+      id: json['id'] as int,
+      avatarUrl: json['avatar_url'] as String,
+      gravatarId: json['gravatar_id'] as String,
+    );
+  }
 
   String toRawJson() => json.encode(toJson());
 

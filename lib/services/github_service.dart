@@ -34,6 +34,9 @@ class GithubService {
   ) async {
     final url = 'https://api.github.com/repos/$owner/$repo/issues/$number';
     final result = await _httpClient.get(url);
+    if (result.statusCode != 200) {
+      return null;
+    }
     return GithubIssue.fromRawJson(result.body);
   }
 }
