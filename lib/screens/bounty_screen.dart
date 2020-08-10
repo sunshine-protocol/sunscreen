@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:intl/intl.dart';
@@ -15,9 +16,12 @@ class BountyScreen extends StatefulWidget {
 }
 
 class _BountyScreenState extends State<BountyScreen> {
+  BountyService _bountyService;
+
   @override
   void initState() {
     super.initState();
+    _bountyService = GetIt.I.get<BountyService>();
   }
 
   @override
@@ -44,28 +48,170 @@ class _BountyScreenState extends State<BountyScreen> {
           )
         ],
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _BountyHeader(bounty: bounty),
-            SizedBox(height: 8.h.toDouble()),
-            HeaderText(
-              bounty.issue.title,
+      body: Stack(
+        alignment: Alignment.bottomCenter,
+        children: [
+          SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _BountyHeader(bounty: bounty),
+                SizedBox(height: 8.h.toDouble()),
+                HeaderText(
+                  bounty.issue.title,
+                ),
+                SizedBox(height: 20.h.toDouble()),
+                _BountyBody(
+                  bounty: bounty,
+                ),
+                SizedBox(height: 20.h.toDouble()),
+                FutureBuilder<List<BountySubmission>>(
+                  initialData: const [],
+                  future: _bountyService.listBountySubmissions(bounty.info.id),
+                  builder: (context, snapshot) {
+                    return Column(
+                      children: [
+                        ...snapshot.data.map(buildSubmission),
+                      ],
+                    );
+                  },
+                ),
+                SizedBox(height: 74.h.toDouble()),
+              ],
             ),
-            SizedBox(height: 20.h.toDouble()),
-            _BountyBody(
-              bounty: bounty,
-            ),
-            SizedBox(height: 10.h.toDouble()),
-            Button(
+          ),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 8),
+            child: Button(
               text: 'Submit for the bounty',
               variant: ButtonVariant.success,
-              onPressed: () {
-                // TODO(shekohex): show Submit screen
+              onPressed: () async {
+                final res = await ExtendedNavigator.root.push(
+                  Routes.submitForBountyScreen,
+                  arguments: SubmitForBountyScreenArguments(bounty: bounty),
+                );
+                if (res != null) {
+                  // refresh
+                  setState(() {});
+                }
               },
             ),
-          ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  // TODO(shekohex): move this widget to a seprate file in ui
+  Widget buildSubmission(BountySubmission e) {
+    final numberFormat = NumberFormat.compactCurrency(
+      decimalDigits: 0,
+      symbol: '',
+    );
+    return Dismissible(
+      key: Key(e.info.id.toString()),
+      background: Container(color: Colors.green),
+      confirmDismiss: (c) async {
+        await showCupertinoDialog(
+          context: context,
+          builder: (_) => AlertDialog(
+            title: Text(
+              'Approve?',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 16.ssp.toDouble(),
+                fontWeight: FontWeight.w500,
+              ),
+              textAlign: TextAlign.start,
+              overflow: TextOverflow.ellipsis,
+            ),
+            backgroundColor: AppColors.mainBackground,
+            content: Text(
+              'Are you sure want to approve this submission?',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 14.ssp.toDouble(),
+                fontWeight: FontWeight.w500,
+              ),
+              textAlign: TextAlign.start,
+            ),
+            actions: [
+              FlatButton(
+                child: const Text('Approve'),
+                onPressed: () {
+                  // TODO(shekohex): approve this submission
+                },
+              ),
+              FlatButton(
+                child: const Text('Close'),
+                onPressed: () {
+                  ExtendedNavigator.root.pop();
+                },
+              ),
+            ],
+          ),
+        );
+        return false;
+      },
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8),
+        child: Container(
+          height: 58,
+          color: AppColors.lightBackgroud,
+          child: Padding(
+            padding: EdgeInsets.only(
+              top: 12.h.toDouble(),
+              bottom: 12.h.toDouble(),
+              left: 12.w.toDouble(),
+            ),
+            child: Row(
+              children: [
+                Container(
+                  width: 28.w.toDouble(),
+                  height: 28.h.toDouble(),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    border: const Border.fromBorderSide(
+                      BorderSide(
+                        color: Colors.white,
+                        width: 0.2,
+                      ),
+                    ),
+                  ),
+                  child: Image(
+                    image: NetworkImage(
+                      e.issue.user.avatarUrl,
+                    ),
+                    fit: BoxFit.contain,
+                  ),
+                ),
+                SizedBox(width: 10.w.toDouble()),
+                FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Text(
+                    '#${e.info.submitter} (@${e.issue.user.login}) '
+                    'Submitted for ${numberFormat.format(e.info.amount)}',
+                    style: TextStyle(
+                      color: const Color(0xFF989898),
+                      fontSize: 14.ssp.toDouble(),
+                    ),
+                  ),
+                ),
+                const Expanded(child: SizedBox()),
+                FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: IconButton(
+                    icon: const Icon(
+                      Icons.launch,
+                      color: Colors.white,
+                    ),
+                    onPressed: () => launch(e.issue.htmlUrl),
+                  ),
+                ),
+                SizedBox(width: 8.w.toDouble()),
+              ],
+            ),
+          ),
         ),
       ),
     );

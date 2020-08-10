@@ -21,6 +21,9 @@ class BountyService {
       info.repoName,
       info.issueNumber,
     );
+    if (issue == null) {
+      return null;
+    }
     return Bounty(info: info, issue: issue);
   }
 
@@ -31,6 +34,9 @@ class BountyService {
       info.repoName,
       info.issueNumber,
     );
+    if (issue == null) {
+      return null;
+    }
     return BountySubmission(info: info, issue: issue);
   }
 
@@ -62,6 +68,9 @@ class BountyService {
         info.repoName,
         info.issueNumber,
       );
+      if (issue == null) {
+        return null;
+      }
       result.add(BountySubmission(info: info, issue: issue));
     }
     return result;

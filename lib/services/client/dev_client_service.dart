@@ -138,9 +138,9 @@ class DevClientService implements ClientService {
     int issueNumber,
     int amount,
   ) async {
-    final last = _mockedBounties.last;
+    final last = _mockedSubmissions.last;
     final v = BountySubmissionInformation(
-      id: last.id + 1,
+      id: last.id,
       bountyId: bountyId,
       issueNumber: issueNumber,
       repoName: repoName,
@@ -189,4 +189,27 @@ final List<BountyInformation> _mockedBounties = [
     issueNumber: 30,
   ),
 ];
-final List<BountySubmissionInformation> _mockedSubmissions = [];
+final List<BountySubmissionInformation> _mockedSubmissions = [
+  BountySubmissionInformation(
+    id: 1,
+    bountyId: 1,
+    approved: false,
+    awaitingReview: true,
+    submitter: '1',
+    amount: 6000,
+    repoOwner: 'ArweaveTeam',
+    repoName: 'Bounties',
+    issueNumber: 29,
+  ),
+  BountySubmissionInformation(
+    id: 2,
+    bountyId: 1,
+    approved: false,
+    awaitingReview: true,
+    submitter: '3',
+    amount: 6000,
+    repoOwner: 'ArweaveTeam',
+    repoName: 'Bounties',
+    issueNumber: 30,
+  ),
+];
