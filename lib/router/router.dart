@@ -30,6 +30,7 @@ export 'router.gr.dart';
     ),
     AdaptiveRoute(page: BountyScreen),
     AdaptiveRoute(page: CreateBountyScreen),
+    AdaptiveRoute(page: SubmitForBountyScreen),
   ],
   generateNavigationHelperExtension: false,
 )

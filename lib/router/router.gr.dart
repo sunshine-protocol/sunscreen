@@ -34,6 +34,7 @@ class Routes {
   static const String accountScreen = '/account-screen';
   static const String bountyScreen = '/bounty-screen';
   static const String createBountyScreen = '/create-bounty-screen';
+  static const String submitForBountyScreen = '/submit-for-bounty-screen';
   static const all = <String>{
     blankScreen,
     splashScreen,
@@ -51,6 +52,7 @@ class Routes {
     accountScreen,
     bountyScreen,
     createBountyScreen,
+    submitForBountyScreen,
   };
 }
 
@@ -79,6 +81,7 @@ class Router extends RouterBase {
     RouteDef(Routes.accountScreen, page: AccountScreen),
     RouteDef(Routes.bountyScreen, page: BountyScreen),
     RouteDef(Routes.createBountyScreen, page: CreateBountyScreen),
+    RouteDef(Routes.submitForBountyScreen, page: SubmitForBountyScreen),
   ];
   @override
   Map<Type, AutoRouteFactory> get pagesMap => _pagesMap;
@@ -198,6 +201,13 @@ class Router extends RouterBase {
         settings: data,
       );
     },
+    SubmitForBountyScreen: (data) {
+      final args = data.getArgs<SubmitForBountyScreenArguments>(nullOk: false);
+      return buildAdaptivePageRoute<dynamic>(
+        builder: (context) => SubmitForBountyScreen(args.bounty),
+        settings: data,
+      );
+    },
   };
 }
 
@@ -236,4 +246,10 @@ class WalletTransferDoneScreenArguments {
 class BountyScreenArguments {
   final Bounty bounty;
   BountyScreenArguments({this.bounty});
+}
+
+/// SubmitForBountyScreen arguments holder class
+class SubmitForBountyScreenArguments {
+  final Bounty bounty;
+  SubmitForBountyScreenArguments({@required this.bounty});
 }

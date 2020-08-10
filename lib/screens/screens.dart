@@ -7,4 +7,5 @@ export 'intro_screen.dart';
 export 'main_screen.dart';
 export 'recover_account_screen.dart';
 export 'splash_screen.dart';
+export 'submit_for_bounty_screen.dart';
 export 'wallet_transfer_screen.dart';
