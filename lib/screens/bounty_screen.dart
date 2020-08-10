@@ -14,21 +14,14 @@ class BountyScreen extends StatefulWidget {
   _BountyScreenState createState() => _BountyScreenState();
 }
 
-class _BountyScreenState extends State<BountyScreen>
-    with SingleTickerProviderStateMixin {
-  AnimationController _animationController;
+class _BountyScreenState extends State<BountyScreen> {
   @override
   void initState() {
     super.initState();
-    _animationController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 200),
-    );
   }
 
   @override
   void dispose() {
-    _animationController.dispose();
     super.dispose();
   }
 
