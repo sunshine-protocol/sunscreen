@@ -38,8 +38,14 @@ class _MainScreenState extends State<MainScreen> {
               Icons.add,
               color: Colors.white,
             ),
-            onPressed: () {
-              // TODO(shekohex): open add bounty screen
+            onPressed: () async {
+              final res = await ExtendedNavigator.root.push(
+                Routes.createBountyScreen,
+              );
+              if (res != null) {
+                // refresh
+                setState(() {});
+              }
             },
           ),
         ],

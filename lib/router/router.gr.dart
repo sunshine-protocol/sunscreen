@@ -33,6 +33,7 @@ class Routes {
   static const String walletTransferDoneScreen = '/wallet-transfer-done-screen';
   static const String accountScreen = '/account-screen';
   static const String bountyScreen = '/bounty-screen';
+  static const String createBountyScreen = '/create-bounty-screen';
   static const all = <String>{
     blankScreen,
     splashScreen,
@@ -49,6 +50,7 @@ class Routes {
     walletTransferDoneScreen,
     accountScreen,
     bountyScreen,
+    createBountyScreen,
   };
 }
 
@@ -76,6 +78,7 @@ class Router extends RouterBase {
     RouteDef(Routes.walletTransferDoneScreen, page: WalletTransferDoneScreen),
     RouteDef(Routes.accountScreen, page: AccountScreen),
     RouteDef(Routes.bountyScreen, page: BountyScreen),
+    RouteDef(Routes.createBountyScreen, page: CreateBountyScreen),
   ];
   @override
   Map<Type, AutoRouteFactory> get pagesMap => _pagesMap;
@@ -186,6 +189,12 @@ class Router extends RouterBase {
       );
       return buildAdaptivePageRoute<dynamic>(
         builder: (context) => BountyScreen(bounty: args.bounty),
+        settings: data,
+      );
+    },
+    CreateBountyScreen: (data) {
+      return buildAdaptivePageRoute<dynamic>(
+        builder: (context) => CreateBountyScreen(),
         settings: data,
       );
     },
