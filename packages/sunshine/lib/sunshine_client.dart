@@ -19,6 +19,7 @@ class SunshineClient {
         _chainspecPath = chainspecPath {
     ffi.store_dart_post_cobject(NativeApi.postCObject);
     FrustyLogger.init(ffi.dl);
+    FrustyLogger.addListener(print);
   }
 
   final Directory _root;
@@ -48,8 +49,15 @@ class SunshineClient {
   Future<bool> hasKey() {
     final completer = Completer<bool>();
     final port = singleCompletePort(completer);
-    // final result = ffi.client_key_exists(port.nativePort);
-    final result = ffi.ok;
+    final result = ffi.client_key_exists(port.nativePort);
+    assert(result == ffi.ok);
+    return completer.future;
+  }
+
+  Future<String> uid() {
+    final completer = Completer<String>();
+    final port = singleCompletePort(completer);
+    final result = ffi.client_key_uid(port.nativePort);
     assert(result == ffi.ok);
     return completer.future;
   }
@@ -57,8 +65,7 @@ class SunshineClient {
   Future<bool> lockKey() {
     final completer = Completer<bool>();
     final port = singleCompletePort(completer);
-    // final result = ffi.client_key_lock(port.nativePort);
-    final result = ffi.ok;
+    final result = ffi.client_key_lock(port.nativePort);
     assert(result == ffi.ok);
     return completer.future;
   }
@@ -67,8 +74,7 @@ class SunshineClient {
     final completer = Completer<bool>();
     final port = singleCompletePort(completer);
     final pass = Utf8.toUtf8(password);
-    // final result = ffi.client_key_unlock(port.nativePort, pass);
-    final result = ffi.ok;
+    final result = ffi.client_key_unlock(port.nativePort, pass);
     assert(result == ffi.ok);
     return completer.future;
   }
@@ -79,8 +85,7 @@ class SunshineClient {
     final s = suri != null ? Utf8.toUtf8(suri) : nullptr;
     final pass = Utf8.toUtf8(password);
     final phrase = paperKey != null ? Utf8.toUtf8(paperKey) : nullptr;
-    // final result = ffi.client_key_set(port.nativePort, pass, s, phrase);
-    final result = ffi.ok;
+    final result = ffi.client_key_set(port.nativePort, pass, s, phrase);
     assert(result == ffi.ok);
     return completer.future;
   }
@@ -88,9 +93,8 @@ class SunshineClient {
   Future<int> balance(String identifier) {
     final completer = Completer<String>();
     final port = singleCompletePort(completer);
-    final id = Utf8.toUtf8(identifier);
-    // final result = ffi.client_wallet_balance(port.nativePort, id);
-    final result = ffi.ok;
+    final id = identifier != null ? Utf8.toUtf8(identifier) : nullptr;
+    final result = ffi.client_wallet_balance(port.nativePort, id);
     assert(result == ffi.ok);
     return completer.future.then(int.parse);
   }
@@ -99,8 +103,7 @@ class SunshineClient {
     final completer = Completer<String>();
     final port = singleCompletePort(completer);
     final id = Utf8.toUtf8(identifier);
-    // final result = ffi.client_wallet_transfer(port.nativePort, id, amount);
-    final result = ffi.ok;
+    final result = ffi.client_wallet_transfer(port.nativePort, id, amount);
     assert(result == ffi.ok);
     return completer.future;
   }
@@ -108,8 +111,7 @@ class SunshineClient {
   Future<int> mint() {
     final completer = Completer<String>();
     final port = singleCompletePort(completer);
-    // final result = ffi.client_faucet_mint(port.nativePort);
-    final result = ffi.ok;
+    final result = ffi.client_faucet_mint(port.nativePort);
     assert(result == ffi.ok);
     return completer.future.then(int.parse);
   }

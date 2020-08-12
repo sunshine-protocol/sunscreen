@@ -16,6 +16,9 @@ class BountyInformation {
   }) : _total = total;
 
   factory BountyInformation.fromBytes(Uint8List bytes) {
+    if (bytes == null) {
+      return null;
+    }
     final inst = cbor.Cbor();
     final payloadBuffer = Uint8Buffer()..addAll(bytes);
     inst.decodeFromBuffer(payloadBuffer);
@@ -42,6 +45,9 @@ class BountyInformation {
   int get total => _total;
 
   static List<BountyInformation> buildList(Uint8List bytes) {
+    if (bytes == null) {
+      return [];
+    }
     final inst = cbor.Cbor();
     final payloadBuffer = Uint8Buffer()..addAll(bytes);
     inst.decodeFromBuffer(payloadBuffer);
@@ -68,6 +74,9 @@ class BountySubmissionInformation {
   });
 
   factory BountySubmissionInformation.fromBytes(Uint8List bytes) {
+    if (bytes == null) {
+      return null;
+    }
     final inst = cbor.Cbor();
     final payloadBuffer = Uint8Buffer()..addAll(bytes);
     inst.decodeFromBuffer(payloadBuffer);
@@ -99,10 +108,13 @@ class BountySubmissionInformation {
   final bool approved;
 
   static List<BountySubmissionInformation> buildList(Uint8List bytes) {
+    if (bytes == null) {
+      return [];
+    }
     final inst = cbor.Cbor();
     final payloadBuffer = Uint8Buffer()..addAll(bytes);
     inst.decodeFromBuffer(payloadBuffer);
-    final data = jsonDecode(inst.decodedToJSON()) as List<dynamic>;
+    final data = jsonDecode(inst.decodedToJSON()) as List<dynamic> ?? [];
     return data.map((e) => BountySubmissionInformation.fromJSON(e)).toList();
   }
 }

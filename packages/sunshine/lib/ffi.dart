@@ -174,6 +174,20 @@ typedef _client_bounty_submit_Dart = int Function(
   int amount,
 );
 
+/// <p class="para-brief"> Try to mint the current account, this only enabled in testnet and behind a feature flag returned the minted amount or null if there is any errors</p>
+int client_faucet_mint(
+  int port,
+) {
+  return _client_faucet_mint(port);
+}
+final _client_faucet_mint_Dart _client_faucet_mint = _dl.lookupFunction<_client_faucet_mint_C, _client_faucet_mint_Dart>('client_faucet_mint');
+typedef _client_faucet_mint_C = Int32 Function(
+  Int64 port,
+);
+typedef _client_faucet_mint_Dart = int Function(
+  int port,
+);
+
 /// <p class="para-brief"> Setup the Sunshine Client using the provided path as the base path and with chainspec</p><p> ### Safety This assumes that the path and chain_spec is non-null c string.</p>
 int client_init(
   int port,
@@ -192,6 +206,125 @@ typedef _client_init_Dart = int Function(
   int port,
   Pointer<ffi.Utf8> path,
   Pointer<ffi.Utf8> chain_spec,
+);
+
+/// <p class="para-brief"> Check if the Keystore is exist and initialized.</p><p> this is useful if you want to check if there is an already created account or not.</p>
+int client_key_exists(
+  int port,
+) {
+  return _client_key_exists(port);
+}
+final _client_key_exists_Dart _client_key_exists = _dl.lookupFunction<_client_key_exists_C, _client_key_exists_Dart>('client_key_exists');
+typedef _client_key_exists_C = Int32 Function(
+  Int64 port,
+);
+typedef _client_key_exists_Dart = int Function(
+  int port,
+);
+
+/// <p class="para-brief"> Lock your account return `true` if locked, and return an error message if something went wrong</p>
+int client_key_lock(
+  int port,
+) {
+  return _client_key_lock(port);
+}
+final _client_key_lock_Dart _client_key_lock = _dl.lookupFunction<_client_key_lock_C, _client_key_lock_Dart>('client_key_lock');
+typedef _client_key_lock_C = Int32 Function(
+  Int64 port,
+);
+typedef _client_key_lock_Dart = int Function(
+  int port,
+);
+
+/// <p class="para-brief"> Set a new Key for this device if not already exist. you should call `client_has_device_key` first to see if you have already a key.</p><p> suri is used for testing only. phrase is used to restore a backup returns a string that is the current device id</p>
+int client_key_set(
+  int port,
+  Pointer<ffi.Utf8> password,
+  Pointer<ffi.Utf8> suri,
+  Pointer<ffi.Utf8> paperkey,
+) {
+  return _client_key_set(port, password, suri, paperkey);
+}
+final _client_key_set_Dart _client_key_set = _dl.lookupFunction<_client_key_set_C, _client_key_set_Dart>('client_key_set');
+typedef _client_key_set_C = Int32 Function(
+  Int64 port,
+  Pointer<ffi.Utf8> password,
+  Pointer<ffi.Utf8> suri,
+  Pointer<ffi.Utf8> paperkey,
+);
+typedef _client_key_set_Dart = int Function(
+  int port,
+  Pointer<ffi.Utf8> password,
+  Pointer<ffi.Utf8> suri,
+  Pointer<ffi.Utf8> paperkey,
+);
+
+/// <p class="para-brief"> Get current UID as string (if any) otherwise null returned</p>
+int client_key_uid(
+  int port,
+) {
+  return _client_key_uid(port);
+}
+final _client_key_uid_Dart _client_key_uid = _dl.lookupFunction<_client_key_uid_C, _client_key_uid_Dart>('client_key_uid');
+typedef _client_key_uid_C = Int32 Function(
+  Int64 port,
+);
+typedef _client_key_uid_Dart = int Function(
+  int port,
+);
+
+/// <p class="para-brief"> Unlock your account using the password return `true` when the account get unlocked, otherwise an error message returned</p>
+int client_key_unlock(
+  int port,
+  Pointer<ffi.Utf8> password,
+) {
+  return _client_key_unlock(port, password);
+}
+final _client_key_unlock_Dart _client_key_unlock = _dl.lookupFunction<_client_key_unlock_C, _client_key_unlock_Dart>('client_key_unlock');
+typedef _client_key_unlock_C = Int32 Function(
+  Int64 port,
+  Pointer<ffi.Utf8> password,
+);
+typedef _client_key_unlock_Dart = int Function(
+  int port,
+  Pointer<ffi.Utf8> password,
+);
+
+/// <p class="para-brief"> Get the balance of an identifier. returns and string but normally it&#39;s a `u128` encoded as string.</p>
+int client_wallet_balance(
+  int port,
+  Pointer<ffi.Utf8> identifier,
+) {
+  return _client_wallet_balance(port, identifier);
+}
+final _client_wallet_balance_Dart _client_wallet_balance = _dl.lookupFunction<_client_wallet_balance_C, _client_wallet_balance_Dart>('client_wallet_balance');
+typedef _client_wallet_balance_C = Int32 Function(
+  Int64 port,
+  Pointer<ffi.Utf8> identifier,
+);
+typedef _client_wallet_balance_Dart = int Function(
+  int port,
+  Pointer<ffi.Utf8> identifier,
+);
+
+/// <p class="para-brief"> Transfer tokens to another account using there `identifier` returns current account balance after the transaction.</p>
+int client_wallet_transfer(
+  int port,
+  Pointer<ffi.Utf8> to,
+  int amount,
+) {
+  return _client_wallet_transfer(port, to, amount);
+}
+final _client_wallet_transfer_Dart _client_wallet_transfer = _dl.lookupFunction<_client_wallet_transfer_C, _client_wallet_transfer_Dart>('client_wallet_transfer');
+typedef _client_wallet_transfer_C = Int32 Function(
+  Int64 port,
+  Pointer<ffi.Utf8> to,
+  Uint64 amount,
+);
+typedef _client_wallet_transfer_Dart = int Function(
+  int port,
+  Pointer<ffi.Utf8> to,
+  int amount,
 );
 
 /// <p class="para-brief"> Check if the Logger is already initialized to prevent any errors of calling init again. return 1 if initialized before, 0 otherwise.</p>

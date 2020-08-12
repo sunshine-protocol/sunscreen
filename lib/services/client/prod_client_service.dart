@@ -37,7 +37,7 @@ class ProdClientService implements ClientService {
   @override
   Future<String> balance() async {
     return _sunshineClientService
-        .balance(await uid())
+        .balance(null)
         .then((value) => value.toString());
   }
 
@@ -48,7 +48,7 @@ class ProdClientService implements ClientService {
 
   @override
   Future<String> uid() async {
-    throw UnimplementedError();
+    return _sunshineClientService.uid();
   }
 
   @override
@@ -84,13 +84,13 @@ class ProdClientService implements ClientService {
   @override
   Future<List<BountySubmissionInformation>> listBountySubmissions(
     int bountyId,
-  ) {
-    return _sunshineClientService.listBountySubmissions(bountyId);
+  ) async {
+    return await _sunshineClientService.listBountySubmissions(bountyId);
   }
 
   @override
-  Future<List<BountyInformation>> listOpenBounties(int min) {
-    return _sunshineClientService.listOpenBounties(min);
+  Future<List<BountyInformation>> listOpenBounties(int min) async {
+    return await _sunshineClientService.listOpenBounties(min);
   }
 
   @override

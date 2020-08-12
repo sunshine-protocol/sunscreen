@@ -11,11 +11,27 @@ edition = "2018"
 crate-type = ["rlib"]
 
 [dependencies]
-bounty-ffi = { git = "https://github.com/sunshine-protocol/sunshine-bounty", package = "sunshine-bounty-ffi" }
-bounty-client = { git = "https://github.com/sunshine-protocol/sunshine-bounty", package = "test-client" }
-frusty-logger = { git =  "https://github.com/sunshine-protocol/frusty-logger" }
 log = "^0.4"
 
-[features]
-default = ["faucet"]
-faucet = []
+[dependencies.client]
+git = "https://github.com/sunshine-protocol/sunshine"
+package = "sunshine-client"
+
+[dependencies.bounty-ffi]
+git = "https://github.com/sunshine-protocol/sunshine-bounty"
+package = "sunshine-bounty-ffi"
+default-features = false
+features = ["bounty-module"]
+
+[dependencies.identity-ffi]
+git = "https://github.com/sunshine-protocol/sunshine-identity"
+package = "sunshine-identity-ffi"
+default-features = false
+features = ["identity-wallet", "identity-key"]
+
+[dependencies.faucet-ffi]
+git = "https://github.com/sunshine-protocol/sunshine-identity"
+package = "sunshine-faucet-ffi"
+
+[dependencies.frusty-logger]
+git = "https://github.com/sunshine-protocol/frusty-logger"

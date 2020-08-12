@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 
 import 'client/client_service.dart';
@@ -17,13 +18,12 @@ class WalletService {
   }
 
   Future<int> mint() async {
-    // TODO(shekohex): you should add these flags back
     // Enable mint account when he tap in his balance
     // this just for testing ...
-    // if (kDebugMode) {
-    return _clientService.mint();
-    // } else {
-    // return 0;
-    // }
+    if (kDebugMode) {
+      return _clientService.mint();
+    } else {
+      return 0;
+    }
   }
 }
