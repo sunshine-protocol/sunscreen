@@ -108,13 +108,18 @@ class _MainScreenState extends State<MainScreen> {
               bounty: bounty,
             ),
             onLongPress: () => launch(bounty.issue.htmlUrl),
-            onTap: () {
-              ExtendedNavigator.root.push(
+            onTap: () async {
+              debugPrint('Open Bounty ${bounty.info.id}');
+              final res = await ExtendedNavigator.root.push(
                 Routes.bountyScreen,
                 arguments: BountyScreenArguments(
                   bounty: bounty,
                 ),
               );
+              if (res != null) {
+                // refresh
+                setState(() {});
+              }
             },
           );
         },

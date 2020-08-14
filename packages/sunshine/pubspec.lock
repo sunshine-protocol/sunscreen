@@ -72,7 +72,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "2cb4b76bd45d8fe58784709adf0092b6a8d8906d"
+      resolved-ref: a331223b8962eef953616f9d4ae3dd6fdcd4f089
       url: "https://github.com/sunshine-protocol/frusty-logger.git"
     source: git
     version: "0.1.0"

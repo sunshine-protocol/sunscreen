@@ -10,7 +10,8 @@ class BountyInformation {
     this.issueNumber,
     this.depositer,
     BigInt total,
-  }) : _total = total;
+  })  : _total = total,
+        _isOpen = true;
 
   factory BountyInformation.fromString(String data) {
     final d = json.decode(data);
@@ -32,15 +33,25 @@ class BountyInformation {
   final BigInt issueNumber;
   final String depositer;
   BigInt _total;
+  bool _isOpen = true;
   BigInt get total => _total;
+  bool get isOpen => _isOpen;
 
   static List<BountyInformation> buildList(String str) {
+    if (str == null || str.isEmpty) {
+      return [];
+    }
     final data = json.decode(str) as List<dynamic>;
     return data.map((e) => BountyInformation.fromJSON(e)).toList();
   }
 
   BigInt contibute(BigInt amount) {
     return _total += amount;
+  }
+
+  void approve(BountySubmissionInformation submission) {
+    submission.approve();
+    _isOpen = false;
   }
 
   @override
@@ -58,9 +69,9 @@ class BountySubmissionInformation {
     this.bountyId,
     this.submitter,
     this.amount,
-    this.awaitingReview,
-    this.approved,
-  });
+    bool awaitingReview,
+  })  : _awaitingReview = awaitingReview,
+        _approved = !awaitingReview;
 
   factory BountySubmissionInformation.fromString(String data) {
     final d = jsonDecode(data);
@@ -77,7 +88,6 @@ class BountySubmissionInformation {
       submitter: data['submitter'] as String,
       amount: BigInt.parse(data['amount'].toString()),
       awaitingReview: data['awaiting_review'] as bool,
-      approved: data['approved'] as bool,
     );
   }
   final BigInt id;
@@ -87,14 +97,22 @@ class BountySubmissionInformation {
   final BigInt bountyId;
   final String submitter;
   final BigInt amount;
-  final bool awaitingReview;
-  final bool approved;
+  bool _awaitingReview = true;
+  bool _approved = false;
+
+  bool get awaitingReview => _awaitingReview;
+  bool get approved => _approved;
 
   static List<BountySubmissionInformation> buildList(String json) {
-    if (json.isEmpty) {
+    if (json == null || json.isEmpty) {
       return [];
     }
     final data = jsonDecode(json) as List<dynamic> ?? [];
     return data.map((e) => BountySubmissionInformation.fromJSON(e)).toList();
+  }
+
+  void approve() {
+    _awaitingReview = false;
+    _approved = true;
   }
 }

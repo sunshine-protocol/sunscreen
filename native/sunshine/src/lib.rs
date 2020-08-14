@@ -6,7 +6,7 @@ frusty_logger::include_ffi!(
   with_config: Config::new(
     Level::Info,
     FilterBuilder::new()
-    .parse("sunshine,sc_information,substrate_subxt")
+    .parse("sunshine,sc_information,substrate_subxt,sunshine-bounty-ffi")
     .build()
   )
 );

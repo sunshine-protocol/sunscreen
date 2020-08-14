@@ -6,7 +6,7 @@ import 'client_service.dart';
 @dev
 @LazySingleton(as: ClientService)
 class DevClientService implements ClientService {
-  String _uid = '1';
+  String _uid;
   String _balance = '1000000';
   String _password = '12345678';
 
@@ -31,9 +31,7 @@ class DevClientService implements ClientService {
     _password = password;
     _uid = '1';
     _balance = '0';
-    await Future.delayed(
-      const Duration(seconds: 2),
-    );
+    await Future.delayed(const Duration(seconds: 2));
     return _uid;
   }
 
@@ -48,6 +46,7 @@ class DevClientService implements ClientService {
 
   @override
   Future<String> balance() async {
+    await Future.delayed(const Duration(milliseconds: 200));
     return _balance ?? '100000000';
   }
 
@@ -58,28 +57,36 @@ class DevClientService implements ClientService {
 
   @override
   Future<String> uid() async {
+    await Future.delayed(const Duration(milliseconds: 200));
     return _uid;
   }
 
   @override
   Future<BigInt> mint() async {
+    await Future.delayed(const Duration(milliseconds: 200));
     _balance = (int.parse(_balance) + 1000000).toString();
     return BigInt.from(1000000);
   }
 
   @override
   Future<String> approveBounty(BigInt submissionId) async {
-    return '1000';
+    await Future.delayed(const Duration(milliseconds: 999));
+    final sub = await getSubmission(submissionId);
+    final bounty = await getBounty(sub.bountyId);
+    bounty.approve(sub);
+    return sub.amount.toString();
   }
 
   @override
   Future<String> contibuteToBounty(BigInt bountyId, BigInt amount) async {
+    await Future.delayed(const Duration(milliseconds: 999));
     final bounty = await getBounty(bountyId);
     return bounty?.contibute(amount).toString() ?? '0';
   }
 
   @override
   Future<BountyInformation> getBounty(BigInt bountyId) async {
+    await Future.delayed(const Duration(milliseconds: 200));
     return _mockedBounties.firstWhere(
       (e) => e.id == bountyId,
       orElse: () => null,
@@ -88,6 +95,7 @@ class DevClientService implements ClientService {
 
   @override
   Future<BountySubmissionInformation> getSubmission(BigInt submissionId) async {
+    await Future.delayed(const Duration(milliseconds: 100));
     return _mockedSubmissions.firstWhere(
       (e) => e.id == submissionId,
       orElse: () => null,
@@ -99,15 +107,21 @@ class DevClientService implements ClientService {
     BigInt bountyId,
   ) async {
     await Future.delayed(const Duration(milliseconds: 1200));
-    return _mockedSubmissions.where((e) => e.bountyId == bountyId).toList()
-      ..sort((a, b) => a.id.compareTo(b.id));
+    return _mockedSubmissions
+        .where((e) => e.awaitingReview)
+        .where((e) => e.bountyId == bountyId)
+        .toList()
+          ..sort((a, b) => a.id.compareTo(b.id));
   }
 
   @override
   Future<List<BountyInformation>> listOpenBounties(BigInt min) async {
     await Future.delayed(const Duration(milliseconds: 1200));
-    return _mockedBounties.where((e) => e.total >= min).toList()
-      ..sort((a, b) => a.id.compareTo(b.id));
+    return _mockedBounties
+        .where((e) => e.isOpen)
+        .where((e) => e.total >= min)
+        .toList()
+          ..sort((a, b) => a.id.compareTo(b.id));
   }
 
   @override
@@ -117,6 +131,7 @@ class DevClientService implements ClientService {
     BigInt issueNumber,
     BigInt amount,
   ) async {
+    await Future.delayed(const Duration(milliseconds: 1500));
     final last = _mockedBounties.last;
     final v = BountyInformation(
       depositer: await uid(),
@@ -138,15 +153,15 @@ class DevClientService implements ClientService {
     BigInt issueNumber,
     BigInt amount,
   ) async {
+    await Future.delayed(const Duration(milliseconds: 1500));
     final last = _mockedSubmissions.last;
     final v = BountySubmissionInformation(
-      id: last.id,
+      id: last.id + BigInt.one,
       bountyId: bountyId,
       issueNumber: issueNumber,
       repoName: repoName,
       repoOwner: repoOwner,
       amount: amount,
-      approved: false,
       awaitingReview: true,
       submitter: await uid(),
     );
@@ -189,11 +204,11 @@ final List<BountyInformation> _mockedBounties = [
     issueNumber: BigInt.from(30),
   ),
 ];
+
 final List<BountySubmissionInformation> _mockedSubmissions = [
   BountySubmissionInformation(
     id: BigInt.from(1),
     bountyId: BigInt.from(1),
-    approved: false,
     awaitingReview: true,
     submitter: '1',
     amount: BigInt.from(6000),
@@ -204,12 +219,11 @@ final List<BountySubmissionInformation> _mockedSubmissions = [
   BountySubmissionInformation(
     id: BigInt.from(2),
     bountyId: BigInt.from(1),
-    approved: false,
     awaitingReview: true,
     submitter: '3',
-    amount: BigInt.from(6000),
-    repoOwner: 'ArweaveTeam',
-    repoName: 'Bounties',
-    issueNumber: BigInt.from(30),
+    amount: BigInt.from(6500),
+    repoOwner: 'aragonone',
+    repoName: 'hack-for-freedom',
+    issueNumber: BigInt.from(7),
   ),
 ];

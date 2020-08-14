@@ -170,7 +170,7 @@ class SunshineClient {
     BigInt issueNumber,
     BigInt amount,
   ) {
-    final completer = Completer<BigInt>();
+    final completer = Completer<int>();
     final port = singleCompletePort(completer);
     ffi.client_bounty_post(
       port.nativePort,
@@ -179,7 +179,8 @@ class SunshineClient {
       issueNumber.toInt(),
       amount.toUtf8Pointer(),
     );
-    return completer.future;
+
+    return completer.future.then((v) => BigInt.from(v));
   }
 
   Future<BigInt> submitForBounty(
@@ -190,7 +191,7 @@ class SunshineClient {
     BigInt amount,
   ) {
     print('Submit for bounty id: $bountyId');
-    final completer = Completer<BigInt>();
+    final completer = Completer<int>();
     final port = singleCompletePort(completer);
     ffi.client_bounty_submit(
       port.nativePort,
@@ -200,7 +201,7 @@ class SunshineClient {
       issueNumber.toInt(),
       amount.toUtf8Pointer(),
     );
-    return completer.future;
+    return completer.future.then((v) => BigInt.from(v));
   }
 
   Future<String> approveBounty(BigInt submissionId) {

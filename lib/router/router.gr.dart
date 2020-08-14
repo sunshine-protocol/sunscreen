@@ -35,6 +35,7 @@ class Routes {
   static const String bountyScreen = '/bounty-screen';
   static const String createBountyScreen = '/create-bounty-screen';
   static const String submitForBountyScreen = '/submit-for-bounty-screen';
+  static const String loggerScreen = '/logger-screen';
   static const all = <String>{
     blankScreen,
     splashScreen,
@@ -53,6 +54,7 @@ class Routes {
     bountyScreen,
     createBountyScreen,
     submitForBountyScreen,
+    loggerScreen,
   };
 }
 
@@ -82,6 +84,7 @@ class Router extends RouterBase {
     RouteDef(Routes.bountyScreen, page: BountyScreen),
     RouteDef(Routes.createBountyScreen, page: CreateBountyScreen),
     RouteDef(Routes.submitForBountyScreen, page: SubmitForBountyScreen),
+    RouteDef(Routes.loggerScreen, page: LoggerScreen),
   ];
   @override
   Map<Type, AutoRouteFactory> get pagesMap => _pagesMap;
@@ -206,6 +209,13 @@ class Router extends RouterBase {
       return buildAdaptivePageRoute<dynamic>(
         builder: (context) => SubmitForBountyScreen(args.bounty),
         settings: data,
+      );
+    },
+    LoggerScreen: (data) {
+      return buildAdaptivePageRoute<dynamic>(
+        builder: (context) => LoggerScreen(),
+        settings: data,
+        maintainState: true,
       );
     },
   };

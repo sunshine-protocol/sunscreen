@@ -4,6 +4,7 @@ export 'bounty_screen.dart';
 export 'create_bounty_screen.dart';
 export 'generate_account_screen.dart';
 export 'intro_screen.dart';
+export 'logs_screen.dart';
 export 'main_screen.dart';
 export 'recover_account_screen.dart';
 export 'splash_screen.dart';

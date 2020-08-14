@@ -7,6 +7,6 @@ class SunshineClientService extends SunshineClient {
   SunshineClientService({PathProviderService pathProviderService})
       : super(
           root: pathProviderService.applicationDocumentsDirectory,
-          url: 'ws://10.0.2.2:9944',
+          url: 'ws://51.11.244.93:9944',
         );
 }

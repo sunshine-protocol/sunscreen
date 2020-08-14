@@ -69,7 +69,7 @@ class BountyService {
         info.issueNumber.toInt(),
       );
       if (issue == null) {
-        return null;
+        continue;
       }
       result.add(BountySubmission(info: info, issue: issue));
     }
@@ -112,5 +112,10 @@ class BountyService {
 
   Future<String> contibuteToBounty(BigInt bountyId, BigInt amount) {
     return _clientService.contibuteToBounty(bountyId, amount);
+  }
+
+  Future<bool> canSubmitFor(Bounty bounty) async {
+    final uid = await _clientService.uid();
+    return uid != bounty.info.depositer;
   }
 }

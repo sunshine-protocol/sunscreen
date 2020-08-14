@@ -22,6 +22,8 @@ dependencies:
   http_extensions_cache: ^0.1.3
   shimmer: ^1.1.1
   flutter_markdown: ^0.4.3
+  shake: ^0.1.0
+  xterm: ^0.1.0
   sunshine_ffi:
     path: ./packages/sunshine
   timeago:

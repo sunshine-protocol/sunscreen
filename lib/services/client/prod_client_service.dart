@@ -103,13 +103,14 @@ class ProdClientService implements ClientService {
     String repoName,
     BigInt issueNumber,
     BigInt amount,
-  ) {
-    return _sunshineClientService.postBounty(
+  ) async {
+    final id = await _sunshineClientService.postBounty(
       repoOwner,
       repoName,
       issueNumber,
       amount,
     );
+    return id;
   }
 
   @override

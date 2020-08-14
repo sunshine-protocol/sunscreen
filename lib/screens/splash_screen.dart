@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shake/shake.dart';
 import 'package:sunshine/sunshine.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -9,11 +10,20 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   KeyService _keyService;
   ClientService _clientService;
+
   @override
   void initState() {
     super.initState();
     _keyService = GetIt.I.get<KeyService>();
     _clientService = GetIt.I.get<ClientService>();
+    GetIt.I.get<LoggerService>().listenToLogs();
+    // Shake the Device to view logs ;)
+    final shakeDetector = ShakeDetector.autoStart(onPhoneShake: () {
+      ExtendedNavigator.root.push(Routes.loggerScreen);
+    });
+    // ignore: cascade_invocations
+    shakeDetector.startListening();
+    debugPrint('Shake the device to see the logs');
   }
 
   @override
