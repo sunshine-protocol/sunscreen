@@ -2,4 +2,12 @@
 members = ["native/*"]
 
 [patch.crates-io]
-substrate-subxt = { git = "https://github.com/dvc94ch/substrate-subxt", branch = "fix-port" }
+substrate-subxt = { git = "https://github.com/dvc94ch/substrate-subxt", branch = "different-assert" }
+
+# [profile.dev]
+# panic = 'abort'
+
+# [profile.release]
+# lto = true
+# panic = 'abort'
+# codegen-units = 1

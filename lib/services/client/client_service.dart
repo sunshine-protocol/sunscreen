@@ -8,27 +8,27 @@ abstract class ClientService {
   Future<String> uid();
   Future<bool> hasKey();
   Future<String> balance();
-  Future<String> transfer(String id, int amount);
-  Future<int> mint();
-  Future<BountyInformation> getBounty(int bountyId);
-  Future<BountySubmissionInformation> getSubmission(int submissionId);
-  Future<List<BountyInformation>> listOpenBounties(int min);
+  Future<String> transfer(String id, BigInt amount);
+  Future<BigInt> mint();
+  Future<BountyInformation> getBounty(BigInt bountyId);
+  Future<BountySubmissionInformation> getSubmission(BigInt submissionId);
+  Future<List<BountyInformation>> listOpenBounties(BigInt min);
   Future<List<BountySubmissionInformation>> listBountySubmissions(
-    int bountyId,
+    BigInt bountyId,
   );
-  Future<int> postBounty(
+  Future<BigInt> postBounty(
     String repoOwner,
     String repoName,
-    int issueNumber,
-    int amount,
+    BigInt issueNumber,
+    BigInt amount,
   );
-  Future<int> submitForBounty(
-    int bountyId,
+  Future<BigInt> submitForBounty(
+    BigInt bountyId,
     String repoOwner,
     String repoName,
-    int issueNumber,
-    int amount,
+    BigInt issueNumber,
+    BigInt amount,
   );
-  Future<String> approveBounty(int submissionId);
-  Future<String> contibuteToBounty(int bountyId, int amount);
+  Future<String> approveBounty(BigInt submissionId);
+  Future<String> contibuteToBounty(BigInt bountyId, BigInt amount);
 }

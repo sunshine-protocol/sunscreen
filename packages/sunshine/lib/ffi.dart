@@ -17,106 +17,106 @@ DynamicLibrary _open() {
 /// <p class="para-brief"> Approve a Submission using `SubmissionId` Returns the new total amount on that bounty after this operation</p>
 int client_bounty_approve(
   int port,
-  int submission_id,
+  Pointer<ffi.Utf8> submission_id,
 ) {
   return _client_bounty_approve(port, submission_id);
 }
 final _client_bounty_approve_Dart _client_bounty_approve = _dl.lookupFunction<_client_bounty_approve_C, _client_bounty_approve_Dart>('client_bounty_approve');
 typedef _client_bounty_approve_C = Int32 Function(
   Int64 port,
-  Uint64 submission_id,
+  Pointer<ffi.Utf8> submission_id,
 );
 typedef _client_bounty_approve_Dart = int Function(
   int port,
-  int submission_id,
+  Pointer<ffi.Utf8> submission_id,
 );
 
 /// <p class="para-brief"> Contribute to a bounty. Returns the new total bounty amount</p>
 int client_bounty_contribute(
   int port,
-  int bounty_id,
-  int amount,
+  Pointer<ffi.Utf8> bounty_id,
+  Pointer<ffi.Utf8> amount,
 ) {
   return _client_bounty_contribute(port, bounty_id, amount);
 }
 final _client_bounty_contribute_Dart _client_bounty_contribute = _dl.lookupFunction<_client_bounty_contribute_C, _client_bounty_contribute_Dart>('client_bounty_contribute');
 typedef _client_bounty_contribute_C = Int32 Function(
   Int64 port,
-  Uint64 bounty_id,
-  Uint64 amount,
+  Pointer<ffi.Utf8> bounty_id,
+  Pointer<ffi.Utf8> amount,
 );
 typedef _client_bounty_contribute_Dart = int Function(
   int port,
-  int bounty_id,
-  int amount,
+  Pointer<ffi.Utf8> bounty_id,
+  Pointer<ffi.Utf8> amount,
 );
 
-/// <p class="para-brief"> Get a bounty Information by using bounty Id Returns Cbor encoded `BountyInformation` as bytes</p>
+/// <p class="para-brief"> Get a bounty Information by using bounty Id Returns JSON encoded `BountyInformation` as string</p>
 int client_bounty_get(
   int port,
-  int bounty_id,
+  Pointer<ffi.Utf8> bounty_id,
 ) {
   return _client_bounty_get(port, bounty_id);
 }
 final _client_bounty_get_Dart _client_bounty_get = _dl.lookupFunction<_client_bounty_get_C, _client_bounty_get_Dart>('client_bounty_get');
 typedef _client_bounty_get_C = Int32 Function(
   Int64 port,
-  Uint64 bounty_id,
+  Pointer<ffi.Utf8> bounty_id,
 );
 typedef _client_bounty_get_Dart = int Function(
   int port,
-  int bounty_id,
+  Pointer<ffi.Utf8> bounty_id,
 );
 
-/// <p class="para-brief"> Get a submission Information by using submission Id Returns Cbor encoded `BountySubmissionInformation` as bytes</p>
+/// <p class="para-brief"> Get a submission Information by using submission Id Returns JSON encoded `BountySubmissionInformation` as string</p>
 int client_bounty_get_submission(
   int port,
-  int submission_id,
+  Pointer<ffi.Utf8> submission_id,
 ) {
   return _client_bounty_get_submission(port, submission_id);
 }
 final _client_bounty_get_submission_Dart _client_bounty_get_submission = _dl.lookupFunction<_client_bounty_get_submission_C, _client_bounty_get_submission_Dart>('client_bounty_get_submission');
 typedef _client_bounty_get_submission_C = Int32 Function(
   Int64 port,
-  Uint64 submission_id,
+  Pointer<ffi.Utf8> submission_id,
 );
 typedef _client_bounty_get_submission_Dart = int Function(
   int port,
-  int submission_id,
+  Pointer<ffi.Utf8> submission_id,
 );
 
-/// <p class="para-brief"> Get a list of open bounties. Returns a Cbor encoded list of `BountyInformation` as bytes.</p>
+/// <p class="para-brief"> Get a list of open bounties. Returns a JSON encoded list of `BountyInformation` as string.</p>
 int client_bounty_open_bounties(
   int port,
-  int min,
+  Pointer<ffi.Utf8> min,
 ) {
   return _client_bounty_open_bounties(port, min);
 }
 final _client_bounty_open_bounties_Dart _client_bounty_open_bounties = _dl.lookupFunction<_client_bounty_open_bounties_C, _client_bounty_open_bounties_Dart>('client_bounty_open_bounties');
 typedef _client_bounty_open_bounties_C = Int32 Function(
   Int64 port,
-  Uint64 min,
+  Pointer<ffi.Utf8> min,
 );
 typedef _client_bounty_open_bounties_Dart = int Function(
   int port,
-  int min,
+  Pointer<ffi.Utf8> min,
 );
 
-/// <p class="para-brief"> Get a list of open submissions on a bounty. Returns a Cbor encoded list of `BountySubmissionInformation` as bytes.</p>
+/// <p class="para-brief"> Get a list of open submissions on a bounty. Returns a JSON encoded list of `BountySubmissionInformation` as string.</p>
 int client_bounty_open_bounty_submissions(
   int port,
-  int bounty_id,
+  Pointer<ffi.Utf8> bounty_id,
 ) {
   return _client_bounty_open_bounty_submissions(port, bounty_id);
 }
 final _client_bounty_open_bounty_submissions_Dart _client_bounty_open_bounty_submissions = _dl.lookupFunction<_client_bounty_open_bounty_submissions_C, _client_bounty_open_bounty_submissions_Dart>('client_bounty_open_bounty_submissions');
 typedef _client_bounty_open_bounty_submissions_C = Int32 Function(
   Int64 port,
-  Uint64 bounty_id,
+  Pointer<ffi.Utf8> bounty_id,
 );
 typedef _client_bounty_open_bounty_submissions_Dart = int Function(
   int port,
-  int bounty_id,
+  Pointer<ffi.Utf8> bounty_id,
 );
 
 /// <p class="para-brief"> Create a new Bounty Returns the `BountyId` as `u64`</p>
@@ -125,7 +125,7 @@ int client_bounty_post(
   Pointer<ffi.Utf8> repo_owner,
   Pointer<ffi.Utf8> repo_name,
   int issue_number,
-  int amount,
+  Pointer<ffi.Utf8> amount,
 ) {
   return _client_bounty_post(port, repo_owner, repo_name, issue_number, amount);
 }
@@ -135,43 +135,43 @@ typedef _client_bounty_post_C = Int32 Function(
   Pointer<ffi.Utf8> repo_owner,
   Pointer<ffi.Utf8> repo_name,
   Uint64 issue_number,
-  Uint64 amount,
+  Pointer<ffi.Utf8> amount,
 );
 typedef _client_bounty_post_Dart = int Function(
   int port,
   Pointer<ffi.Utf8> repo_owner,
   Pointer<ffi.Utf8> repo_name,
   int issue_number,
-  int amount,
+  Pointer<ffi.Utf8> amount,
 );
 
 /// <p class="para-brief"> Create a submission on a bounty Returns the `SubmissionId` as `u64`</p>
 int client_bounty_submit(
   int port,
-  int bounty_id,
+  Pointer<ffi.Utf8> bounty_id,
   Pointer<ffi.Utf8> repo_owner,
   Pointer<ffi.Utf8> repo_name,
   int issue_number,
-  int amount,
+  Pointer<ffi.Utf8> amount,
 ) {
   return _client_bounty_submit(port, bounty_id, repo_owner, repo_name, issue_number, amount);
 }
 final _client_bounty_submit_Dart _client_bounty_submit = _dl.lookupFunction<_client_bounty_submit_C, _client_bounty_submit_Dart>('client_bounty_submit');
 typedef _client_bounty_submit_C = Int32 Function(
   Int64 port,
-  Uint64 bounty_id,
+  Pointer<ffi.Utf8> bounty_id,
   Pointer<ffi.Utf8> repo_owner,
   Pointer<ffi.Utf8> repo_name,
   Uint64 issue_number,
-  Uint64 amount,
+  Pointer<ffi.Utf8> amount,
 );
 typedef _client_bounty_submit_Dart = int Function(
   int port,
-  int bounty_id,
+  Pointer<ffi.Utf8> bounty_id,
   Pointer<ffi.Utf8> repo_owner,
   Pointer<ffi.Utf8> repo_name,
   int issue_number,
-  int amount,
+  Pointer<ffi.Utf8> amount,
 );
 
 /// <p class="para-brief"> Try to mint the current account, this only enabled in testnet and behind a feature flag returned the minted amount or null if there is any errors</p>
@@ -188,24 +188,27 @@ typedef _client_faucet_mint_Dart = int Function(
   int port,
 );
 
-/// <p class="para-brief"> Setup the Sunshine Client using the provided path as the base path and with chainspec</p><p> ### Safety This assumes that the path and chain_spec is non-null c string.</p>
+/// <p class="para-brief"> Setup the Sunshine Client using the provided path as the base path and with chainspec.</p><p> ### Safety This assumes that the path non-null c string. chain_spec could be null. url could also be null.</p>
 int client_init(
   int port,
   Pointer<ffi.Utf8> path,
   Pointer<ffi.Utf8> chain_spec,
+  Pointer<ffi.Utf8> url,
 ) {
-  return _client_init(port, path, chain_spec);
+  return _client_init(port, path, chain_spec, url);
 }
 final _client_init_Dart _client_init = _dl.lookupFunction<_client_init_C, _client_init_Dart>('client_init');
 typedef _client_init_C = Int32 Function(
   Int64 port,
   Pointer<ffi.Utf8> path,
   Pointer<ffi.Utf8> chain_spec,
+  Pointer<ffi.Utf8> url,
 );
 typedef _client_init_Dart = int Function(
   int port,
   Pointer<ffi.Utf8> path,
   Pointer<ffi.Utf8> chain_spec,
+  Pointer<ffi.Utf8> url,
 );
 
 /// <p class="para-brief"> Check if the Keystore is exist and initialized.</p><p> this is useful if you want to check if there is an already created account or not.</p>

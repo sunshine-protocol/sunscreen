@@ -1,9 +1,6 @@
 // ignore_for_file: avoid_as
 
 import 'dart:convert';
-import 'dart:typed_data';
-import 'package:cbor/cbor.dart' as cbor;
-import 'package:typed_data/typed_data.dart';
 
 class BountyInformation {
   BountyInformation({
@@ -12,51 +9,43 @@ class BountyInformation {
     this.repoName,
     this.issueNumber,
     this.depositer,
-    int total,
+    BigInt total,
   }) : _total = total;
 
-  factory BountyInformation.fromBytes(Uint8List bytes) {
-    if (bytes == null) {
-      return null;
-    }
-    final inst = cbor.Cbor();
-    final payloadBuffer = Uint8Buffer()..addAll(bytes);
-    inst.decodeFromBuffer(payloadBuffer);
-    final data = jsonDecode(inst.decodedToJSON());
-    return BountyInformation.fromJSON(data);
+  factory BountyInformation.fromString(String data) {
+    final d = json.decode(data);
+    return BountyInformation.fromJSON(d);
   }
-
   factory BountyInformation.fromJSON(dynamic data) {
     return BountyInformation(
-      id: data['id'] as int,
+      id: BigInt.parse(data['id'].toString()),
       repoOwner: data['repo_owner'] as String,
       repoName: data['repo_name'] as String,
-      issueNumber: data['issue_number'] as int,
+      issueNumber: BigInt.parse(data['issue_number'].toString()),
       depositer: data['depositer'] as String,
-      total: data['total'] as int,
+      total: BigInt.parse(data['total'].toString()),
     );
   }
-  final int id;
+  final BigInt id;
   final String repoOwner;
   final String repoName;
-  final int issueNumber;
+  final BigInt issueNumber;
   final String depositer;
-  int _total;
-  int get total => _total;
+  BigInt _total;
+  BigInt get total => _total;
 
-  static List<BountyInformation> buildList(Uint8List bytes) {
-    if (bytes == null) {
-      return [];
-    }
-    final inst = cbor.Cbor();
-    final payloadBuffer = Uint8Buffer()..addAll(bytes);
-    inst.decodeFromBuffer(payloadBuffer);
-    final data = jsonDecode(inst.decodedToJSON()) as List<dynamic>;
+  static List<BountyInformation> buildList(String str) {
+    final data = json.decode(str) as List<dynamic>;
     return data.map((e) => BountyInformation.fromJSON(e)).toList();
   }
 
-  int contibute(int amount) {
+  BigInt contibute(BigInt amount) {
     return _total += amount;
+  }
+
+  @override
+  String toString() {
+    return 'BountyInformation { id: $id, depositer: $depositer }';
   }
 }
 
@@ -73,48 +62,39 @@ class BountySubmissionInformation {
     this.approved,
   });
 
-  factory BountySubmissionInformation.fromBytes(Uint8List bytes) {
-    if (bytes == null) {
-      return null;
-    }
-    final inst = cbor.Cbor();
-    final payloadBuffer = Uint8Buffer()..addAll(bytes);
-    inst.decodeFromBuffer(payloadBuffer);
-    final data = jsonDecode(inst.decodedToJSON());
-    return BountySubmissionInformation.fromJSON(data);
+  factory BountySubmissionInformation.fromString(String data) {
+    final d = jsonDecode(data);
+    return BountySubmissionInformation.fromJSON(d);
   }
 
   factory BountySubmissionInformation.fromJSON(dynamic data) {
     return BountySubmissionInformation(
-      id: data['id'] as int,
+      id: BigInt.parse(data['id'].toString()),
       repoOwner: data['repo_owner'] as String,
       repoName: data['repo_name'] as String,
-      issueNumber: data['issue_number'] as int,
-      bountyId: data['bounty_id'] as int,
+      issueNumber: BigInt.parse(data['issue_number'].toString()),
+      bountyId: BigInt.parse(data['bounty_id'].toString()),
       submitter: data['submitter'] as String,
-      amount: data['amount'] as int,
+      amount: BigInt.parse(data['amount'].toString()),
       awaitingReview: data['awaiting_review'] as bool,
       approved: data['approved'] as bool,
     );
   }
-  final int id;
+  final BigInt id;
   final String repoOwner;
   final String repoName;
-  final int issueNumber;
-  final int bountyId;
+  final BigInt issueNumber;
+  final BigInt bountyId;
   final String submitter;
-  final int amount;
+  final BigInt amount;
   final bool awaitingReview;
   final bool approved;
 
-  static List<BountySubmissionInformation> buildList(Uint8List bytes) {
-    if (bytes == null) {
+  static List<BountySubmissionInformation> buildList(String json) {
+    if (json.isEmpty) {
       return [];
     }
-    final inst = cbor.Cbor();
-    final payloadBuffer = Uint8Buffer()..addAll(bytes);
-    inst.decodeFromBuffer(payloadBuffer);
-    final data = jsonDecode(inst.decodedToJSON()) as List<dynamic> ?? [];
+    final data = jsonDecode(json) as List<dynamic> ?? [];
     return data.map((e) => BountySubmissionInformation.fromJSON(e)).toList();
   }
 }

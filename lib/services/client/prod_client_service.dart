@@ -42,7 +42,7 @@ class ProdClientService implements ClientService {
   }
 
   @override
-  Future<String> transfer(String id, int amount) {
+  Future<String> transfer(String id, BigInt amount) {
     return _sunshineClientService.transfer(id, amount);
   }
 
@@ -52,7 +52,7 @@ class ProdClientService implements ClientService {
   }
 
   @override
-  Future<int> mint() {
+  Future<BigInt> mint() {
     return _sunshineClientService.mint();
   }
 
@@ -62,43 +62,47 @@ class ProdClientService implements ClientService {
   }
 
   @override
-  Future<String> approveBounty(int submissionId) {
+  Future<String> approveBounty(BigInt submissionId) {
     return _sunshineClientService.approveBounty(submissionId);
   }
 
   @override
-  Future<String> contibuteToBounty(int bountyId, int amount) {
+  Future<String> contibuteToBounty(BigInt bountyId, BigInt amount) {
     return _sunshineClientService.contibuteToBounty(bountyId, amount);
   }
 
   @override
-  Future<BountyInformation> getBounty(int bountyId) {
+  Future<BountyInformation> getBounty(BigInt bountyId) {
     return _sunshineClientService.getBounty(bountyId);
   }
 
   @override
-  Future<BountySubmissionInformation> getSubmission(int submissionId) {
+  Future<BountySubmissionInformation> getSubmission(BigInt submissionId) {
     return _sunshineClientService.getSubmission(submissionId);
   }
 
   @override
   Future<List<BountySubmissionInformation>> listBountySubmissions(
-    int bountyId,
+    BigInt bountyId,
   ) async {
-    return await _sunshineClientService.listBountySubmissions(bountyId);
+    final list = await _sunshineClientService.listBountySubmissions(bountyId);
+    print('Bounty $bountyId Submissions: $list');
+    return list;
   }
 
   @override
-  Future<List<BountyInformation>> listOpenBounties(int min) async {
-    return await _sunshineClientService.listOpenBounties(min);
+  Future<List<BountyInformation>> listOpenBounties(BigInt min) async {
+    final list = await _sunshineClientService.listOpenBounties(min);
+    print('Open Bounties: $list');
+    return list;
   }
 
   @override
-  Future<int> postBounty(
+  Future<BigInt> postBounty(
     String repoOwner,
     String repoName,
-    int issueNumber,
-    int amount,
+    BigInt issueNumber,
+    BigInt amount,
   ) {
     return _sunshineClientService.postBounty(
       repoOwner,
@@ -109,12 +113,12 @@ class ProdClientService implements ClientService {
   }
 
   @override
-  Future<int> submitForBounty(
-    int bountyId,
+  Future<BigInt> submitForBounty(
+    BigInt bountyId,
     String repoOwner,
     String repoName,
-    int issueNumber,
-    int amount,
+    BigInt issueNumber,
+    BigInt amount,
   ) {
     return _sunshineClientService.submitForBounty(
       bountyId,

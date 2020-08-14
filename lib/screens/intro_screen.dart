@@ -49,14 +49,15 @@ class _IntroScreenState extends State<IntroScreen> {
               ExtendedNavigator.root.push(Routes.generateAccountStepTwoScreen);
             },
           ),
-          SizedBox(height: 20.h.toDouble()),
-          Button(
-            variant: ButtonVariant.primary,
-            text: 'Restore my account',
-            onPressed: () {
-              ExtendedNavigator.root.push(Routes.recoverAccountStepTwoScreen);
-            },
-          ),
+          // SizedBox(height: 20.h.toDouble()),
+          // Button(
+          //   variant: ButtonVariant.primary,
+          //   text: 'Restore my account',
+          //   onPressed: () {
+          // ignore: lines_longer_than_80_chars
+          //     ExtendedNavigator.root.push(Routes.recoverAccountStepTwoScreen);
+          //   },
+          // ),
         ],
       ),
     );

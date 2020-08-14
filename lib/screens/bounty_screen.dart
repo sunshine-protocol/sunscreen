@@ -375,7 +375,7 @@ class _BountyHeader extends StatelessWidget {
               child: FittedBox(
                 fit: BoxFit.fitWidth,
                 child: Text(
-                  numberFormat.format(bounty.info.total),
+                  numberFormat.format(bounty.info.total.toInt()),
                   style: TextStyle(
                     color: const Color(0xFF25C100),
                     fontSize: 14.ssp.toDouble(),

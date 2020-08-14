@@ -57,7 +57,7 @@ class _MainScreenState extends State<MainScreen> {
         child: FutureBuilder<List<Bounty>>(
           initialData: const [],
           builder: _buildList,
-          future: bountyService.listOpenBounties(0),
+          future: bountyService.listOpenBounties(BigInt.one),
         ),
       ),
     );
@@ -78,10 +78,10 @@ class _MainScreenState extends State<MainScreen> {
             child: BountyItem(
               bounty: Bounty(
                 info: BountyInformation(
-                  issueNumber: i + 1,
+                  issueNumber: BigInt.from(i) + BigInt.one,
                   repoName: 'sunshine',
                   repoOwner: 'sunshine',
-                  total: 100,
+                  total: BigInt.from(1000),
                 ),
                 issue: GithubIssue(
                   createdAt: DateTime.now(),

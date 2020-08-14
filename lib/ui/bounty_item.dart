@@ -142,7 +142,7 @@ class _BountyBody extends StatelessWidget {
               child: FittedBox(
                 fit: BoxFit.fitWidth,
                 child: Text(
-                  numberFormat.format(parent.bounty.info.total),
+                  numberFormat.format(parent.bounty.info.total.toInt()),
                   style: TextStyle(
                     color: const Color(0xFF25C100),
                     fontSize: 12.ssp.toDouble(),

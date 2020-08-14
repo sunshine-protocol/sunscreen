@@ -1,10 +1,11 @@
-final _re = RegExp(r'^https:\/\/github\.com\/(\w+)\/(\w+)\/issues\/(\d+)$');
+final _re = RegExp(
+    r'^https:\/\/github\.com\/([A-Za-z0-9]+(?:[ _-][A-Za-z0-9]+)*)\/([A-Za-z0-9]+(?:[ _-][A-Za-z0-9]+)*)\/issues\/(\d+)$');
 
 class GithubIssueMetadata {
   GithubIssueMetadata({this.repo, this.owner, this.issue});
   final String repo;
   final String owner;
-  final int issue;
+  final BigInt issue;
 }
 
 GithubIssueMetadata githubParseIssueUrl(String url) {
@@ -15,7 +16,7 @@ GithubIssueMetadata githubParseIssueUrl(String url) {
     return GithubIssueMetadata(
       owner: groups[0],
       repo: groups[1],
-      issue: int.tryParse(groups[2]),
+      issue: BigInt.tryParse(groups[2]),
     );
   }
 }

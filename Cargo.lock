@@ -332,9 +332,9 @@ dependencies = [
 
 [[package]]
 name = "async-trait"
-version = "0.1.36"
+version = "0.1.37"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a265e3abeffdce30b2e26b7a11b222fe37c6067404001b434101457d0385eb92"
+checksum = "caae68055714ff28740f310927e04f2eba76ff580b16fb18ed90073ee71646f7"
 dependencies = [
  "proc-macro2",
  "quote 1.0.7",
@@ -1720,12 +1720,6 @@ dependencies = [
  "tokio-util",
  "tracing",
 ]
-
-[[package]]
-name = "half"
-version = "1.6.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d36fab90f82edc3c747f9d438e06cf0a491055896f2a279638bb5beed6c40177"
 
 [[package]]
 name = "hash-db"
@@ -5401,16 +5395,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "serde_cbor"
-version = "0.11.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1e18acfa2f90e8b735b2836ab8d538de304cbb6729a7360729ea5a895d15a622"
-dependencies = [
- "half",
- "serde",
-]
-
-[[package]]
 name = "serde_derive"
 version = "1.0.115"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -6406,7 +6390,7 @@ dependencies = [
 [[package]]
 name = "substrate-subxt"
 version = "0.11.0"
-source = "git+https://github.com/dvc94ch/substrate-subxt?branch=fix-port#5c34446e0ad1afd64b03400f21ad2e4bec84cc2b"
+source = "git+https://github.com/dvc94ch/substrate-subxt?branch=different-assert#0323b5891996e373d3c17488b5e124011488c788"
 dependencies = [
  "frame-metadata",
  "frame-support",
@@ -6434,7 +6418,7 @@ dependencies = [
 [[package]]
 name = "substrate-subxt-client"
 version = "0.3.0"
-source = "git+https://github.com/dvc94ch/substrate-subxt?branch=fix-port#5c34446e0ad1afd64b03400f21ad2e4bec84cc2b"
+source = "git+https://github.com/dvc94ch/substrate-subxt?branch=different-assert#0323b5891996e373d3c17488b5e124011488c788"
 dependencies = [
  "async-std",
  "futures 0.1.29",
@@ -6451,7 +6435,7 @@ dependencies = [
 [[package]]
 name = "substrate-subxt-proc-macro"
 version = "0.11.0"
-source = "git+https://github.com/dvc94ch/substrate-subxt?branch=fix-port#5c34446e0ad1afd64b03400f21ad2e4bec84cc2b"
+source = "git+https://github.com/dvc94ch/substrate-subxt?branch=different-assert#0323b5891996e373d3c17488b5e124011488c788"
 dependencies = [
  "heck",
  "proc-macro-crate",
@@ -6484,6 +6468,7 @@ checksum = "502d53007c02d7605a05df1c1a73ee436952781653da5d0bf57ad608f66932c1"
 name = "sunshine"
 version = "0.1.0"
 dependencies = [
+ "async-std",
  "frusty-logger",
  "log",
  "sunshine-bounty-ffi",
@@ -6495,7 +6480,7 @@ dependencies = [
 [[package]]
 name = "sunshine-bank"
 version = "0.2.0"
-source = "git+https://github.com/sunshine-protocol/sunshine-bounty#a9e034afa96df0ff21b4e9540838019f944d3032"
+source = "git+https://github.com/sunshine-protocol/sunshine-bounty#b470a6802069d2b6ba31bcac4bc52e02bd8763aa"
 dependencies = [
  "clear_on_drop",
  "frame-support",
@@ -6512,7 +6497,7 @@ dependencies = [
 [[package]]
 name = "sunshine-bounty"
 version = "0.2.1"
-source = "git+https://github.com/sunshine-protocol/sunshine-bounty#a9e034afa96df0ff21b4e9540838019f944d3032"
+source = "git+https://github.com/sunshine-protocol/sunshine-bounty#b470a6802069d2b6ba31bcac4bc52e02bd8763aa"
 dependencies = [
  "clear_on_drop",
  "frame-support",
@@ -6526,7 +6511,7 @@ dependencies = [
 [[package]]
 name = "sunshine-bounty-client"
 version = "0.2.0"
-source = "git+https://github.com/sunshine-protocol/sunshine-bounty#a9e034afa96df0ff21b4e9540838019f944d3032"
+source = "git+https://github.com/sunshine-protocol/sunshine-bounty#b470a6802069d2b6ba31bcac4bc52e02bd8763aa"
 dependencies = [
  "async-std",
  "frame-support",
@@ -6538,18 +6523,20 @@ dependencies = [
  "substrate-subxt",
  "sunshine-bounty-utils",
  "sunshine-client-utils",
+ "sunshine-faucet-client",
+ "sunshine-identity-client",
  "thiserror",
 ]
 
 [[package]]
 name = "sunshine-bounty-ffi"
 version = "0.1.0"
-source = "git+https://github.com/sunshine-protocol/sunshine-bounty#a9e034afa96df0ff21b4e9540838019f944d3032"
+source = "git+https://github.com/sunshine-protocol/sunshine-bounty#b470a6802069d2b6ba31bcac4bc52e02bd8763aa"
 dependencies = [
  "anyhow",
  "ipld-block-builder",
  "serde",
- "serde_cbor",
+ "serde_json",
  "substrate-subxt",
  "sunshine-bounty-client",
  "sunshine-client-utils",
@@ -6559,7 +6546,7 @@ dependencies = [
 [[package]]
 name = "sunshine-bounty-utils"
 version = "0.2.0"
-source = "git+https://github.com/sunshine-protocol/sunshine-bounty#a9e034afa96df0ff21b4e9540838019f944d3032"
+source = "git+https://github.com/sunshine-protocol/sunshine-bounty#b470a6802069d2b6ba31bcac4bc52e02bd8763aa"
 dependencies = [
  "clear_on_drop",
  "derive-new",
@@ -6574,7 +6561,7 @@ dependencies = [
 [[package]]
 name = "sunshine-client"
 version = "0.1.0"
-source = "git+https://github.com/sunshine-protocol/sunshine#71a055d80236f8b401f1fd38f55d676c47d06442"
+source = "git+https://github.com/sunshine-protocol/sunshine#13e7ca5dd5715ec9607689592e218bc56269e58f"
 dependencies = [
  "async-trait",
  "ipld-block-builder",
@@ -6591,7 +6578,7 @@ dependencies = [
 [[package]]
 name = "sunshine-client-utils"
 version = "0.1.0"
-source = "git+https://github.com/sunshine-protocol/sunshine-core#2b92b5432a21a429c17bdafefae2c278ceeeb2de"
+source = "git+https://github.com/sunshine-protocol/sunshine-core#b15fa47a17ea53107598332f9fc8c99d0b9dab75"
 dependencies = [
  "anyhow",
  "async-std",
@@ -6613,7 +6600,7 @@ dependencies = [
 [[package]]
 name = "sunshine-codec"
 version = "0.1.0"
-source = "git+https://github.com/sunshine-protocol/sunshine-core#2b92b5432a21a429c17bdafefae2c278ceeeb2de"
+source = "git+https://github.com/sunshine-protocol/sunshine-core#b15fa47a17ea53107598332f9fc8c99d0b9dab75"
 dependencies = [
  "anyhow",
  "hash-db",
@@ -6625,7 +6612,7 @@ dependencies = [
 [[package]]
 name = "sunshine-court"
 version = "0.2.0"
-source = "git+https://github.com/sunshine-protocol/sunshine-bounty#a9e034afa96df0ff21b4e9540838019f944d3032"
+source = "git+https://github.com/sunshine-protocol/sunshine-bounty#b470a6802069d2b6ba31bcac4bc52e02bd8763aa"
 dependencies = [
  "clear_on_drop",
  "frame-support",
@@ -6641,7 +6628,7 @@ dependencies = [
 [[package]]
 name = "sunshine-crypto"
 version = "0.1.0"
-source = "git+https://github.com/sunshine-protocol/sunshine-core#2b92b5432a21a429c17bdafefae2c278ceeeb2de"
+source = "git+https://github.com/sunshine-protocol/sunshine-core#b15fa47a17ea53107598332f9fc8c99d0b9dab75"
 dependencies = [
  "aead 0.2.0",
  "anyhow",
@@ -6671,7 +6658,7 @@ dependencies = [
 [[package]]
 name = "sunshine-donate"
 version = "0.2.0"
-source = "git+https://github.com/sunshine-protocol/sunshine-bounty#a9e034afa96df0ff21b4e9540838019f944d3032"
+source = "git+https://github.com/sunshine-protocol/sunshine-bounty#b470a6802069d2b6ba31bcac4bc52e02bd8763aa"
 dependencies = [
  "clear_on_drop",
  "frame-support",
@@ -6686,7 +6673,7 @@ dependencies = [
 [[package]]
 name = "sunshine-faucet-client"
 version = "0.2.0"
-source = "git+https://github.com/sunshine-protocol/sunshine-identity#34a84141f464ce307bb2fe027dca7513c5591e86"
+source = "git+https://github.com/sunshine-protocol/sunshine-identity#73795b06d34b5082ec298a5a726107d87c1dfd91"
 dependencies = [
  "parity-scale-codec",
  "substrate-subxt",
@@ -6697,7 +6684,7 @@ dependencies = [
 [[package]]
 name = "sunshine-faucet-ffi"
 version = "0.1.0"
-source = "git+https://github.com/sunshine-protocol/sunshine-identity#34a84141f464ce307bb2fe027dca7513c5591e86"
+source = "git+https://github.com/sunshine-protocol/sunshine-identity#73795b06d34b5082ec298a5a726107d87c1dfd91"
 dependencies = [
  "substrate-subxt",
  "sunshine-client-utils",
@@ -6709,7 +6696,7 @@ dependencies = [
 [[package]]
 name = "sunshine-faucet-pallet"
 version = "0.2.0"
-source = "git+https://github.com/sunshine-protocol/sunshine-identity#34a84141f464ce307bb2fe027dca7513c5591e86"
+source = "git+https://github.com/sunshine-protocol/sunshine-identity#73795b06d34b5082ec298a5a726107d87c1dfd91"
 dependencies = [
  "frame-support",
  "frame-system",
@@ -6723,7 +6710,7 @@ dependencies = [
 [[package]]
 name = "sunshine-ffi-utils"
 version = "0.1.0"
-source = "git+https://github.com/sunshine-protocol/sunshine-core#2b92b5432a21a429c17bdafefae2c278ceeeb2de"
+source = "git+https://github.com/sunshine-protocol/sunshine-core#b15fa47a17ea53107598332f9fc8c99d0b9dab75"
 dependencies = [
  "allo-isolate",
  "async-std",
@@ -6734,7 +6721,7 @@ dependencies = [
 [[package]]
 name = "sunshine-identity-client"
 version = "0.2.3"
-source = "git+https://github.com/sunshine-protocol/sunshine-identity#34a84141f464ce307bb2fe027dca7513c5591e86"
+source = "git+https://github.com/sunshine-protocol/sunshine-identity#73795b06d34b5082ec298a5a726107d87c1dfd91"
 dependencies = [
  "async-std",
  "frame-support",
@@ -6753,7 +6740,7 @@ dependencies = [
 [[package]]
 name = "sunshine-identity-ffi"
 version = "0.2.3"
-source = "git+https://github.com/sunshine-protocol/sunshine-identity#34a84141f464ce307bb2fe027dca7513c5591e86"
+source = "git+https://github.com/sunshine-protocol/sunshine-identity#73795b06d34b5082ec298a5a726107d87c1dfd91"
 dependencies = [
  "substrate-subxt",
  "sunshine-client-utils",
@@ -6765,7 +6752,7 @@ dependencies = [
 [[package]]
 name = "sunshine-identity-pallet"
 version = "0.2.0"
-source = "git+https://github.com/sunshine-protocol/sunshine-identity#34a84141f464ce307bb2fe027dca7513c5591e86"
+source = "git+https://github.com/sunshine-protocol/sunshine-identity#73795b06d34b5082ec298a5a726107d87c1dfd91"
 dependencies = [
  "frame-support",
  "frame-system",
@@ -6779,7 +6766,7 @@ dependencies = [
 [[package]]
 name = "sunshine-keystore"
 version = "0.1.0"
-source = "git+https://github.com/sunshine-protocol/sunshine-core#2b92b5432a21a429c17bdafefae2c278ceeeb2de"
+source = "git+https://github.com/sunshine-protocol/sunshine-core#b15fa47a17ea53107598332f9fc8c99d0b9dab75"
 dependencies = [
  "anyhow",
  "async-std",
@@ -6794,7 +6781,7 @@ dependencies = [
 [[package]]
 name = "sunshine-node"
 version = "0.1.0"
-source = "git+https://github.com/sunshine-protocol/sunshine#71a055d80236f8b401f1fd38f55d676c47d06442"
+source = "git+https://github.com/sunshine-protocol/sunshine#13e7ca5dd5715ec9607689592e218bc56269e58f"
 dependencies = [
  "futures 0.3.5",
  "hex-literal",
@@ -6825,7 +6812,7 @@ dependencies = [
 [[package]]
 name = "sunshine-org"
 version = "0.2.0"
-source = "git+https://github.com/sunshine-protocol/sunshine-bounty#a9e034afa96df0ff21b4e9540838019f944d3032"
+source = "git+https://github.com/sunshine-protocol/sunshine-bounty#b470a6802069d2b6ba31bcac4bc52e02bd8763aa"
 dependencies = [
  "clear_on_drop",
  "frame-support",
@@ -6841,7 +6828,7 @@ dependencies = [
 [[package]]
 name = "sunshine-pallet-utils"
 version = "0.1.0"
-source = "git+https://github.com/sunshine-protocol/sunshine-core#2b92b5432a21a429c17bdafefae2c278ceeeb2de"
+source = "git+https://github.com/sunshine-protocol/sunshine-core#b15fa47a17ea53107598332f9fc8c99d0b9dab75"
 dependencies = [
  "blake2-rfc",
  "hash-db",
@@ -6855,7 +6842,7 @@ dependencies = [
 [[package]]
 name = "sunshine-runtime"
 version = "0.1.0"
-source = "git+https://github.com/sunshine-protocol/sunshine#71a055d80236f8b401f1fd38f55d676c47d06442"
+source = "git+https://github.com/sunshine-protocol/sunshine#13e7ca5dd5715ec9607689592e218bc56269e58f"
 dependencies = [
  "frame-executive",
  "frame-support",
@@ -6897,7 +6884,7 @@ dependencies = [
 [[package]]
 name = "sunshine-treasury"
 version = "0.0.1"
-source = "git+https://github.com/sunshine-protocol/sunshine-bounty#a9e034afa96df0ff21b4e9540838019f944d3032"
+source = "git+https://github.com/sunshine-protocol/sunshine-bounty#b470a6802069d2b6ba31bcac4bc52e02bd8763aa"
 dependencies = [
  "clear_on_drop",
  "frame-support",
@@ -6911,7 +6898,7 @@ dependencies = [
 [[package]]
 name = "sunshine-vote"
 version = "0.2.0"
-source = "git+https://github.com/sunshine-protocol/sunshine-bounty#a9e034afa96df0ff21b4e9540838019f944d3032"
+source = "git+https://github.com/sunshine-protocol/sunshine-bounty#b470a6802069d2b6ba31bcac4bc52e02bd8763aa"
 dependencies = [
  "clear_on_drop",
  "frame-support",

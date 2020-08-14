@@ -7,6 +7,6 @@ class SunshineClientService extends SunshineClient {
   SunshineClientService({PathProviderService pathProviderService})
       : super(
           root: pathProviderService.applicationDocumentsDirectory,
-          chainspecPath: Uri(path: 'assets/chainspec.json'),
+          url: 'ws://10.0.2.2:9944',
         );
 }

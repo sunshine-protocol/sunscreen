@@ -13,17 +13,17 @@ class WalletService {
     return _clientService.balance();
   }
 
-  Future<String> transfer(String to, int amount) {
+  Future<String> transfer(String to, BigInt amount) {
     return _clientService.transfer(to, amount);
   }
 
-  Future<int> mint() async {
+  Future<BigInt> mint() async {
     // Enable mint account when he tap in his balance
     // this just for testing ...
     if (kDebugMode) {
       return _clientService.mint();
     } else {
-      return 0;
+      return BigInt.zero;
     }
   }
 }

@@ -13,7 +13,6 @@ dependencies:
     sdk: flutter
   ffi:
   isolate:
-  cbor: ^3.2.0
   frusty_logger:
     git: https://github.com/sunshine-protocol/frusty-logger.git
 dev_dependencies:

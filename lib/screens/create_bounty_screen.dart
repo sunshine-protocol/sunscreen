@@ -94,9 +94,9 @@ class _CreateBountyScreenState extends State<CreateBountyScreen> {
         data.owner,
         data.repo,
         data.issue,
-        int.parse(_amountController.text),
+        BigInt.parse(_amountController.text),
       );
-      print(id);
+      print('Created Bounty with Id: $id');
       await Future.delayed(
         const Duration(milliseconds: 50),
         () {

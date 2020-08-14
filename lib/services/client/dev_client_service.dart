@@ -52,7 +52,7 @@ class DevClientService implements ClientService {
   }
 
   @override
-  Future<String> transfer(String id, int amount) {
+  Future<String> transfer(String id, BigInt amount) {
     throw UnimplementedError();
   }
 
@@ -62,24 +62,24 @@ class DevClientService implements ClientService {
   }
 
   @override
-  Future<int> mint() async {
+  Future<BigInt> mint() async {
     _balance = (int.parse(_balance) + 1000000).toString();
-    return 1000000;
+    return BigInt.from(1000000);
   }
 
   @override
-  Future<String> approveBounty(int submissionId) async {
+  Future<String> approveBounty(BigInt submissionId) async {
     return '1000';
   }
 
   @override
-  Future<String> contibuteToBounty(int bountyId, int amount) async {
+  Future<String> contibuteToBounty(BigInt bountyId, BigInt amount) async {
     final bounty = await getBounty(bountyId);
     return bounty?.contibute(amount).toString() ?? '0';
   }
 
   @override
-  Future<BountyInformation> getBounty(int bountyId) async {
+  Future<BountyInformation> getBounty(BigInt bountyId) async {
     return _mockedBounties.firstWhere(
       (e) => e.id == bountyId,
       orElse: () => null,
@@ -87,7 +87,7 @@ class DevClientService implements ClientService {
   }
 
   @override
-  Future<BountySubmissionInformation> getSubmission(int submissionId) async {
+  Future<BountySubmissionInformation> getSubmission(BigInt submissionId) async {
     return _mockedSubmissions.firstWhere(
       (e) => e.id == submissionId,
       orElse: () => null,
@@ -96,7 +96,7 @@ class DevClientService implements ClientService {
 
   @override
   Future<List<BountySubmissionInformation>> listBountySubmissions(
-    int bountyId,
+    BigInt bountyId,
   ) async {
     await Future.delayed(const Duration(milliseconds: 1200));
     return _mockedSubmissions.where((e) => e.bountyId == bountyId).toList()
@@ -104,23 +104,23 @@ class DevClientService implements ClientService {
   }
 
   @override
-  Future<List<BountyInformation>> listOpenBounties(int min) async {
+  Future<List<BountyInformation>> listOpenBounties(BigInt min) async {
     await Future.delayed(const Duration(milliseconds: 1200));
     return _mockedBounties.where((e) => e.total >= min).toList()
       ..sort((a, b) => a.id.compareTo(b.id));
   }
 
   @override
-  Future<int> postBounty(
+  Future<BigInt> postBounty(
     String repoOwner,
     String repoName,
-    int issueNumber,
-    int amount,
+    BigInt issueNumber,
+    BigInt amount,
   ) async {
     final last = _mockedBounties.last;
     final v = BountyInformation(
       depositer: await uid(),
-      id: last.id + 1,
+      id: last.id + BigInt.from(1),
       issueNumber: issueNumber,
       repoName: repoName,
       repoOwner: repoOwner,
@@ -131,12 +131,12 @@ class DevClientService implements ClientService {
   }
 
   @override
-  Future<int> submitForBounty(
-    int bountyId,
+  Future<BigInt> submitForBounty(
+    BigInt bountyId,
     String repoOwner,
     String repoName,
-    int issueNumber,
-    int amount,
+    BigInt issueNumber,
+    BigInt amount,
   ) async {
     final last = _mockedSubmissions.last;
     final v = BountySubmissionInformation(
@@ -157,59 +157,59 @@ class DevClientService implements ClientService {
 
 final List<BountyInformation> _mockedBounties = [
   BountyInformation(
-    id: 1,
+    id: BigInt.from(1),
     depositer: '1',
-    total: 5595,
+    total: BigInt.from(5595),
     repoOwner: 'bluzelle',
     repoName: 'swarm-of-duty',
-    issueNumber: 2,
+    issueNumber: BigInt.from(2),
   ),
   BountyInformation(
-    id: 2,
+    id: BigInt.from(2),
     depositer: '1',
-    total: 22288,
+    total: BigInt.from(22288),
     repoOwner: 'aragonone',
     repoName: 'hack-for-freedom',
-    issueNumber: 7,
+    issueNumber: BigInt.from(7),
   ),
   BountyInformation(
-    id: 3,
+    id: BigInt.from(3),
     depositer: '1',
-    total: 100000,
+    total: BigInt.from(100000),
     repoOwner: 'ArweaveTeam',
     repoName: 'Bounties',
-    issueNumber: 29,
+    issueNumber: BigInt.from(29),
   ),
   BountyInformation(
-    id: 4,
+    id: BigInt.from(4),
     depositer: '1',
-    total: 15000,
+    total: BigInt.from(15000),
     repoOwner: 'ArweaveTeam',
     repoName: 'Bounties',
-    issueNumber: 30,
+    issueNumber: BigInt.from(30),
   ),
 ];
 final List<BountySubmissionInformation> _mockedSubmissions = [
   BountySubmissionInformation(
-    id: 1,
-    bountyId: 1,
+    id: BigInt.from(1),
+    bountyId: BigInt.from(1),
     approved: false,
     awaitingReview: true,
     submitter: '1',
-    amount: 6000,
+    amount: BigInt.from(6000),
     repoOwner: 'ArweaveTeam',
     repoName: 'Bounties',
-    issueNumber: 29,
+    issueNumber: BigInt.from(29),
   ),
   BountySubmissionInformation(
-    id: 2,
-    bountyId: 1,
+    id: BigInt.from(2),
+    bountyId: BigInt.from(1),
     approved: false,
     awaitingReview: true,
     submitter: '3',
-    amount: 6000,
+    amount: BigInt.from(6000),
     repoOwner: 'ArweaveTeam',
     repoName: 'Bounties',
-    issueNumber: 30,
+    issueNumber: BigInt.from(30),
   ),
 ];

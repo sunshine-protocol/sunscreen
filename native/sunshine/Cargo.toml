@@ -12,6 +12,7 @@ crate-type = ["rlib"]
 
 [dependencies]
 log = "^0.4"
+async-std = "=1.6.2"
 
 [dependencies.client]
 git = "https://github.com/sunshine-protocol/sunshine"

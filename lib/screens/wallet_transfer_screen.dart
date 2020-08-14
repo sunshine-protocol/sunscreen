@@ -145,7 +145,7 @@ class _WalletTransferConfirmationScreenState
     try {
       await _walletService.transfer(
         widget.id,
-        int.parse(widget.amount),
+        BigInt.parse(widget.amount),
       );
       await Future.delayed(
         const Duration(milliseconds: 100),
