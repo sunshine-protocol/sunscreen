@@ -17,11 +17,13 @@ class BountyScreen extends StatefulWidget {
 
 class _BountyScreenState extends State<BountyScreen> {
   BountyService _bountyService;
+  TextEditingController _contributionAmountController;
 
   @override
   void initState() {
     super.initState();
     _bountyService = GetIt.I.get<BountyService>();
+    _contributionAmountController = TextEditingController();
   }
 
   @override
@@ -40,14 +42,10 @@ class _BountyScreenState extends State<BountyScreen> {
             icon: const Icon(Icons.launch),
             onPressed: () => launch(bounty.issue.htmlUrl),
           ),
-          // not important for now.
-          // IconButton(
-          //   icon: const Icon(Icons.monetization_on),
-          //   onPressed: () => {
-          //
-          // TODO(shekohex): show Contribute screen
-          //   },
-          // )
+          IconButton(
+            icon: const Icon(Icons.monetization_on),
+            onPressed: () => _contribute(bounty),
+          )
         ],
       ),
       body: Stack(
@@ -67,56 +65,144 @@ class _BountyScreenState extends State<BountyScreen> {
                   bounty: bounty,
                 ),
                 SizedBox(height: 20.h.toDouble()),
-                FutureBuilder<List<BountySubmission>>(
-                  initialData: const [],
-                  future: _bountyService.listBountySubmissions(bounty.info.id),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Center(child: SunshineLoading());
-                    } else {
-                      return Column(
-                        children: [
-                          ...snapshot.data?.map((e) => SubmissionItem(e)) ?? [],
-                        ],
-                      );
-                    }
-                  },
-                ),
+                buildBountySubmissions(bounty),
                 SizedBox(height: 74.h.toDouble()),
               ],
             ),
           ),
-          FutureBuilder<bool>(
-            initialData: false,
-            future: _bountyService.canSubmitFor(bounty),
-            builder: (context, snapshot) {
-              if (snapshot.hasData && snapshot.data) {
-                return Padding(
-                  padding: const EdgeInsets.only(bottom: 8),
-                  child: Button(
-                    text: 'Submit for the bounty',
-                    variant: ButtonVariant.success,
-                    onPressed: () async {
-                      final res = await ExtendedNavigator.root.push(
-                        Routes.submitForBountyScreen,
-                        arguments:
-                            SubmitForBountyScreenArguments(bounty: bounty),
-                      );
-                      if (res != null) {
-                        // refresh
-                        setState(() {});
-                      }
-                    },
-                  ),
-                );
-              } else {
-                return const SizedBox();
-              }
-            },
-          ),
+          buildSubmitForBountyButtom(bounty),
         ],
       ),
     );
+  }
+
+  FutureBuilder<bool> buildSubmitForBountyButtom(Bounty bounty) {
+    return FutureBuilder<bool>(
+      initialData: false,
+      future: _bountyService.canSubmitFor(bounty),
+      builder: (context, snapshot) {
+        if (snapshot.hasData && snapshot.data) {
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 8),
+            child: Button(
+                text: 'Submit for the bounty',
+                variant: ButtonVariant.success,
+                onPressed: () => _submitFor(bounty)),
+          );
+        } else {
+          return const SizedBox();
+        }
+      },
+    );
+  }
+
+  FutureBuilder<List<BountySubmission>> buildBountySubmissions(Bounty bounty) {
+    return FutureBuilder<List<BountySubmission>>(
+      initialData: const [],
+      future: _bountyService.listBountySubmissions(bounty.info.id),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: SunshineLoading());
+        } else {
+          final submissions = snapshot.data
+              ?.map(
+                (e) => SubmissionItem(
+                  bountySubmission: e,
+                  bounty: bounty,
+                ),
+              )
+              ?.toList();
+          return Column(
+            children: submissions ?? [],
+          );
+        }
+      },
+    );
+  }
+
+  Future<void> _submitFor(Bounty bounty) async {
+    final res = await ExtendedNavigator.root.push(
+      Routes.submitForBountyScreen,
+      arguments: SubmitForBountyScreenArguments(bounty: bounty),
+    );
+    if (res != null) {
+      // refresh
+      setState(() {});
+    }
+  }
+
+  Future<void> _contribute(Bounty bounty) async {
+    final res = await showDialog(
+      context: context,
+      useRootNavigator: true,
+      builder: (context) {
+        return AlertDialog(
+          backgroundColor: AppColors.lightBackgroud,
+          title: const Text(
+            'Contribute To The Bounty',
+            style: TextStyle(color: Colors.white),
+          ),
+          content: TextField(
+            keyboardType: const TextInputType.numberWithOptions(
+              signed: false,
+              decimal: false,
+            ),
+            maxLines: 1,
+            style: TextStyle(
+              fontSize: 14.ssp.toDouble(),
+              fontWeight: FontWeight.w600,
+              color: Colors.white,
+            ),
+            controller: _contributionAmountController,
+            decoration: InputDecoration(
+              hintText: 'amount',
+              fillColor: const Color(0xFF616161),
+              alignLabelWithHint: true,
+              hintStyle: TextStyle(
+                fontSize: 14.ssp.toDouble(),
+                fontWeight: FontWeight.w500,
+                color: const Color(0xFFF5F5F5).withOpacity(0.6),
+              ),
+            ),
+          ),
+          actions: [
+            FlatButton(
+              child: const Text(
+                'Contribute',
+                style: TextStyle(color: Colors.white),
+              ),
+              onPressed: () async {
+                if (_contributionAmountController.text.isEmpty) {
+                  return;
+                }
+                final val = BigInt.tryParse(_contributionAmountController.text);
+                if (val == null) {
+                  return;
+                }
+                ExtendedNavigator.root.pop(true);
+                await _bountyService.contibuteToBounty(
+                  bounty.info.id,
+                  val,
+                );
+              },
+            ),
+            FlatButton(
+              child: const Text(
+                'Cancel',
+                style: TextStyle(color: Colors.white),
+              ),
+              onPressed: () {
+                ExtendedNavigator.root.pop();
+              },
+            )
+          ],
+        );
+      },
+    );
+    if (res != null) {
+      // refresh
+      setState(() {});
+    }
   }
 }
 
@@ -203,31 +289,18 @@ class _BountyBody extends StatelessWidget {
   }
 
   MarkdownStyleSheet buildMarkdownStyleSheet() {
+    const style = TextStyle(
+      color: Colors.white,
+    );
     return MarkdownStyleSheet(
-      a: const TextStyle(
-        color: Colors.white,
-      ),
-      h1: const TextStyle(
-        color: Colors.white,
-      ),
-      h2: const TextStyle(
-        color: Colors.white,
-      ),
-      h3: const TextStyle(
-        color: Colors.white,
-      ),
-      h4: const TextStyle(
-        color: Colors.white,
-      ),
-      h5: const TextStyle(
-        color: Colors.white,
-      ),
-      p: const TextStyle(
-        color: Colors.white,
-      ),
-      listBullet: const TextStyle(
-        color: Colors.white,
-      ),
+      a: style,
+      h1: style,
+      h2: style,
+      h3: style,
+      h4: style,
+      h5: style,
+      p: style,
+      listBullet: style,
     );
   }
 }

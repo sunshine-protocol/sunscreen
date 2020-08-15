@@ -6,7 +6,8 @@ import 'package:sunshine/sunshine.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SubmissionItem extends StatelessWidget {
-  const SubmissionItem(this.bountySubmission);
+  const SubmissionItem({this.bountySubmission, this.bounty});
+  final Bounty bounty;
   final BountySubmission bountySubmission;
   @override
   Widget build(BuildContext context) {
@@ -21,6 +22,10 @@ class SubmissionItem extends StatelessWidget {
       background: Container(color: Colors.green),
       confirmDismiss: (dir) async {
         if (dir == DismissDirection.startToEnd) {
+          final canApprove = await bountyService.canApprove(bounty);
+          if (!canApprove) {
+            return false;
+          }
           final snackbar = SnackBar(
             content: Text('Approving (@${e.issue.user.login}) ...'),
             backgroundColor: Colors.green,

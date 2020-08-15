@@ -118,4 +118,9 @@ class BountyService {
     final uid = await _clientService.uid();
     return uid != bounty.info.depositer;
   }
+
+  Future<bool> canApprove(Bounty bounty) async {
+    final uid = await _clientService.uid();
+    return uid == bounty.info.depositer;
+  }
 }
