@@ -5262,9 +5262,9 @@ dependencies = [
 [[package]]
 name = "schnorrkel"
 version = "0.9.1"
-source = "git+https://github.com/w3f/schnorrkel#fa76d8becb45c60a9a7872a9a80f6e0597017356"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "021b403afe70d81eea68f6ea12f6b3c9588e5d536a94c3bf80f15e7faa267862"
 dependencies = [
- "aead 0.2.0",
  "arrayref",
  "arrayvec 0.5.1",
  "curve25519-dalek",
@@ -5280,9 +5280,9 @@ dependencies = [
 [[package]]
 name = "schnorrkel"
 version = "0.9.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "021b403afe70d81eea68f6ea12f6b3c9588e5d536a94c3bf80f15e7faa267862"
+source = "git+https://github.com/w3f/schnorrkel#fa76d8becb45c60a9a7872a9a80f6e0597017356"
 dependencies = [
+ "aead 0.2.0",
  "arrayref",
  "arrayvec 0.5.1",
  "curve25519-dalek",

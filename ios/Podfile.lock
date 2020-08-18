@@ -1,52 +1,52 @@
 PODS:
   - Flutter (1.0.0)
-  - keystore (0.0.1):
+  - frusty_logger (0.0.1):
     - Flutter
   - path_provider (0.0.1):
     - Flutter
-  - path_provider_macos (0.0.1):
+  - sensors (0.0.1):
     - Flutter
   - shared_preferences (0.0.1):
     - Flutter
-  - shared_preferences_macos (0.0.1):
+  - sunshine_ffi (0.0.1):
     - Flutter
-  - shared_preferences_web (0.0.1):
+  - url_launcher (0.0.1):
     - Flutter
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
-  - keystore (from `.symlinks/plugins/keystore/ios`)
+  - frusty_logger (from `.symlinks/plugins/frusty_logger/ios`)
   - path_provider (from `.symlinks/plugins/path_provider/ios`)
-  - path_provider_macos (from `.symlinks/plugins/path_provider_macos/ios`)
+  - sensors (from `.symlinks/plugins/sensors/ios`)
   - shared_preferences (from `.symlinks/plugins/shared_preferences/ios`)
-  - shared_preferences_macos (from `.symlinks/plugins/shared_preferences_macos/ios`)
-  - shared_preferences_web (from `.symlinks/plugins/shared_preferences_web/ios`)
+  - sunshine_ffi (from `.symlinks/plugins/sunshine_ffi/ios`)
+  - url_launcher (from `.symlinks/plugins/url_launcher/ios`)
 
 EXTERNAL SOURCES:
   Flutter:
     :path: Flutter
-  keystore:
-    :path: ".symlinks/plugins/keystore/ios"
+  frusty_logger:
+    :path: ".symlinks/plugins/frusty_logger/ios"
   path_provider:
     :path: ".symlinks/plugins/path_provider/ios"
-  path_provider_macos:
-    :path: ".symlinks/plugins/path_provider_macos/ios"
+  sensors:
+    :path: ".symlinks/plugins/sensors/ios"
   shared_preferences:
     :path: ".symlinks/plugins/shared_preferences/ios"
-  shared_preferences_macos:
-    :path: ".symlinks/plugins/shared_preferences_macos/ios"
-  shared_preferences_web:
-    :path: ".symlinks/plugins/shared_preferences_web/ios"
+  sunshine_ffi:
+    :path: ".symlinks/plugins/sunshine_ffi/ios"
+  url_launcher:
+    :path: ".symlinks/plugins/url_launcher/ios"
 
 SPEC CHECKSUMS:
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
-  keystore: 008ebf49c8871b0e9f80f77dc1ebd372616d4734
-  path_provider: fb74bd0465e96b594bb3b5088ee4a4e7bb1f2a9d
-  path_provider_macos: f760a3c5b04357c380e2fddb6f9db6f3015897e0
+  frusty_logger: cc5ccbb4d9f92b44cd0bbc7f5d17846b3edd3f52
+  path_provider: abfe2b5c733d04e238b0d8691db0cfd63a27a93c
+  sensors: 84eb7a30e47a649e4172b71d6e81be614c280336
   shared_preferences: af6bfa751691cdc24be3045c43ec037377ada40d
-  shared_preferences_macos: f3f29b71ccbb56bf40c9dd6396c9acf15e214087
-  shared_preferences_web: 141cce0c3ed1a1c5bf2a0e44f52d31eeb66e5ea9
+  sunshine_ffi: 5c5a8847b6fcb7dbeef8873250c9b4703c8c5a6c
+  url_launcher: 6fef411d543ceb26efce54b05a0a40bfd74cbbef
 
-PODFILE CHECKSUM: 1b66dae606f75376c5f2135a8290850eeb09ae83
+PODFILE CHECKSUM: aafe91acc616949ddb318b77800a7f51bffa2a4c
 
 COCOAPODS: 1.8.4

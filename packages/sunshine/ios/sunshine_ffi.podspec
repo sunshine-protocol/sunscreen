@@ -3,7 +3,7 @@
 # Run `pod lib lint sunshine.podspec' to validate before publishing.
 #
 Pod::Spec.new do |s|
-  s.name             = 'sunshine'
+  s.name             = 'sunshine_ffi'
   s.version          = '0.0.1'
   s.summary          = 'Sunshine FFI Binding'
   s.description      = <<-DESC
@@ -16,7 +16,7 @@ Sunshine FFI Binding
   s.public_header_files = 'Classes**/*.h'
   s.source_files = 'Classes/**/*'
   s.static_framework = true
-  s.vendored_libraries = "**/*.a"
+  s.vendored_libraries = "libsunshine.a"
   s.dependency 'Flutter'
   s.frameworks = "IOKit", "CoreFoundation"
   s.platform = :ios, '8.0'
