@@ -45,7 +45,7 @@ You may have to specify File -> Open Device -> `$MODEL` once the simulator opens
 
 ```
 $ cargo make ios-release --profile release
-$ cargo make post-ios -profile release
+$ cargo make post-ios --profile release
 $ flutter run
 ```
 
