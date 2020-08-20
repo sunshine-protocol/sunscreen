@@ -45,7 +45,12 @@ jobs:
             ~/.cargo/registry
             ~/.cargo/git
             ~/.cargo/bin
-            target
+            target/aarch64-linux-android
+            target/armv7-linux-androideabi
+            target/x86_64-linux-android
+            target/i686-linux-android
+            target/aarch64-apple-ios
+            target/x86_64-apple-ios
           key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
 
       - name: Install Cargo Tools (cargo-make, cbindgen)
