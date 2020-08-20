@@ -1,5 +1,8 @@
 # Sunshine Flutter Frontend
 
+![Lints](https://github.com/sunshine-protocol/sunshine-bounty-ui/workflows/Lints/badge.svg)
+![(Android, iOS)](<https://github.com/sunshine-protocol/sunshine-bounty-ui/workflows/(Android,%20iOS)/badge.svg>)
+
 This project uses [cargo make](https://github.com/sagiegurari/cargo-make) to combine the build commands for compiling the Rust `sunshine` module and linking it to the Flutter interface. This structure will eventually enable our substrate light client to talk directly to the Flutter interface (with no dependency on polkadot-js).
 
 [`shekohex/flutterust`](https://github.com/shekohex/flutterust) is a generic template for Rust to Dart FFI
