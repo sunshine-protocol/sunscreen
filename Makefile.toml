@@ -47,14 +47,25 @@ dependencies = [
 [tasks.build]
 description = "Runs the rust compiler."
 category = "Build"
-dependencies = ["android", "cbindgen", "dart-bindgen"]
+dependencies = ["android"]
 
 [tasks.build.mac]
 description = "Runs the rust compiler."
 category = "Build"
-dependencies = ["android", "ios", "ios-release", "post-ios", "cbindgen", "dart-bindgen"]
+dependencies = ["android", "ios"]
 
 [tasks.ios]
+description = "build iOS targets"
+category = "Build"
+dependencies = [
+  "ios-build",
+  "ios-release", 
+  "cbindgen",
+  "dart-bindgen",
+  "post-ios"
+  ]
+
+[tasks.ios-build]
 condition = { platforms = ["mac"], env_true = ["DEV"] }
 description = "Build ios targets."
 category = "Build"
