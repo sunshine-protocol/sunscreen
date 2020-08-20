@@ -32,6 +32,9 @@ jobs:
           override: true
           components: rustfmt, clippy
 
+      - name: Install WASM Target
+        run: rustup target add wasm32-unknown-unknown
+
       - name: Run cargo fmt
         uses: actions-rs/cargo@v1
         continue-on-error: false
