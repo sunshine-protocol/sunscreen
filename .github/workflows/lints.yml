@@ -1,0 +1,57 @@
+on: [push, pull_request]
+
+name: Lints
+
+jobs:
+  combo:
+    name: Clippy + rustfmt
+    runs-on: ubuntu-latest
+    steps:
+      - name: Cache LLVM and Clang
+        id: cache-llvm
+        uses: actions/cache@v2
+        with:
+          path: ${{ runner.temp }}/llvm/10.0
+          key: ${{ runner.os }}-cached-llvm-10.0
+
+      - name: Install LLVM and Clang
+        uses: KyleMayes/install-llvm-action@v1
+        with:
+          version: "10.0"
+          directory: ${{ runner.temp }}/llvm/10.0
+          cached: ${{ steps.cache-llvm.outputs.cache-hit }}
+
+      - name: Checkout sources
+        uses: actions/checkout@v2
+
+      - name: Install nightly toolchain
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: nightly
+          override: true
+          components: rustfmt, clippy
+
+      - name: Run cargo fmt
+        uses: actions-rs/cargo@v1
+        continue-on-error: false
+        with:
+          command: fmt
+          args: --all -- --check
+
+      - name: Cache Cargo
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            ~/.cargo/bin
+            target
+          key: ${{ runner.os }}-lint-cargo-${{ hashFiles('**/Cargo.lock') }}
+
+      - name: Run cargo clippy
+        uses: actions-rs/cargo@v1
+        continue-on-error: false
+        with:
+          command: clippy
+          args: -- -D warnings
