@@ -48,12 +48,19 @@ jobs:
             target
           key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
 
-      - name: Install Cargo Tools (cargo-make, cbindgen, dart-bindgen)
+      - name: Install Cargo Tools (cargo-make, cbindgen)
         uses: actions-rs/cargo@v1
         continue-on-error: true
         with:
           command: install
-          args: cargo-make cbindgen dart-bindgen
+          args: cargo-make cbindgen
+
+      - name: Install Cargo Tools (dart-bindgen cli)
+        uses: actions-rs/cargo@v1
+        continue-on-error: true
+        with:
+          command: install
+          args: dart-bindgen --features cli
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v1

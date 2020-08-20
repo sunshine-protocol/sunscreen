@@ -17,7 +17,8 @@ You probably won't have a connected device and that's OK, you can pick your emul
 3. Install Cargo Make, Dart Bindgen and CBindgen (skip if you already have them installed)
 
 ```
-$ cargo install cargo-make cbindgen dart-bindgen
+$ cargo install cargo-make cbindgen
+$ cargo install dart-bindgen --features cli
 ```
 
 4. Clone this repository.
