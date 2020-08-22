@@ -57,12 +57,12 @@ jobs:
           command: install
           args: cargo-make
 
-      - name: Install Cargo Tools (cbindgen)
+      - name: Install Cargo Tools (cbindgen, v0.14.4)
         uses: actions-rs/cargo@v1
         continue-on-error: true
         with:
           command: install
-          args: cbindgen
+          args: cbindgen --version 0.14.4
 
       - name: Install Cargo Tools (dart-bindgen)
         uses: actions-rs/cargo@v1
@@ -91,15 +91,15 @@ jobs:
         id: cache-ndk
         uses: actions/cache@v2
         with:
-          path: /home/runner/android/ndk-bundle
-          key: ${{ runner.os }}-ndk
+          path: /Users/runner/android/ndk-bundle
+          key: ${{ runner.os }}-cached-ndk
 
       - name: Install Android NDK
         if: steps.cache-ndk.outputs.cache-hit != 'true'
         run: $ANDROID_SDK_ROOT/tools/bin/sdkmanager ndk-bundle
 
       - name: Set Android NDK Env
-        run: echo '::set-env name=ANDROID_NDK_HOME::/home/runner/android/ndk-bundle'
+        run: echo '::set-env name=ANDROID_NDK_HOME::/Users/runner/android/ndk-bundle'
 
       - name: Install Android Targets
         run: rustup target add aarch64-linux-android armv7-linux-androideabi x86_64-linux-android i686-linux-android
@@ -129,6 +129,14 @@ jobs:
       - name: Build APK (x86_64, Debug)
         if: steps.create_release.outputs.upload_url == null
         run: flutter build apk --debug
+
+      - name: Run Tests (Android Emulator)
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 28
+          arch: x86_64
+          working-directory: ./android
+          script: ./gradlew connectedCheck
 
       - name: Run cargo make android (Release)
         if: steps.create_release.outputs.upload_url != null

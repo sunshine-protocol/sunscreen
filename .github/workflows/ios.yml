@@ -57,12 +57,12 @@ jobs:
           command: install
           args: cargo-make
 
-      - name: Install Cargo Tools (cbindgen)
+      - name: Install Cargo Tools (cbindgen, v0.14.4)
         uses: actions-rs/cargo@v1
         continue-on-error: true
         with:
           command: install
-          args: cbindgen
+          args: cbindgen --version 0.14.4
 
       - name: Install Cargo Tools (dart-bindgen)
         uses: actions-rs/cargo@v1
