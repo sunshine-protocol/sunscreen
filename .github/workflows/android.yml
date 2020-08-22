@@ -135,7 +135,7 @@ jobs:
         with:
           api-level: 28
           arch: x86_64
-          script: exit 0
+          script: flutter drive --target=test_driver/app.dart
 
       - name: Run cargo make android (Release)
         if: steps.create_release.outputs.upload_url != null
