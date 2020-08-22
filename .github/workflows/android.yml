@@ -131,6 +131,7 @@ jobs:
         run: flutter build apk --debug
 
       - name: Run Tests (Android Emulator)
+        if: steps.create_release.outputs.upload_url == null
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 28
