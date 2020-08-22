@@ -53,14 +53,21 @@ jobs:
             target/x86_64-apple-ios
           key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
 
-      - name: Install Cargo Tools (cargo-make, cbindgen)
+      - name: Install Cargo Tools (cargo-make)
         uses: actions-rs/cargo@v1
         continue-on-error: true
         with:
           command: install
-          args: cargo-make cbindgen
+          args: cargo-make
 
-      - name: Install Cargo Tools (dart-bindgen cli)
+      - name: Install Cargo Tools (cbindgen)
+        uses: actions-rs/cargo@v1
+        continue-on-error: true
+        with:
+          command: install
+          args: cbindgen
+
+      - name: Install Cargo Tools (dart-bindgen)
         uses: actions-rs/cargo@v1
         continue-on-error: true
         with:
