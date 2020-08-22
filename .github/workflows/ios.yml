@@ -1,0 +1,93 @@
+on: [push, pull_request]
+
+name: iOS
+
+jobs:
+  ci:
+    name: Compile, Build
+    runs-on: macos-latest
+    steps:
+      - name: Cache LLVM and Clang
+        id: cache-llvm
+        uses: actions/cache@v2
+        with:
+          path: ${{ runner.temp }}/llvm/10.0
+          key: ${{ runner.os }}-cached-llvm-10.0
+
+      - name: Install LLVM and Clang
+        uses: KyleMayes/install-llvm-action@v1
+        with:
+          version: "10.0"
+          directory: ${{ runner.temp }}/llvm/10.0
+          cached: ${{ steps.cache-llvm.outputs.cache-hit }}
+
+      - name: Checkout sources
+        uses: actions/checkout@v2
+
+      - name: Install Rust Toolchain
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: nightly
+          override: true
+          components: rustfmt
+
+      - name: Install WASM Target
+        run: rustup target add wasm32-unknown-unknown
+
+      - name: Cache Cargo
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            ~/.cargo/bin
+            target/aarch64-linux-android
+            target/armv7-linux-androideabi
+            target/x86_64-linux-android
+            target/i686-linux-android
+            target/aarch64-apple-ios
+            target/x86_64-apple-ios
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+
+      - name: Install Cargo Tools (cargo-make)
+        uses: actions-rs/cargo@v1
+        continue-on-error: true
+        with:
+          command: install
+          args: cargo-make
+
+      - name: Install Cargo Tools (cbindgen)
+        uses: actions-rs/cargo@v1
+        continue-on-error: true
+        with:
+          command: install
+          args: cbindgen
+
+      - name: Install Cargo Tools (dart-bindgen)
+        uses: actions-rs/cargo@v1
+        continue-on-error: true
+        with:
+          command: install
+          args: dart-bindgen --features cli
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v1
+        with:
+          channel: "stable"
+
+      - name: Run Flutter pub get
+        run: flutter pub get
+
+      - name: Install iOS Targets
+        run: rustup target add aarch64-apple-ios x86_64-apple-ios
+
+      - name: Run cargo make ios (Release)
+        uses: actions-rs/cargo@v1
+        continue-on-error: false
+        with:
+          command: make
+          args: ios --profile release
+
+      - name: Build iOS App (Simulator, Debug)
+        run: flutter build ios --debug --no-codesign --simulator

@@ -1,14 +1,11 @@
 on: [push, pull_request]
 
-name: (Android, iOS)
+name: Android
 
 jobs:
   ci:
     name: Compile, Build and Release
-    strategy:
-      matrix:
-        os: [ubuntu-latest, macos-latest]
-    runs-on: ${{ matrix.os }}
+    runs-on: macos-latest
     steps:
       - name: Cache LLVM and Clang
         id: cache-llvm
@@ -82,75 +79,33 @@ jobs:
       - name: Run Flutter pub get
         run: flutter pub get
 
-      - name: Set up JDK 1.8 (Android only)
+      - name: Set up JDK 1.8
         uses: actions/setup-java@v1
-        if: matrix.os == 'ubuntu-latest'
         with:
           java-version: 1.8
 
-      - name: Setup Android SDK (Android only)
-        if: matrix.os == 'ubuntu-latest'
+      - name: Setup Android SDK
         uses: android-actions/setup-android@v1
 
-      - name: Cache NDK (Android only)
-        if: matrix.os == 'ubuntu-latest'
+      - name: Cache NDK
         id: cache-ndk
         uses: actions/cache@v2
         with:
           path: /home/runner/android/ndk-bundle
           key: ${{ runner.os }}-ndk
 
-      - name: Install Android NDK (Android only)
-        if: steps.cache-ndk.outputs.cache-hit != 'true' && matrix.os == 'ubuntu-latest'
+      - name: Install Android NDK
+        if: steps.cache-ndk.outputs.cache-hit != 'true'
         run: $ANDROID_SDK_ROOT/tools/bin/sdkmanager ndk-bundle
 
-      - name: Set Android NDK Env (Android only)
-        if: matrix.os == 'ubuntu-latest'
+      - name: Set Android NDK Env
         run: echo '::set-env name=ANDROID_NDK_HOME::/home/runner/android/ndk-bundle'
 
-      - name: Install Android Targets (Android only)
-        if: matrix.os == 'ubuntu-latest'
+      - name: Install Android Targets
         run: rustup target add aarch64-linux-android armv7-linux-androideabi x86_64-linux-android i686-linux-android
-
-      - name: Run cargo make android (Release)
-        if: matrix.os == 'ubuntu-latest'
-        uses: actions-rs/cargo@v1
-        continue-on-error: false
-        with:
-          command: make
-          args: android --profile release
-
-      - name: Build APK (Fat)
-        if: matrix.os == 'ubuntu-latest'
-        run: flutter build apk --debug
-
-      - name: Install iOS Targets (iOS only)
-        if: matrix.os == 'macos-latest'
-        run: rustup target add aarch64-apple-ios x86_64-apple-ios
-
-      - name: Run cargo make ios (Release)
-        if: matrix.os == 'macos-latest'
-        uses: actions-rs/cargo@v1
-        continue-on-error: false
-        with:
-          command: make
-          args: ios --profile release
-
-      - name: Build iOS App (Simulator, Debug)
-        if: matrix.os == 'macos-latest'
-        run: flutter build ios --debug --no-codesign --simulator
-
-      - name: Build APK (arm64, Release)
-        if: matrix.os == 'ubuntu-latest'
-        run: |
-          rm -f packages/sunshine/android/src/main/jniLibs/x86_64/libsunshine.so
-          rm -f packages/sunshine/android/src/main/jniLibs/x86/libsunshine.so
-          rm -f packages/sunshine/android/src/main/jniLibs/armeabi-v7a/libsunshine.so
-          flutter build apk --release --target-platform android-arm64
 
       - name: Create Release (Android)
         id: create_release
-        if: matrix.os == 'ubuntu-latest'
         uses: ChanTsune/release-with-commit@v1.0.0
         with:
           regexp: "Release (\\d+([.]\\d+)*)\n*((\\s|\\S)+)"
@@ -163,9 +118,33 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Run cargo make android (Debug)
+        if: steps.create_release.outputs.upload_url == null
+        uses: actions-rs/cargo@v1
+        continue-on-error: false
+        with:
+          command: make
+          args: android-dev
+
+      - name: Build APK (x86_64, Debug)
+        if: steps.create_release.outputs.upload_url == null
+        run: flutter build apk --debug
+
+      - name: Run cargo make android (Release)
+        if: steps.create_release.outputs.upload_url != null
+        uses: actions-rs/cargo@v1
+        continue-on-error: false
+        with:
+          command: make
+          args: android-arm --profile release
+
+      - name: Build APK (arm64, Release)
+        if: steps.create_release.outputs.upload_url == null
+        run: flutter build apk --release --target-platform android-arm64
+
       - name: Upload Release (Android)
         id: upload-release-asset
-        if: matrix.os == 'ubuntu-latest' && steps.create_release.outputs.upload_url != null
+        if: steps.create_release.outputs.upload_url != null
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
