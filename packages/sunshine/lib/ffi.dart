@@ -174,6 +174,99 @@ typedef _client_bounty_submit_Dart = int Function(
   Pointer<ffi.Utf8> amount,
 );
 
+/// <p class="para-brief"> add a new device to your account the `device` should be in the `ss58` format</p>
+int client_device_add(
+  int port,
+  Pointer<ffi.Utf8> device,
+) {
+  return _client_device_add(port, device);
+}
+final _client_device_add_Dart _client_device_add = _dl.lookupFunction<_client_device_add_C, _client_device_add_Dart>('client_device_add');
+typedef _client_device_add_C = Int32 Function(
+  Int64 port,
+  Pointer<ffi.Utf8> device,
+);
+typedef _client_device_add_Dart = int Function(
+  int port,
+  Pointer<ffi.Utf8> device,
+);
+
+/// <p class="para-brief"> Get current Device ID as string (if any) otherwise null returned</p>
+int client_device_current(
+  int port,
+) {
+  return _client_device_current(port);
+}
+final _client_device_current_Dart _client_device_current = _dl.lookupFunction<_client_device_current_C, _client_device_current_Dart>('client_device_current');
+typedef _client_device_current_C = Int32 Function(
+  Int64 port,
+);
+typedef _client_device_current_Dart = int Function(
+  int port,
+);
+
+/// <p class="para-brief"> Check if the current client has a device key already or not</p>
+int client_device_has_key(
+  int port,
+) {
+  return _client_device_has_key(port);
+}
+final _client_device_has_key_Dart _client_device_has_key = _dl.lookupFunction<_client_device_has_key_C, _client_device_has_key_Dart>('client_device_has_key');
+typedef _client_device_has_key_C = Int32 Function(
+  Int64 port,
+);
+typedef _client_device_has_key_Dart = int Function(
+  int port,
+);
+
+/// <p class="para-brief"> get a list of devices that linked to that identifier returns list of devices ids in `ss58` fromat (as strings) or an error message</p>
+int client_device_list(
+  int port,
+  Pointer<ffi.Utf8> identifier,
+) {
+  return _client_device_list(port, identifier);
+}
+final _client_device_list_Dart _client_device_list = _dl.lookupFunction<_client_device_list_C, _client_device_list_Dart>('client_device_list');
+typedef _client_device_list_C = Int32 Function(
+  Int64 port,
+  Pointer<ffi.Utf8> identifier,
+);
+typedef _client_device_list_Dart = int Function(
+  int port,
+  Pointer<ffi.Utf8> identifier,
+);
+
+/// <p class="para-brief"> Generate a new backup paper key that can be used to recover your account returns a string that contains the phrase, otherwise null if there is an error</p>
+int client_device_paperkey(
+  int port,
+) {
+  return _client_device_paperkey(port);
+}
+final _client_device_paperkey_Dart _client_device_paperkey = _dl.lookupFunction<_client_device_paperkey_C, _client_device_paperkey_Dart>('client_device_paperkey');
+typedef _client_device_paperkey_C = Int32 Function(
+  Int64 port,
+);
+typedef _client_device_paperkey_Dart = int Function(
+  int port,
+);
+
+/// <p class="para-brief"> remove a device from your account the `device` should be in the `ss58` fromat</p>
+int client_device_remove(
+  int port,
+  Pointer<ffi.Utf8> device,
+) {
+  return _client_device_remove(port, device);
+}
+final _client_device_remove_Dart _client_device_remove = _dl.lookupFunction<_client_device_remove_C, _client_device_remove_Dart>('client_device_remove');
+typedef _client_device_remove_C = Int32 Function(
+  Int64 port,
+  Pointer<ffi.Utf8> device,
+);
+typedef _client_device_remove_Dart = int Function(
+  int port,
+  Pointer<ffi.Utf8> device,
+);
+
 /// <p class="para-brief"> Try to mint the current account, this only enabled in testnet and behind a feature flag returned the minted amount or null if there is any errors</p>
 int client_faucet_mint(
   int port,
@@ -186,6 +279,74 @@ typedef _client_faucet_mint_C = Int32 Function(
 );
 typedef _client_faucet_mint_Dart = int Function(
   int port,
+);
+
+/// <p class="para-brief"> get a list of identities of the provided identifier.</p>
+int client_id_list(
+  int port,
+  Pointer<ffi.Utf8> identifier,
+) {
+  return _client_id_list(port, identifier);
+}
+final _client_id_list_Dart _client_id_list = _dl.lookupFunction<_client_id_list_C, _client_id_list_Dart>('client_id_list');
+typedef _client_id_list_C = Int32 Function(
+  Int64 port,
+  Pointer<ffi.Utf8> identifier,
+);
+typedef _client_id_list_Dart = int Function(
+  int port,
+  Pointer<ffi.Utf8> identifier,
+);
+
+/// <p class="para-brief"> prove the current account identity to a service. the service string should be in the format of `username` for example `shekohex` returns a pair (list of two values) the first element is the `instructions` of how to prove the identity the second element is the `proof` itself where you should follow the instructions and post it somewhere. otherwise and error returned as string.</p>
+int client_id_prove(
+  int port,
+  Pointer<ffi.Utf8> service,
+) {
+  return _client_id_prove(port, service);
+}
+final _client_id_prove_Dart _client_id_prove = _dl.lookupFunction<_client_id_prove_C, _client_id_prove_Dart>('client_id_prove');
+typedef _client_id_prove_C = Int32 Function(
+  Int64 port,
+  Pointer<ffi.Utf8> service,
+);
+typedef _client_id_prove_Dart = int Function(
+  int port,
+  Pointer<ffi.Utf8> service,
+);
+
+/// <p class="para-brief"> Get the `UID` of the provided identifier</p>
+int client_id_resolve(
+  int port,
+  Pointer<ffi.Utf8> identifier,
+) {
+  return _client_id_resolve(port, identifier);
+}
+final _client_id_resolve_Dart _client_id_resolve = _dl.lookupFunction<_client_id_resolve_C, _client_id_resolve_Dart>('client_id_resolve');
+typedef _client_id_resolve_C = Int32 Function(
+  Int64 port,
+  Pointer<ffi.Utf8> identifier,
+);
+typedef _client_id_resolve_Dart = int Function(
+  int port,
+  Pointer<ffi.Utf8> identifier,
+);
+
+/// <p class="para-brief"> revoke your identity from the provided service see `client_id_prove` for more information. returns `true` if the identity revoked.</p>
+int client_id_revoke(
+  int port,
+  Pointer<ffi.Utf8> service,
+) {
+  return _client_id_revoke(port, service);
+}
+final _client_id_revoke_Dart _client_id_revoke = _dl.lookupFunction<_client_id_revoke_C, _client_id_revoke_Dart>('client_id_revoke');
+typedef _client_id_revoke_C = Int32 Function(
+  Int64 port,
+  Pointer<ffi.Utf8> service,
+);
+typedef _client_id_revoke_Dart = int Function(
+  int port,
+  Pointer<ffi.Utf8> service,
 );
 
 /// <p class="para-brief"> Setup the Sunshine Client using the provided path as the base path and with chainspec.</p><p> ### Safety This assumes that the path non-null c string. chain_spec could be null. url could also be null.</p>

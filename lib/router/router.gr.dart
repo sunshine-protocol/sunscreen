@@ -35,6 +35,17 @@ class Routes {
   static const String bountyScreen = '/bounty-screen';
   static const String createBountyScreen = '/create-bounty-screen';
   static const String submitForBountyScreen = '/submit-for-bounty-screen';
+  static const String devicesScreen = '/devices-screen';
+  static const String paperKeyScreen = '/paper-key-screen';
+  static const String revokeDeviceScreen = '/revoke-device-screen';
+  static const String revokeDeviceDoneScreen = '/revoke-device-done-screen';
+  static const String identitiesScreen = '/identities-screen';
+  static const String proveIdentityScreen = '/prove-identity-screen';
+  static const String proveIdentityInstractionsScreen =
+      '/prove-identity-instractions-screen';
+  static const String proveIdentityDone = '/prove-identity-done';
+  static const String revokeIdentityScreen = '/revoke-identity-screen';
+  static const String revokeIdentityDoneScreen = '/revoke-identity-done-screen';
   static const String loggerScreen = '/logger-screen';
   static const all = <String>{
     blankScreen,
@@ -54,6 +65,16 @@ class Routes {
     bountyScreen,
     createBountyScreen,
     submitForBountyScreen,
+    devicesScreen,
+    paperKeyScreen,
+    revokeDeviceScreen,
+    revokeDeviceDoneScreen,
+    identitiesScreen,
+    proveIdentityScreen,
+    proveIdentityInstractionsScreen,
+    proveIdentityDone,
+    revokeIdentityScreen,
+    revokeIdentityDoneScreen,
     loggerScreen,
   };
 }
@@ -84,6 +105,17 @@ class Router extends RouterBase {
     RouteDef(Routes.bountyScreen, page: BountyScreen),
     RouteDef(Routes.createBountyScreen, page: CreateBountyScreen),
     RouteDef(Routes.submitForBountyScreen, page: SubmitForBountyScreen),
+    RouteDef(Routes.devicesScreen, page: DevicesScreen),
+    RouteDef(Routes.paperKeyScreen, page: PaperKeyScreen),
+    RouteDef(Routes.revokeDeviceScreen, page: RevokeDeviceScreen),
+    RouteDef(Routes.revokeDeviceDoneScreen, page: RevokeDeviceDoneScreen),
+    RouteDef(Routes.identitiesScreen, page: IdentitiesScreen),
+    RouteDef(Routes.proveIdentityScreen, page: ProveIdentityScreen),
+    RouteDef(Routes.proveIdentityInstractionsScreen,
+        page: ProveIdentityInstractionsScreen),
+    RouteDef(Routes.proveIdentityDone, page: ProveIdentityDone),
+    RouteDef(Routes.revokeIdentityScreen, page: RevokeIdentityScreen),
+    RouteDef(Routes.revokeIdentityDoneScreen, page: RevokeIdentityDoneScreen),
     RouteDef(Routes.loggerScreen, page: LoggerScreen),
   ];
   @override
@@ -211,6 +243,77 @@ class Router extends RouterBase {
         settings: data,
       );
     },
+    DevicesScreen: (data) {
+      return buildAdaptivePageRoute<dynamic>(
+        builder: (context) => DevicesScreen(),
+        settings: data,
+      );
+    },
+    PaperKeyScreen: (data) {
+      return buildAdaptivePageRoute<dynamic>(
+        builder: (context) => PaperKeyScreen(),
+        settings: data,
+      );
+    },
+    RevokeDeviceScreen: (data) {
+      final args = data.getArgs<RevokeDeviceScreenArguments>(nullOk: false);
+      return buildAdaptivePageRoute<dynamic>(
+        builder: (context) => RevokeDeviceScreen(args.deviceId),
+        settings: data,
+      );
+    },
+    RevokeDeviceDoneScreen: (data) {
+      final args = data.getArgs<RevokeDeviceDoneScreenArguments>(nullOk: false);
+      return buildAdaptivePageRoute<dynamic>(
+        builder: (context) => RevokeDeviceDoneScreen(args.deviceId),
+        settings: data,
+      );
+    },
+    IdentitiesScreen: (data) {
+      return buildAdaptivePageRoute<dynamic>(
+        builder: (context) => IdentitiesScreen(),
+        settings: data,
+      );
+    },
+    ProveIdentityScreen: (data) {
+      return buildAdaptivePageRoute<dynamic>(
+        builder: (context) => ProveIdentityScreen(),
+        settings: data,
+      );
+    },
+    ProveIdentityInstractionsScreen: (data) {
+      final args =
+          data.getArgs<ProveIdentityInstractionsScreenArguments>(nullOk: false);
+      return buildAdaptivePageRoute<dynamic>(
+        builder: (context) => ProveIdentityInstractionsScreen(
+          args.username,
+          args.proveIdentityResult,
+        ),
+        settings: data,
+      );
+    },
+    ProveIdentityDone: (data) {
+      final args = data.getArgs<ProveIdentityDoneArguments>(nullOk: false);
+      return buildAdaptivePageRoute<dynamic>(
+        builder: (context) => ProveIdentityDone(args.service),
+        settings: data,
+      );
+    },
+    RevokeIdentityScreen: (data) {
+      final args = data.getArgs<RevokeIdentityScreenArguments>(nullOk: false);
+      return buildAdaptivePageRoute<dynamic>(
+        builder: (context) => RevokeIdentityScreen(args.service),
+        settings: data,
+      );
+    },
+    RevokeIdentityDoneScreen: (data) {
+      final args =
+          data.getArgs<RevokeIdentityDoneScreenArguments>(nullOk: false);
+      return buildAdaptivePageRoute<dynamic>(
+        builder: (context) => RevokeIdentityDoneScreen(args.service),
+        settings: data,
+      );
+    },
     LoggerScreen: (data) {
       return buildAdaptivePageRoute<dynamic>(
         builder: (context) => LoggerScreen(),
@@ -262,4 +365,42 @@ class BountyScreenArguments {
 class SubmitForBountyScreenArguments {
   final Bounty bounty;
   SubmitForBountyScreenArguments({@required this.bounty});
+}
+
+/// RevokeDeviceScreen arguments holder class
+class RevokeDeviceScreenArguments {
+  final String deviceId;
+  RevokeDeviceScreenArguments({@required this.deviceId});
+}
+
+/// RevokeDeviceDoneScreen arguments holder class
+class RevokeDeviceDoneScreenArguments {
+  final String deviceId;
+  RevokeDeviceDoneScreenArguments({@required this.deviceId});
+}
+
+/// ProveIdentityInstractionsScreen arguments holder class
+class ProveIdentityInstractionsScreenArguments {
+  final String username;
+  final ProveIdentityResult proveIdentityResult;
+  ProveIdentityInstractionsScreenArguments(
+      {@required this.username, @required this.proveIdentityResult});
+}
+
+/// ProveIdentityDone arguments holder class
+class ProveIdentityDoneArguments {
+  final String service;
+  ProveIdentityDoneArguments({@required this.service});
+}
+
+/// RevokeIdentityScreen arguments holder class
+class RevokeIdentityScreenArguments {
+  final SocialIdentityService service;
+  RevokeIdentityScreenArguments({@required this.service});
+}
+
+/// RevokeIdentityDoneScreen arguments holder class
+class RevokeIdentityDoneScreenArguments {
+  final SocialIdentityService service;
+  RevokeIdentityDoneScreenArguments({@required this.service});
 }

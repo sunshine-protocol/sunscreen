@@ -62,10 +62,72 @@ int32_t client_bounty_submit(int64_t port,
                              const char *amount);
 
 /**
+ * add a new device to your account
+ * the `device` should be in the `ss58` format
+ */
+int32_t client_device_add(int64_t port, const char *device);
+
+/**
+ * Get current Device ID as string (if any)
+ * otherwise null returned
+ */
+int32_t client_device_current(int64_t port);
+
+/**
+ * Check if the current client has a device key already or not
+ */
+int32_t client_device_has_key(int64_t port);
+
+/**
+ * get a list of devices that linked to that identifier
+ * returns list of devices ids in `ss58` fromat (as strings) or an error message
+ */
+int32_t client_device_list(int64_t port, const char *identifier);
+
+/**
+ * Generate a new backup paper key that can be used to recover your account
+ * returns a string that contains the phrase, otherwise null if there is an error
+ */
+int32_t client_device_paperkey(int64_t port);
+
+/**
+ * remove a device from your account
+ * the `device` should be in the `ss58` fromat
+ */
+int32_t client_device_remove(int64_t port, const char *device);
+
+/**
  * Try to mint the current account, this only enabled in testnet and behind a feature flag
  * returned the minted amount or null if there is any errors
  */
 int32_t client_faucet_mint(int64_t port);
+
+/**
+ * get a list of identities of the provided identifier.
+ */
+int32_t client_id_list(int64_t port, const char *identifier);
+
+/**
+ * prove the current account identity to a service.
+ * the service string should be in the format of `username@service` for example `shekohex@github`
+ * returns a pair (list of two values) the first element is the `instructions` of how to prove the identity
+ * the second element is the `proof` itself where you should follow the instructions and post it somewhere.
+ * otherwise and error returned as string.
+ */
+int32_t client_id_prove(int64_t port,
+                        const char *service);
+
+/**
+ * Get the `UID` of the provided identifier
+ */
+int32_t client_id_resolve(int64_t port, const char *identifier);
+
+/**
+ * revoke your identity from the provided service
+ * see `client_id_prove` for more information.
+ * returns `true` if the identity revoked.
+ */
+int32_t client_id_revoke(int64_t port, const char *service);
 
 /**
  * Setup the Sunshine Client using the provided path as the base path and with chainspec.

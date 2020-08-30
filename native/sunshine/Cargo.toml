@@ -28,7 +28,7 @@ features = ["bounty-module"]
 git = "https://github.com/sunshine-protocol/sunshine-identity"
 package = "sunshine-identity-ffi"
 default-features = false
-features = ["identity-wallet", "identity-key"]
+features = ["identity-wallet", "identity-key", "identity-device", "identity-id"]
 
 [dependencies.faucet-ffi]
 git = "https://github.com/sunshine-protocol/sunshine-identity"

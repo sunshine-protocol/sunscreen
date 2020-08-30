@@ -6,7 +6,9 @@
 
 import 'package:sunshine/services/client/dev_client_service.dart';
 import 'package:sunshine/services/client/client_service.dart';
+import 'package:sunshine/services/device_service.dart';
 import 'package:sunshine/services/github_service.dart';
+import 'package:sunshine/services/identity_service.dart';
 import 'package:sunshine/services/key_service.dart';
 import 'package:sunshine/services/logger_service.dart';
 import 'package:sunshine/services/path_provider_service.dart';
@@ -21,7 +23,11 @@ import 'package:get_it/get_it.dart';
 
 Future<void> $initGetIt(GetIt g, {String environment}) async {
   final registerModule = _$RegisterModule();
+  g.registerLazySingleton<DeviceService>(
+      () => DeviceService(clientService: g<ClientService>()));
   g.registerLazySingleton<GithubService>(() => GithubService());
+  g.registerLazySingleton<IdentityService>(
+      () => IdentityService(clientService: g<ClientService>()));
   g.registerLazySingleton<KeyService>(
       () => KeyService(clientService: g<ClientService>()));
   g.registerLazySingleton<LoggerService>(() => LoggerService());
@@ -33,8 +39,11 @@ Future<void> $initGetIt(GetIt g, {String environment}) async {
       SunshineClientService(pathProviderService: g<PathProviderService>()));
   g.registerLazySingleton<WalletService>(
       () => WalletService(clientService: g<ClientService>()));
-  g.registerLazySingleton<AccountService>(
-      () => AccountService(clientService: g<ClientService>()));
+  g.registerLazySingleton<AccountService>(() => AccountService(
+        clientService: g<ClientService>(),
+        identityService: g<IdentityService>(),
+        deviceService: g<DeviceService>(),
+      ));
   g.registerFactory<BountyService>(() => BountyService(
       clientService: g<ClientService>(), githubService: g<GithubService>()));
 

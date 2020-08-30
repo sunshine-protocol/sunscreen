@@ -121,6 +121,89 @@ class SunshineClient {
     return completer.future.then(BigInt.parse);
   }
 
+  Future<String> currentDevice() {
+    final completer = Completer<String>();
+    final port = singleCompletePort(completer);
+    ffi.client_device_current(port.nativePort);
+    return completer.future;
+  }
+
+  Future<bool> hasDeviceKey() {
+    final completer = Completer<bool>();
+    final port = singleCompletePort(completer);
+    ffi.client_device_has_key(port.nativePort);
+    return completer.future;
+  }
+
+  Future<bool> addDevice(String deviceId) {
+    final completer = Completer<bool>();
+    final port = singleCompletePort(completer);
+    final id = Utf8.toUtf8(deviceId);
+    ffi.client_device_add(port.nativePort, id);
+    return completer.future;
+  }
+
+  Future<bool> removeDevice(String deviceId) {
+    final completer = Completer<bool>();
+    final port = singleCompletePort(completer);
+    final id = Utf8.toUtf8(deviceId);
+    ffi.client_device_remove(port.nativePort, id);
+    return completer.future;
+  }
+
+  Future<List<String>> listDevices(String identifier) {
+    final completer = Completer<List<dynamic>>();
+    final port = singleCompletePort(completer);
+    final id = Utf8.toUtf8(identifier);
+    ffi.client_device_list(port.nativePort, id);
+    return completer.future.then((value) {
+      return value.map((e) => e.toString()).toList();
+    });
+  }
+
+  Future<String> addPaperKey() {
+    final completer = Completer<String>();
+    final port = singleCompletePort(completer);
+    ffi.client_device_paperkey(port.nativePort);
+    return completer.future;
+  }
+
+  Future<List<String>> listIdentities(String uid) {
+    final completer = Completer<List<dynamic>>();
+    final port = singleCompletePort(completer);
+    final id = Utf8.toUtf8(uid);
+    ffi.client_id_list(port.nativePort, id);
+    return completer.future.then((value) {
+      return value.map((e) => e.toString()).toList();
+    });
+  }
+
+  Future<String> resolveUid(String identifier) {
+    final completer = Completer<String>();
+    final port = singleCompletePort(completer);
+    final id = Utf8.toUtf8(identifier);
+    ffi.client_id_resolve(port.nativePort, id);
+    return completer.future;
+  }
+
+  Future<List<String>> proveIdentity(String service) {
+    final completer = Completer<List<dynamic>>();
+    final port = singleCompletePort(completer);
+    final s = Utf8.toUtf8(service);
+    ffi.client_id_prove(port.nativePort, s);
+    return completer.future.then((value) {
+      return value.map((e) => e.toString()).toList();
+    });
+  }
+
+  Future<bool> revokeIdentity(String service) {
+    final completer = Completer<bool>();
+    final port = singleCompletePort(completer);
+    final s = Utf8.toUtf8(service);
+    ffi.client_id_revoke(port.nativePort, s);
+    return completer.future;
+  }
+
   Future<BountyInformation> getBounty(BigInt bountyId) {
     final completer = Completer<String>();
     final port = singleCompletePort(completer);
